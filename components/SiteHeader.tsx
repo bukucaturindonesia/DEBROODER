@@ -1,27 +1,56 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { contactLinks } from "@/lib/contact";
 
 const navItems = [
-  { label: "Koleksi", href: "#koleksi" },
-  { label: "Kaos Polos", href: "#kaos-polos" },
-  { label: "Sablon DTF", href: "#sablon-dtf" },
-  { label: "Jersey", href: "#jersey" },
-  { label: "DEBRODER Express", href: "#express" },
-  { label: "Store", href: "#store" },
-  { label: "Cara Order", href: "#cara-order" }
+  { label: "Koleksi", href: "/koleksi", hasMega: true },
+  { label: "Kaos Polos", href: "/kaos-polos" },
+  { label: "Sablon DTF", href: "/sablon-dtf" },
+  { label: "Jersey", href: "/jersey" },
+  { label: "DEBRODER Express", href: "/express" },
+  { label: "Store", href: "/store" },
+  { label: "Cara Order", href: "/cara-order" }
+];
+
+const megaItems = [
+  {
+    title: "Kaos Polos",
+    description: "Kaos NSA, cotton combed, dan kebutuhan partai.",
+    href: "/kaos-polos"
+  },
+  {
+    title: "Sablon DTF",
+    description: "Sablon custom untuk brand, event, dan komunitas.",
+    href: "/sablon-dtf"
+  },
+  {
+    title: "Custom Jersey",
+    description: "Jersey team untuk sekolah, kantor, dan komunitas.",
+    href: "/jersey"
+  },
+  {
+    title: "Maklon DTF",
+    description: "Layanan produksi untuk reseller dan brand apparel.",
+    href: "/sablon-dtf"
+  },
+  {
+    title: "Cetak Sublim",
+    description: "Cetak sublim untuk jersey dan apparel custom.",
+    href: "/jersey"
+  },
+  {
+    title: "DEBRODER Express",
+    description: "Pengiriman dan distribusi antar wilayah.",
+    href: "/express"
+  }
 ];
 
 const topbarItems = [
-  { label: "Layanan Pelanggan", href: "#kontak" },
-  { label: "Lacak Pesanan", href: "#kontak" },
-  { label: "Temukan Toko", href: "#store" }
-];
-
-const mobileExtraItems = [
-  ...topbarItems,
-  { label: "Hubungi Kami", href: "#kontak" }
+  { label: "Layanan Pelanggan", href: "/#kontak" },
+  { label: "Lacak Pesanan", href: "/#kontak" },
+  { label: "Temukan Toko", href: "/store" }
 ];
 
 function SearchIcon() {
@@ -69,13 +98,13 @@ export function SiteHeader() {
         <div className="section-shell flex h-9 items-center justify-between">
           <div className="flex items-center gap-5">
             {topbarItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 className="transition hover:text-brand-green"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
           <span className="font-black text-brand-green">ID</span>
@@ -86,7 +115,7 @@ export function SiteHeader() {
         className="section-shell flex min-h-[72px] items-center justify-between gap-4"
         aria-label="Navigasi utama"
       >
-        <a href="#beranda" className="group flex items-center gap-3">
+        <Link href="/" className="group flex items-center gap-3">
           <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-green text-sm font-black tracking-tight text-white transition group-hover:scale-105">
             DB
           </span>
@@ -98,18 +127,47 @@ export function SiteHeader() {
               Kaos Polos Import & Sablon
             </span>
           </span>
-        </a>
+        </Link>
 
         <div className="hidden items-center gap-6 xl:flex">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm font-bold text-brand-charcoal/75 transition hover:text-brand-green"
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) =>
+            item.hasMega ? (
+              <div key={item.href} className="group relative py-6">
+                <Link
+                  href={item.href}
+                  className="text-sm font-bold text-brand-charcoal/75 transition hover:text-brand-green"
+                >
+                  {item.label}
+                </Link>
+                <div className="invisible absolute left-1/2 top-[68px] w-[720px] -translate-x-1/2 rounded-[28px] border border-brand-softGray bg-white p-5 opacity-0 shadow-soft transition group-hover:visible group-hover:opacity-100">
+                  <div className="grid grid-cols-2 gap-3">
+                    {megaItems.map((mega) => (
+                      <Link
+                        key={mega.title}
+                        href={mega.href}
+                        className="rounded-2xl bg-brand-offWhite p-4 transition hover:bg-white hover:shadow-sm"
+                      >
+                        <p className="text-base font-black text-brand-green">
+                          {mega.title}
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-brand-charcoal/65">
+                          {mega.description}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm font-bold text-brand-charcoal/75 transition hover:text-brand-green"
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -121,13 +179,13 @@ export function SiteHeader() {
           >
             Mulai Pesan
           </a>
-          <a
-            href="#layanan"
+          <Link
+            href="/koleksi"
             className="grid h-11 w-11 place-items-center rounded-full border border-brand-softGray bg-white text-brand-charcoal transition hover:border-brand-green hover:text-brand-green"
             aria-label="Cari layanan"
           >
             <SearchIcon />
-          </a>
+          </Link>
           <a
             href={contactLinks.whatsapp}
             className="grid h-11 w-11 place-items-center rounded-full border border-brand-softGray bg-white text-brand-green transition hover:border-brand-green hover:bg-brand-offWhite"
@@ -174,16 +232,23 @@ export function SiteHeader() {
         }`}
       >
         <div className="section-shell grid gap-2 py-5">
-          {[...navItems, ...mobileExtraItems].map((item) => (
-            <a
-              key={`${item.label}-${item.href}`}
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
               href={item.href}
               className="rounded-2xl px-4 py-3 text-base font-black text-brand-charcoal transition hover:bg-brand-offWhite hover:text-brand-green"
               onClick={() => setIsOpen(false)}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
+          <Link
+            href="/#kontak"
+            className="rounded-2xl px-4 py-3 text-base font-black text-brand-charcoal transition hover:bg-brand-offWhite hover:text-brand-green"
+            onClick={() => setIsOpen(false)}
+          >
+            Hubungi Kami
+          </Link>
           <a
             href={contactLinks.apparelWhatsapp}
             className="mt-2 rounded-full bg-brand-green px-5 py-4 text-center text-sm font-black text-white"

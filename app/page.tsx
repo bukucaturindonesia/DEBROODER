@@ -1,8 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
+import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
-import { contactLinks, storeContacts } from "@/lib/contact";
-
-const heroImage = "/images/debroder-hero.png";
+import { getPublicContent } from "@/lib/public-data";
+import type { Product, ServiceCategory } from "@/lib/types";
+import { emailHref, instagramHref, whatsappHref } from "@/lib/url";
 
 const benefits = [
   {
@@ -22,67 +24,6 @@ const benefits = [
   }
 ];
 
-const aboutServices = [
-  "Sablon Kaos",
-  "Custom Jersey",
-  "Maklon DTF",
-  "Cetak Sublim",
-  "Distributor Kaos NSA",
-  "Kaos Cotton Combed"
-];
-
-const facts = [
-  "Berdiri sejak 2016",
-  "Melayani perusahaan, instansi, komunitas, dan event",
-  "Fokus layanan di Indonesia Timur",
-  "Berbasis di Makassar"
-];
-
-const serviceCategories = [
-  {
-    id: "sablon-kaos",
-    title: "Sablon Kaos",
-    description:
-      "Layanan sablon kaos untuk komunitas, event, brand, instansi, dan perusahaan."
-  },
-  {
-    id: "sablon-dtf",
-    title: "Sablon DTF",
-    description:
-      "Layanan sablon DTF untuk kaos custom, produksi pakaian, brand clothing, dan kebutuhan partai."
-  },
-  {
-    id: "jersey",
-    title: "Custom Jersey",
-    description:
-      "Pembuatan jersey custom untuk tim olahraga, sekolah, kantor, komunitas, dan event."
-  },
-  {
-    id: "maklon-dtf",
-    title: "Maklon DTF",
-    description:
-      "Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel."
-  },
-  {
-    id: "cetak-sublim",
-    title: "Cetak Sublim",
-    description:
-      "Layanan cetak sublim untuk jersey, apparel custom, dan kebutuhan produksi kreatif."
-  },
-  {
-    id: "kaos-polos",
-    title: "Kaos Polos & Cotton Combed",
-    description:
-      "Penyediaan kaos polos, kaos NSA, dan kaos cotton combed untuk sablon, brand clothing, komunitas, dan pembelian partai."
-  },
-  {
-    id: "layanan-express",
-    title: "DEBRODER Express",
-    description:
-      "Layanan pengiriman dan distribusi untuk mendukung kebutuhan pelanggan dan operasional bisnis."
-  }
-];
-
 const unitCards = [
   {
     id: "apparel",
@@ -99,7 +40,7 @@ const unitCards = [
       "Distributor Kaos NSA",
       "Kaos Cotton Combed"
     ],
-    href: contactLinks.apparelWhatsapp,
+    key: "apparel" as const,
     cta: "Hubungi DEBRODER Apparel"
   },
   {
@@ -114,46 +55,8 @@ const unitCards = [
       "Layanan Ekspedisi",
       "Pengiriman Antar Wilayah"
     ],
-    href: contactLinks.expressWhatsapp,
+    key: "express" as const,
     cta: "Hubungi DEBRODER Express"
-  }
-];
-
-const popularProducts = [
-  {
-    title: "Kaos Polos Premium",
-    badge: "Populer",
-    description:
-      "Kaos polos untuk sablon, komunitas, brand clothing, dan kebutuhan partai."
-  },
-  {
-    title: "Sablon DTF Custom",
-    badge: "Custom",
-    description:
-      "Layanan sablon DTF untuk kaos custom, event, komunitas, dan produksi pakaian."
-  },
-  {
-    title: "Custom Jersey Team",
-    badge: "Jersey",
-    description:
-      "Pembuatan jersey untuk tim olahraga, sekolah, kantor, dan komunitas."
-  },
-  {
-    title: "Maklon DTF",
-    badge: "Maklon",
-    description:
-      "Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel."
-  },
-  {
-    title: "Cetak Sublim",
-    badge: "Sublim",
-    description: "Layanan cetak sublim untuk jersey dan apparel custom."
-  },
-  {
-    title: "Paket Apparel Komunitas",
-    badge: "Paket",
-    description:
-      "Paket apparel untuk komunitas, event, brand, instansi, dan perusahaan."
   }
 ];
 
@@ -175,15 +78,9 @@ const advantages = [
   "Dipercaya perusahaan, instansi, dan event besar di Indonesia Timur"
 ];
 
-const footerServices = [
-  "Sablon Kaos",
-  "Sablon DTF",
-  "Custom Jersey",
-  "Maklon DTF",
-  "Cetak Sublim",
-  "Kaos Polos",
-  "Pengiriman Barang"
-];
+function sectionPath(slug: string) {
+  return `/${slug.replace(/^\/+/, "")}`;
+}
 
 function SectionHeading({
   label,
@@ -215,16 +112,41 @@ function SectionHeading({
   );
 }
 
-function ProductVisual({ label }: { label: string }) {
+function DynamicImage({
+  src,
+  alt,
+  priority = false,
+  className
+}: {
+  src: string;
+  alt: string;
+  priority?: boolean;
+  className: string;
+}) {
+  if (src.startsWith("/")) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={1536}
+        height={1024}
+        priority={priority}
+        className={className}
+        sizes="(min-width: 1024px) 52vw, 100vw"
+      />
+    );
+  }
+
+  return <img src={src} alt={alt} className={className} loading="lazy" />;
+}
+
+function ProductVisual({ label, imageUrl }: { label: string; imageUrl: string }) {
   return (
     <div className="relative overflow-hidden rounded-3xl bg-brand-offWhite">
-      <Image
-        src={heroImage}
+      <DynamicImage
+        src={imageUrl || "/images/debroder-hero.png"}
         alt={label}
-        width={768}
-        height={512}
         className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
-        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 45vw, 80vw"
       />
       <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/90 px-4 py-3 text-sm font-black text-brand-green backdrop-blur">
         {label}
@@ -233,7 +155,77 @@ function ProductVisual({ label }: { label: string }) {
   );
 }
 
-export default function Home() {
+function CategoryCard({ service }: { service: ServiceCategory }) {
+  return (
+    <article className="group flex min-w-[285px] flex-col rounded-[28px] border border-brand-softGray bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
+      <ProductVisual
+        label={service.nama_kategori}
+        imageUrl={service.gambar_url || "/images/debroder-hero.png"}
+      />
+      <div className="flex flex-1 flex-col p-2 pt-5">
+        <h3 className="text-2xl font-black tracking-tight">
+          {service.nama_kategori}
+        </h3>
+        <p className="mt-3 flex-1 text-sm leading-6 text-brand-charcoal/70">
+          {service.deskripsi}
+        </p>
+        <Link
+          href={sectionPath(service.link_slug || "koleksi")}
+          className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-black text-brand-green transition hover:border-brand-green"
+        >
+          Lihat Detail
+        </Link>
+      </div>
+    </article>
+  );
+}
+
+function ProductCard({ product }: { product: Product }) {
+  return (
+    <article className="group min-w-[285px] rounded-[28px] border border-brand-softGray bg-brand-offWhite p-4 transition hover:-translate-y-1 hover:shadow-soft">
+      <ProductVisual
+        label={product.nama}
+        imageUrl={product.gambar_url || "/images/debroder-hero.png"}
+      />
+      <div className="p-2 pt-5">
+        <span className="rounded-full bg-brand-green px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-white">
+          {product.badge}
+        </span>
+        <h3 className="mt-4 text-2xl font-black">{product.nama}</h3>
+        <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
+          {product.deskripsi}
+        </p>
+        <a
+          href={product.whatsapp_link}
+          className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-black text-brand-green transition hover:bg-brand-green hover:text-white"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Pesan Sekarang
+        </a>
+      </div>
+    </article>
+  );
+}
+
+export default async function Home() {
+  const content = await getPublicContent();
+  const emailLink = emailHref(content.contact.email);
+  const whatsappMainLink = whatsappHref(
+    content.contact.whatsapp_utama,
+    "Halo DEBRODER, saya ingin bertanya tentang layanan."
+  );
+  const apparelLink = whatsappHref(
+    content.contact.whatsapp_apparel,
+    "Halo DEBRODER Apparel, saya ingin bertanya tentang kaos polos, sablon, atau jersey."
+  );
+  const expressLink = whatsappHref(
+    content.contact.whatsapp_express,
+    "Halo DEBRODER Express, saya ingin bertanya tentang layanan pengiriman."
+  );
+  const instagramLink = instagramHref(content.contact.instagram);
+  const aboutParagraphs = content.about.body.split(/\n{2,}/).filter(Boolean);
+
   return (
     <main className="min-h-screen bg-brand-offWhite text-brand-charcoal">
       <SiteHeader />
@@ -242,14 +234,11 @@ export default function Home() {
         <div className="section-shell">
           <div className="grid overflow-hidden rounded-[32px] border border-brand-softGray bg-white shadow-soft lg:grid-cols-[0.94fr_1.06fr]">
             <div className="order-1 min-h-[300px] bg-brand-offWhite lg:order-2">
-              <Image
-                src={heroImage}
+              <DynamicImage
+                src={content.hero.image_url || "/images/debroder-hero.png"}
                 alt="Kaos polos, sablon, dan paket pengiriman DEBRODER"
-                width={1536}
-                height={1024}
                 priority
                 className="h-full min-h-[300px] w-full object-cover"
-                sizes="(min-width: 1024px) 52vw, 100vw"
               />
             </div>
 
@@ -258,27 +247,29 @@ export default function Home() {
                 Kaos Polos Import & Sablon
               </p>
               <h1 className="mt-6 max-w-2xl text-4xl font-black leading-tight tracking-tight text-brand-charcoal sm:text-6xl">
-                Kaos Polos, Sablon DTF, dan Jersey Custom
+                {content.hero.headline}
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8">
-                DEBRODER menyediakan kebutuhan apparel, sablon, jersey, dan
-                layanan pengiriman dalam satu ekosistem bisnis yang mudah
-                dijangkau.
+                {content.hero.subheadline}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
-                  href={contactLinks.apparelWhatsapp}
+                  href={content.hero.cta_primary_link || apparelLink}
                   className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-brand-deep"
-                  target="_blank"
+                  target={
+                    content.hero.cta_primary_link?.startsWith("http")
+                      ? "_blank"
+                      : undefined
+                  }
                   rel="noreferrer"
                 >
-                  Mulai Pesan
+                  {content.hero.cta_primary_text}
                 </a>
                 <a
-                  href="#layanan"
+                  href={content.hero.cta_secondary_link || "#layanan"}
                   className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-softGray bg-white px-7 py-4 text-sm font-black text-brand-green transition hover:-translate-y-0.5 hover:border-brand-green"
                 >
-                  Lihat Layanan
+                  {content.hero.cta_secondary_text}
                 </a>
               </div>
 
@@ -334,29 +325,32 @@ export default function Home() {
       <section id="tentang" className="bg-white py-16 sm:py-24">
         <div className="section-shell grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <SectionHeading
-            label="Tentang Kami"
-            title="Tentang DEBRODER"
-            description="DEBRODER adalah perusahaan percetakan dan apparel yang berdiri sejak tahun 2016. Kami berfokus pada layanan sablon kaos, custom jersey, maklon DTF, cetak sublim, distribusi kaos NSA, dan penyediaan kaos cotton combed."
+            label={content.about.label}
+            title={content.about.title}
+            description={aboutParagraphs[0]}
           />
 
           <div>
-            <p className="text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8">
-              Dengan pengalaman dan komitmen terhadap kualitas, DEBRODER telah
-              dipercaya oleh berbagai perusahaan, instansi, komunitas, dan
-              event besar di Indonesia Timur, khususnya di kota Makassar.
-            </p>
+            {aboutParagraphs.slice(1).map((paragraph) => (
+              <p
+                key={paragraph}
+                className="mb-4 text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8"
+              >
+                {paragraph}
+              </p>
+            ))}
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {aboutServices.map((service) => (
+              {content.categories.slice(0, 6).map((service) => (
                 <div
-                  key={service}
+                  key={service.nama_kategori}
                   className="rounded-2xl border border-brand-softGray bg-brand-offWhite px-4 py-3 text-sm font-black text-brand-charcoal"
                 >
-                  {service}
+                  {service.nama_kategori}
                 </div>
               ))}
             </div>
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {facts.map((fact) => (
+              {content.about.highlights.map((fact) => (
                 <div
                   key={fact}
                   className="rounded-2xl bg-brand-green px-4 py-4 text-sm font-black text-white"
@@ -378,28 +372,8 @@ export default function Home() {
           />
 
           <div className="no-scrollbar mt-10 flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-3 lg:overflow-visible">
-            {serviceCategories.map((service) => (
-              <article
-                key={service.id}
-                id={service.id}
-                className="group flex min-w-[285px] flex-col rounded-[28px] border border-brand-softGray bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-soft"
-              >
-                <ProductVisual label={service.title} />
-                <div className="flex flex-1 flex-col p-2 pt-5">
-                  <h3 className="text-2xl font-black tracking-tight">
-                    {service.title}
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm leading-6 text-brand-charcoal/70">
-                    {service.description}
-                  </p>
-                  <a
-                    href="#kontak"
-                    className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-black text-brand-green transition hover:border-brand-green"
-                  >
-                    Lihat Detail
-                  </a>
-                </div>
-              </article>
+            {content.categories.map((service) => (
+              <CategoryCard key={service.nama_kategori} service={service} />
             ))}
           </div>
         </div>
@@ -440,7 +414,7 @@ export default function Home() {
                   ))}
                 </div>
                 <a
-                  href={unit.href}
+                  href={unit.key === "apparel" ? apparelLink : expressLink}
                   className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-brand-deep sm:w-auto"
                   target="_blank"
                   rel="noreferrer"
@@ -462,24 +436,23 @@ export default function Home() {
           />
 
           <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {storeContacts.map((store) => (
+            {content.stores.map((store) => (
               <article
-                key={store.name}
+                key={store.nama_store}
                 className="flex flex-col rounded-[28px] border border-brand-softGray bg-white p-5 shadow-sm"
               >
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-brand-green">
-                  {store.service}
+                  {store.layanan_utama}
                 </p>
-                <h3 className="mt-5 text-2xl font-black">{store.name}</h3>
+                <h3 className="mt-5 text-2xl font-black">
+                  {store.nama_store}
+                </h3>
                 <p className="mt-4 flex-1 text-sm leading-6 text-brand-charcoal/70">
-                  {store.address}
-                </p>
-                <p className="mt-5 text-sm font-black text-brand-charcoal">
-                  WhatsApp: {store.whatsapp}
+                  {store.alamat}
                 </p>
                 <div className="mt-5 grid gap-2">
                   <a
-                    href={store.whatsappLink}
+                    href={store.whatsapp_link}
                     className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-black text-white transition hover:bg-brand-deep"
                     target="_blank"
                     rel="noreferrer"
@@ -487,7 +460,7 @@ export default function Home() {
                     Chat Store
                   </a>
                   <a
-                    href={store.mapsLink}
+                    href={store.maps_link}
                     className="inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-black text-brand-green transition hover:border-brand-green"
                     target="_blank"
                     rel="noreferrer"
@@ -510,30 +483,8 @@ export default function Home() {
           />
 
           <div className="no-scrollbar mt-10 flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-3 lg:overflow-visible">
-            {popularProducts.map((product) => (
-              <article
-                key={product.title}
-                className="group min-w-[285px] rounded-[28px] border border-brand-softGray bg-brand-offWhite p-4 transition hover:-translate-y-1 hover:shadow-soft"
-              >
-                <ProductVisual label={product.title} />
-                <div className="p-2 pt-5">
-                  <span className="rounded-full bg-brand-green px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-white">
-                    {product.badge}
-                  </span>
-                  <h3 className="mt-4 text-2xl font-black">{product.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
-                    {product.description}
-                  </p>
-                  <a
-                    href={contactLinks.apparelWhatsapp}
-                    className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-black text-brand-green transition hover:bg-brand-green hover:text-white"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Pesan Sekarang
-                  </a>
-                </div>
-              </article>
+            {content.products.map((product) => (
+              <ProductCard key={product.nama} product={product} />
             ))}
           </div>
         </div>
@@ -557,6 +508,34 @@ export default function Home() {
                   {index + 1}
                 </span>
                 <h3 className="mt-8 text-lg font-black leading-6">{step}</h3>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-16 sm:py-24">
+        <div className="section-shell">
+          <SectionHeading
+            label="Testimoni"
+            title="Dipercaya pelanggan DEBRODER"
+            description="Beberapa kesan pelanggan yang menggunakan layanan apparel, sablon, jersey, dan paket komunitas."
+          />
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {content.testimonials.map((testimonial) => (
+              <article
+                key={`${testimonial.nama}-${testimonial.sumber}`}
+                className="rounded-[28px] border border-brand-softGray bg-brand-offWhite p-6"
+              >
+                <p className="text-sm leading-7 text-brand-charcoal/75">
+                  &ldquo;{testimonial.isi_testimoni}&rdquo;
+                </p>
+                <p className="mt-6 text-base font-black">
+                  {testimonial.nama}
+                </p>
+                <p className="mt-1 text-sm font-bold text-brand-green">
+                  {testimonial.sumber}
+                </p>
               </article>
             ))}
           </div>
@@ -602,18 +581,18 @@ export default function Home() {
             <div className="rounded-[30px] border border-brand-softGray bg-brand-offWhite p-6 sm:p-8">
               <div className="grid gap-4">
                 <a
-                  href={contactLinks.email}
+                  href={emailLink}
                   className="rounded-2xl bg-white p-5 transition hover:text-brand-green"
                 >
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-brand-green">
                     Email
                   </p>
                   <p className="mt-2 text-xl font-black">
-                    hello@debroder.example
+                    {content.contact.email}
                   </p>
                 </a>
                 <a
-                  href={contactLinks.whatsapp}
+                  href={whatsappMainLink}
                   className="rounded-2xl bg-white p-5 transition hover:text-brand-green"
                   target="_blank"
                   rel="noreferrer"
@@ -621,10 +600,12 @@ export default function Home() {
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-brand-green">
                     WhatsApp
                   </p>
-                  <p className="mt-2 text-xl font-black">+62 000-0000-0000</p>
+                  <p className="mt-2 text-xl font-black">
+                    Chat WhatsApp DEBRODER
+                  </p>
                 </a>
                 <a
-                  href={contactLinks.instagram}
+                  href={instagramLink}
                   className="rounded-2xl bg-white p-5 transition hover:text-brand-green"
                   target="_blank"
                   rel="noreferrer"
@@ -632,12 +613,14 @@ export default function Home() {
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-brand-green">
                     Instagram
                   </p>
-                  <p className="mt-2 text-xl font-black">@debroder</p>
+                  <p className="mt-2 text-xl font-black">
+                    {content.contact.instagram}
+                  </p>
                 </a>
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
                 <a
-                  href={contactLinks.apparelWhatsapp}
+                  href={apparelLink}
                   className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-center text-sm font-black text-white"
                   target="_blank"
                   rel="noreferrer"
@@ -645,7 +628,7 @@ export default function Home() {
                   Hubungi DEBRODER Apparel
                 </a>
                 <a
-                  href={contactLinks.expressWhatsapp}
+                  href={expressLink}
                   className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-center text-sm font-black text-white"
                   target="_blank"
                   rel="noreferrer"
@@ -653,7 +636,7 @@ export default function Home() {
                   Hubungi DEBRODER Express
                 </a>
                 <a
-                  href={contactLinks.instagram}
+                  href={instagramLink}
                   className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-softGray bg-white px-5 py-3 text-center text-sm font-black text-brand-green"
                   target="_blank"
                   rel="noreferrer"
@@ -666,17 +649,17 @@ export default function Home() {
             <div className="rounded-[30px] border border-brand-softGray bg-brand-offWhite p-6 sm:p-8">
               <h3 className="text-2xl font-black">Chat Store</h3>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {storeContacts.map((store) => (
+                {content.stores.map((store) => (
                   <a
-                    key={store.name}
-                    href={store.whatsappLink}
+                    key={store.nama_store}
+                    href={store.whatsapp_link}
                     className="rounded-2xl bg-white p-4 transition hover:text-brand-green"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <p className="text-sm font-black">{store.name}</p>
+                    <p className="text-sm font-black">{store.nama_store}</p>
                     <p className="mt-1 text-sm font-semibold text-brand-charcoal/60">
-                      {store.whatsapp}
+                      Chat Store
                     </p>
                   </a>
                 ))}
@@ -696,7 +679,7 @@ export default function Home() {
             Anda.
           </p>
           <a
-            href={contactLinks.whatsapp}
+            href={whatsappMainLink}
             className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-black text-brand-green transition hover:-translate-y-0.5 hover:bg-brand-offWhite"
             target="_blank"
             rel="noreferrer"
@@ -713,6 +696,12 @@ export default function Home() {
             <p className="mt-3 text-sm font-semibold text-white/70">
               Kaos Polos Import & Sablon
             </p>
+            <Link
+              href="/admin/login"
+              className="mt-6 inline-flex text-xs font-semibold text-white/35 transition hover:text-white"
+            >
+              Admin
+            </Link>
           </div>
 
           <div>
@@ -720,21 +709,21 @@ export default function Home() {
               Menu
             </h3>
             <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-              <a href="#tentang" className="hover:text-white">
+              <Link href="/#tentang" className="hover:text-white">
                 Tentang
-              </a>
-              <a href="#apparel" className="hover:text-white">
+              </Link>
+              <Link href="/#apparel" className="hover:text-white">
                 DEBRODER Apparel
-              </a>
-              <a href="#express" className="hover:text-white">
+              </Link>
+              <Link href="/express" className="hover:text-white">
                 DEBRODER Express
-              </a>
-              <a href="#store" className="hover:text-white">
+              </Link>
+              <Link href="/store" className="hover:text-white">
                 Store
-              </a>
-              <a href="#kontak" className="hover:text-white">
+              </Link>
+              <Link href="/#kontak" className="hover:text-white">
                 Kontak
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -743,10 +732,14 @@ export default function Home() {
               Layanan
             </h3>
             <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-              {footerServices.map((service) => (
-                <a key={service} href="#layanan" className="hover:text-white">
-                  {service}
-                </a>
+              {content.categories.slice(0, 7).map((service) => (
+                <Link
+                  key={service.nama_kategori}
+                  href={sectionPath(service.link_slug || "koleksi")}
+                  className="hover:text-white"
+                >
+                  {service.nama_kategori}
+                </Link>
               ))}
             </div>
           </div>
@@ -756,15 +749,15 @@ export default function Home() {
               Store
             </h3>
             <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-              {storeContacts.map((store) => (
+              {content.stores.map((store) => (
                 <a
-                  key={store.name}
-                  href={store.mapsLink}
+                  key={store.nama_store}
+                  href={store.maps_link}
                   className="hover:text-white"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {store.name.replace("STORE ", "Store ")}
+                  {store.nama_store.replace("STORE ", "Store ")}
                 </a>
               ))}
             </div>
@@ -775,11 +768,11 @@ export default function Home() {
               Kontak
             </h3>
             <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-              <a href={contactLinks.email} className="hover:text-white">
+              <a href={emailLink} className="hover:text-white">
                 Email
               </a>
               <a
-                href={contactLinks.whatsapp}
+                href={whatsappMainLink}
                 className="hover:text-white"
                 target="_blank"
                 rel="noreferrer"
@@ -787,7 +780,7 @@ export default function Home() {
                 WhatsApp
               </a>
               <a
-                href={contactLinks.instagram}
+                href={instagramLink}
                 className="hover:text-white"
                 target="_blank"
                 rel="noreferrer"
