@@ -1,11 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import Link from "next/link";
+import { HeroSlider } from "@/components/HeroSlider";
 import { Logo } from "@/components/Logo";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SocialIconLinks } from "@/components/SocialIconLinks";
 import { getPublicContent } from "@/lib/public-data";
 import type { Product, ServiceCategory } from "@/lib/types";
-import { emailHref, instagramHref, whatsappHref } from "@/lib/url";
+import {
+  emailHref,
+  facebookHref,
+  instagramHref,
+  normalizeWhatsappLink,
+  whatsappHref
+} from "@/lib/url";
 
 const benefits = [
   {
@@ -31,7 +39,7 @@ const unitCards = [
     title: "DEBRODER Apparel",
     category: "Apparel, Percetakan, Jersey, Sablon, dan Kaos Polos",
     description:
-      "DEBRODER Apparel adalah unit bisnis yang bergerak di bidang apparel, custom clothing, produksi pakaian, sablon kaos, sablon DTF, custom jersey, maklon DTF, cetak sublim, distribusi kaos NSA, dan penyediaan kaos cotton combed untuk individu, komunitas, brand, instansi, event, dan perusahaan.",
+      "Unit bisnis yang bergerak di bidang apparel, sablon kaos, sablon DTF, custom jersey, maklon DTF, cetak sublim, kaos polos, dan cotton combed.",
     services: [
       "Sablon Kaos",
       "Sablon DTF",
@@ -49,7 +57,7 @@ const unitCards = [
     title: "DEBRODER Express",
     category: "Ekspedisi, Pengiriman, dan Distribusi",
     description:
-      "DEBRODER Express adalah unit bisnis yang bergerak di bidang jasa ekspedisi, pengiriman barang, dan distribusi. Layanan ini hadir untuk mendukung kebutuhan pengiriman pelanggan dan operasional bisnis DEBRODER.",
+      "Unit bisnis yang bergerak di bidang ekspedisi, pengiriman barang, distribusi, dan pengiriman antar wilayah.",
     services: [
       "Pengiriman Barang",
       "Distribusi",
@@ -70,13 +78,20 @@ const orderSteps = [
 ];
 
 const advantages = [
-  "Berdiri sejak 2016",
-  "Layanan apparel dan percetakan lengkap",
+  "Layanan apparel lengkap",
   "Tersedia beberapa store",
-  "Cocok untuk individu, komunitas, brand, instansi, event, dan perusahaan",
+  "Cocok untuk individu, komunitas, brand, dan perusahaan",
   "Mendukung kebutuhan custom dan partai",
-  "Memiliki ekosistem apparel dan layanan pengiriman",
-  "Dipercaya perusahaan, instansi, dan event besar di Indonesia Timur"
+  "Memiliki ekosistem apparel dan layanan pengiriman"
+];
+
+const aboutServiceTags = [
+  "Sablon Kaos",
+  "Sablon DTF",
+  "Custom Jersey",
+  "Maklon DTF",
+  "Cetak Sublim",
+  "Kaos Polos & Cotton Combed"
 ];
 
 function sectionPath(slug: string) {
@@ -197,10 +212,10 @@ function ProductCard({ product }: { product: Product }) {
           {product.deskripsi}
         </p>
         <a
-          href={product.whatsapp_link}
+          href={normalizeWhatsappLink(product.whatsapp_link)}
           className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-black text-brand-green transition hover:bg-brand-green hover:text-white"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           Pesan Sekarang
         </a>
@@ -212,6 +227,7 @@ function ProductCard({ product }: { product: Product }) {
 export default async function Home() {
   const content = await getPublicContent();
   const emailLink = emailHref(content.contact.email);
+  const facebookLink = facebookHref(content.contact.facebook);
   const whatsappMainLink = whatsappHref(
     content.contact.whatsapp_utama,
     "Halo DEBRODER, saya ingin bertanya tentang layanan."
@@ -231,87 +247,31 @@ export default async function Home() {
     <main className="min-h-screen bg-brand-offWhite text-brand-charcoal">
       <SiteHeader />
 
-      <section id="beranda" className="bg-brand-offWhite py-5 sm:py-8">
-        <div className="section-shell">
-          <div className="grid overflow-hidden rounded-[32px] border border-brand-softGray bg-white shadow-soft lg:grid-cols-[0.94fr_1.06fr]">
-            <div className="order-1 min-h-[300px] bg-brand-offWhite lg:order-2">
-              <DynamicImage
-                src={content.hero.image_url || "/images/debroder-hero.png"}
-                alt="Kaos polos, sablon, dan paket pengiriman DEBRODER"
-                priority
-                className="h-full min-h-[300px] w-full object-cover"
-              />
-            </div>
-
-            <div className="order-2 flex flex-col justify-center px-6 py-8 sm:px-10 lg:order-1 lg:px-12 lg:py-12">
-              <p className="inline-flex w-fit rounded-full bg-brand-green px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-white">
-                Kaos Polos Import & Sablon
-              </p>
-              <h1 className="mt-6 max-w-2xl text-4xl font-black leading-tight tracking-tight text-brand-charcoal sm:text-6xl">
-                {content.hero.headline}
-              </h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8">
-                {content.hero.subheadline}
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href={content.hero.cta_primary_link || apparelLink}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-brand-deep"
-                  target={
-                    content.hero.cta_primary_link?.startsWith("http")
-                      ? "_blank"
-                      : undefined
-                  }
-                  rel="noreferrer"
-                >
-                  {content.hero.cta_primary_text}
-                </a>
-                <a
-                  href={content.hero.cta_secondary_link || "#layanan"}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-softGray bg-white px-7 py-4 text-sm font-black text-brand-green transition hover:-translate-y-0.5 hover:border-brand-green"
-                >
-                  {content.hero.cta_secondary_text}
-                </a>
-              </div>
-
-              <div className="mt-8 flex items-center justify-between gap-4">
-                <div className="flex gap-2" aria-label="Slider indicator">
-                  <span className="h-2.5 w-8 rounded-full bg-brand-green" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-brand-softGray" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-brand-softGray" />
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray text-lg font-black text-brand-green"
-                    aria-label="Banner sebelumnya"
-                  >
-                    {"<"}
-                  </button>
-                  <button
-                    type="button"
-                    className="grid h-10 w-10 place-items-center rounded-full bg-brand-green text-lg font-black text-white"
-                    aria-label="Banner berikutnya"
-                  >
-                    {">"}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSlider heroes={content.heroes} />
 
       <section className="bg-brand-offWhite pb-14 pt-4">
         <div className="section-shell">
           <div className="no-scrollbar flex gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-3 lg:overflow-visible">
-            {benefits.map((benefit, index) => (
+            {benefits.map((benefit) => (
               <article
                 key={benefit.title}
                 className="min-w-[280px] rounded-3xl border border-brand-softGray bg-white p-5 shadow-sm"
               >
-                <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-green text-sm font-black text-white">
-                  0{index + 1}
+                <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-offWhite text-brand-green">
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      d="m6 12.5 4 4 8-9"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2.4"
+                    />
+                  </svg>
                 </span>
                 <h2 className="mt-5 text-xl font-black">{benefit.title}</h2>
                 <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
@@ -341,12 +301,12 @@ export default async function Home() {
               </p>
             ))}
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {content.categories.slice(0, 6).map((service) => (
+              {aboutServiceTags.map((service) => (
                 <div
-                  key={service.nama_kategori}
+                  key={service}
                   className="rounded-2xl border border-brand-softGray bg-brand-offWhite px-4 py-3 text-sm font-black text-brand-charcoal"
                 >
-                  {service.nama_kategori}
+                  {service}
                 </div>
               ))}
             </div>
@@ -418,7 +378,7 @@ export default async function Home() {
                   href={unit.key === "apparel" ? apparelLink : expressLink}
                   className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-brand-deep sm:w-auto"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   {unit.cta}
                 </a>
@@ -432,7 +392,7 @@ export default async function Home() {
         <div className="section-shell">
           <SectionHeading
             label="Store"
-            title="Lokasi Store DEBRODER Apparel"
+            title="Store DEBRODER"
             description="Temukan store DEBRODER Apparel terdekat untuk kebutuhan sablon kaos, cetak DTF, jersey, dan kaos polos."
           />
 
@@ -453,18 +413,18 @@ export default async function Home() {
                 </p>
                 <div className="mt-5 grid gap-2">
                   <a
-                    href={store.whatsapp_link}
+                    href={normalizeWhatsappLink(store.whatsapp_link)}
                     className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-black text-white transition hover:bg-brand-deep"
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                   >
-                    Chat Store
+                    Hubungi
                   </a>
                   <a
                     href={store.maps_link}
                     className="inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-black text-brand-green transition hover:border-brand-green"
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                   >
                     Lihat Lokasi
                   </a>
@@ -512,6 +472,14 @@ export default async function Home() {
               </article>
             ))}
           </div>
+          <a
+            href={whatsappMainLink}
+            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-brand-deep"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Mulai Pesan
+          </a>
         </div>
       </section>
 
@@ -543,25 +511,27 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-brand-deep py-16 text-white sm:py-20">
+      <section className="bg-brand-offWhite py-16 sm:py-20">
         <div className="section-shell">
           <div className="max-w-3xl">
-            <p className="text-sm font-black uppercase tracking-[0.24em] text-white/70">
+            <p className="text-sm font-black uppercase tracking-[0.24em] text-brand-green">
               Keunggulan
             </p>
-            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-brand-charcoal sm:text-5xl">
               Keunggulan DEBRODER
             </h2>
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {advantages.map((advantage) => (
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {advantages.map((advantage, index) => (
               <article
                 key={advantage}
-                className="rounded-3xl border border-white/10 bg-white/10 p-5"
+                className="rounded-3xl border border-brand-softGray bg-white p-5 shadow-sm"
               >
-                <span className="block h-9 w-9 rounded-full bg-white" />
-                <h3 className="mt-7 text-base font-black leading-6">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-green text-xs font-black text-white">
+                  {index + 1}
+                </span>
+                <h3 className="mt-7 text-base font-black leading-6 text-brand-charcoal">
                   {advantage}
                 </h3>
               </article>
@@ -575,74 +545,51 @@ export default async function Home() {
           <SectionHeading
             label="Kontak"
             title="Hubungi DEBRODER"
-            description="Gunakan kanal utama, pilih unit bisnis, atau langsung chat store DEBRODER Apparel terdekat."
+            description="Gunakan tombol WhatsApp untuk konsultasi cepat atau pilih kanal resmi DEBRODER melalui icon kontak."
           />
 
           <div className="mt-10 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
             <div className="rounded-[30px] border border-brand-softGray bg-brand-offWhite p-6 sm:p-8">
-              <div className="grid gap-4">
-                <a
-                  href={emailLink}
-                  className="rounded-2xl bg-white p-5 transition hover:text-brand-green"
-                >
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-brand-green">
-                    Email
-                  </p>
-                  <p className="mt-2 text-xl font-black">
-                    {content.contact.email}
-                  </p>
-                </a>
+              <p className="text-sm font-black uppercase tracking-[0.2em] text-brand-green">
+                Kanal Resmi
+              </p>
+              <h3 className="mt-4 text-3xl font-black">
+                Pilih kanal yang paling nyaman
+              </h3>
+              <p className="mt-4 text-sm leading-6 text-brand-charcoal/70">
+                Icon di bawah mengarah langsung ke email, Facebook, dan
+                Instagram resmi DEBRODER.
+              </p>
+              <SocialIconLinks
+                emailLink={emailLink}
+                facebookLink={facebookLink}
+                instagramLink={instagramLink}
+                className="mt-6"
+              />
+              <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 <a
                   href={whatsappMainLink}
-                  className="rounded-2xl bg-white p-5 transition hover:text-brand-green"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-center text-sm font-black text-white transition hover:bg-brand-deep"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-brand-green">
-                    WhatsApp
-                  </p>
-                  <p className="mt-2 text-xl font-black">
-                    Chat WhatsApp DEBRODER
-                  </p>
+                  Hubungi DEBRODER
                 </a>
-                <a
-                  href={instagramLink}
-                  className="rounded-2xl bg-white p-5 transition hover:text-brand-green"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-brand-green">
-                    Instagram
-                  </p>
-                  <p className="mt-2 text-xl font-black">
-                    {content.contact.instagram}
-                  </p>
-                </a>
-              </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-3">
                 <a
                   href={apparelLink}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-center text-sm font-black text-white"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-green bg-white px-5 py-3 text-center text-sm font-black text-brand-green transition hover:bg-brand-green hover:text-white"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
-                  Hubungi DEBRODER Apparel
+                  Apparel
                 </a>
                 <a
                   href={expressLink}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-center text-sm font-black text-white"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-green bg-white px-5 py-3 text-center text-sm font-black text-brand-green transition hover:bg-brand-green hover:text-white"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
-                  Hubungi DEBRODER Express
-                </a>
-                <a
-                  href={instagramLink}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-softGray bg-white px-5 py-3 text-center text-sm font-black text-brand-green"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Instagram DEBRODER
+                  Express
                 </a>
               </div>
             </div>
@@ -651,18 +598,33 @@ export default async function Home() {
               <h3 className="text-2xl font-black">Chat Store</h3>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {content.stores.map((store) => (
-                  <a
+                  <div
                     key={store.nama_store}
-                    href={store.whatsapp_link}
-                    className="rounded-2xl bg-white p-4 transition hover:text-brand-green"
-                    target="_blank"
-                    rel="noreferrer"
+                    className="rounded-2xl bg-white p-4"
                   >
                     <p className="text-sm font-black">{store.nama_store}</p>
                     <p className="mt-1 text-sm font-semibold text-brand-charcoal/60">
-                      Chat Store
+                      {store.layanan_utama}
                     </p>
-                  </a>
+                    <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                      <a
+                        href={normalizeWhatsappLink(store.whatsapp_link)}
+                        className="inline-flex min-h-10 items-center justify-center rounded-full bg-brand-green px-4 py-2 text-xs font-black text-white transition hover:bg-brand-deep"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Hubungi
+                      </a>
+                      <a
+                        href={store.maps_link}
+                        className="inline-flex min-h-10 items-center justify-center rounded-full border border-brand-softGray px-4 py-2 text-xs font-black text-brand-green transition hover:border-brand-green"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Lokasi
+                      </a>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -683,7 +645,7 @@ export default async function Home() {
             href={whatsappMainLink}
             className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-black text-brand-green transition hover:-translate-y-0.5 hover:bg-brand-offWhite"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             Hubungi DEBRODER
           </a>
@@ -756,7 +718,7 @@ export default async function Home() {
                   href={store.maps_link}
                   className="hover:text-white"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   {store.nama_store.replace("STORE ", "Store ")}
                 </a>
@@ -768,27 +730,13 @@ export default async function Home() {
             <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/60">
               Kontak
             </h3>
-            <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-              <a href={emailLink} className="hover:text-white">
-                Email
-              </a>
-              <a
-                href={whatsappMainLink}
-                className="hover:text-white"
-                target="_blank"
-                rel="noreferrer"
-              >
-                WhatsApp
-              </a>
-              <a
-                href={instagramLink}
-                className="hover:text-white"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Instagram
-              </a>
-            </div>
+            <SocialIconLinks
+              emailLink={emailLink}
+              facebookLink={facebookLink}
+              instagramLink={instagramLink}
+              tone="light"
+              className="mt-5"
+            />
           </div>
         </div>
         <div className="section-shell mt-10 border-t border-white/10 pt-6">

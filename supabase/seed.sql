@@ -1,12 +1,12 @@
 insert into public.products
   (nama, kategori, deskripsi, badge, gambar_url, whatsapp_link, urutan, status_aktif)
 values
-  ('Kaos Polos Premium', 'Kaos Polos', 'Kaos polos untuk sablon, komunitas, brand clothing, dan kebutuhan partai.', 'Populer', '/images/debroder-hero.png', 'https://wa.me/620000000001?text=Halo%20DEBRODER%20Apparel%2C%20saya%20ingin%20pesan%20kaos%20polos.', 1, true),
-  ('Sablon DTF Custom', 'Sablon DTF', 'Layanan sablon DTF untuk kaos custom, event, komunitas, dan produksi pakaian.', 'Custom', '/images/debroder-hero.png', 'https://wa.me/620000000001?text=Halo%20DEBRODER%20Apparel%2C%20saya%20ingin%20konsultasi%20sablon%20DTF.', 2, true),
-  ('Custom Jersey Team', 'Jersey', 'Pembuatan jersey untuk tim olahraga, sekolah, kantor, dan komunitas.', 'Jersey', '/images/debroder-hero.png', 'https://wa.me/620000000001?text=Halo%20DEBRODER%20Apparel%2C%20saya%20ingin%20pesan%20jersey%20custom.', 3, true),
-  ('Maklon DTF', 'Maklon', 'Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel.', 'Maklon', '/images/debroder-hero.png', 'https://wa.me/620000000001?text=Halo%20DEBRODER%20Apparel%2C%20saya%20ingin%20bertanya%20tentang%20maklon%20DTF.', 4, true),
-  ('Cetak Sublim', 'Sublim', 'Layanan cetak sublim untuk jersey dan apparel custom.', 'Sublim', '/images/debroder-hero.png', 'https://wa.me/620000000001?text=Halo%20DEBRODER%20Apparel%2C%20saya%20ingin%20bertanya%20tentang%20cetak%20sublim.', 5, true),
-  ('Paket Apparel Komunitas', 'Paket', 'Paket apparel untuk komunitas, event, brand, instansi, dan perusahaan.', 'Paket', '/images/debroder-hero.png', 'https://wa.me/620000000001?text=Halo%20DEBRODER%20Apparel%2C%20saya%20ingin%20bertanya%20tentang%20paket%20apparel.', 6, true)
+  ('Kaos Polos Premium', 'Kaos Polos', 'Kaos polos untuk sablon, komunitas, brand clothing, dan kebutuhan partai.', 'Populer', '/images/debroder-hero.png', 'https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Kaos%20Polos%20Premium.', 1, true),
+  ('Sablon DTF Custom', 'Sablon DTF', 'Layanan sablon DTF untuk kaos custom, event, komunitas, dan produksi pakaian.', 'Custom', '/images/debroder-hero.png', 'https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Sablon%20DTF%20Custom.', 2, true),
+  ('Custom Jersey Team', 'Jersey', 'Pembuatan jersey untuk tim olahraga, sekolah, kantor, dan komunitas.', 'Jersey', '/images/debroder-hero.png', 'https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Custom%20Jersey%20Team.', 3, true),
+  ('Maklon DTF', 'Maklon', 'Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel.', 'Maklon', '/images/debroder-hero.png', 'https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Maklon%20DTF.', 4, true),
+  ('Cetak Sublim', 'Sublim', 'Layanan cetak sublim untuk jersey dan apparel custom.', 'Sublim', '/images/debroder-hero.png', 'https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Cetak%20Sublim.', 5, true),
+  ('Paket Apparel Komunitas', 'Paket', 'Paket apparel untuk komunitas, event, brand, instansi, dan perusahaan.', 'Paket', '/images/debroder-hero.png', 'https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Paket%20Apparel%20Komunitas.', 6, true)
 on conflict do nothing;
 
 insert into public.service_categories
@@ -31,9 +31,11 @@ values
 on conflict do nothing;
 
 insert into public.hero_banners
-  (headline, subheadline, cta_primary_text, cta_primary_link, cta_secondary_text, cta_secondary_link, image_url, status_aktif)
+  (badge, headline, subheadline, cta_primary_text, cta_primary_link, cta_secondary_text, cta_secondary_link, image_url, urutan, status_aktif)
 values
-  ('Kaos Polos, Sablon DTF, dan Jersey Custom', 'DEBRODER menyediakan kebutuhan apparel, sablon, jersey, dan layanan pengiriman dalam satu ekosistem bisnis yang mudah dijangkau.', 'Mulai Pesan', 'https://wa.me/620000000001?text=Halo%20DEBRODER%20Apparel%2C%20saya%20ingin%20mulai%20pesan.', 'Lihat Layanan', '/koleksi', '/images/debroder-hero.png', true)
+  ('KAOS POLOS IMPORT & SABLON', 'Kaos Polos, Sablon DTF, dan Jersey Custom', 'DEBRODER menyediakan kebutuhan apparel, sablon, jersey, dan layanan pengiriman dalam satu ekosistem bisnis yang mudah dijangkau.', 'Mulai Pesan', 'https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20kaos%20polos%2C%20sablon%20DTF%2C%20dan%20jersey%20custom', 'Lihat Koleksi', '/koleksi', '/images/debroder-hero.png', 1, true),
+  ('PRODUKSI APPAREL', 'Produksi Apparel untuk Komunitas, Event, dan Perusahaan', 'Dari kaos polos, sablon DTF, jersey, hingga kebutuhan partai, DEBRODER siap membantu produksi apparel Anda dengan proses yang mudah.', 'Konsultasi Sekarang', 'https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20konsultasi%20produksi%20apparel%20untuk%20komunitas%2C%20event%2C%20atau%20perusahaan', 'Lihat Store', '/store', '/images/debroder-hero.png', 2, true),
+  ('CUSTOM JERSEY', 'Custom Jersey untuk Tim, Komunitas, dan Instansi', 'Buat jersey custom untuk tim olahraga, sekolah, kantor, komunitas, dan event dengan desain yang sesuai kebutuhan Anda.', 'Pesan Jersey', 'https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20custom%20jersey', 'Lihat Detail', '/jersey', '/images/debroder-hero.png', 3, true)
 on conflict do nothing;
 
 insert into public.about_content
@@ -53,7 +55,7 @@ values
 on conflict do nothing;
 
 insert into public.contact_settings
-  (email, whatsapp_utama, whatsapp_apparel, whatsapp_express, instagram, status_aktif)
+  (email, whatsapp_utama, whatsapp_link, whatsapp_apparel, whatsapp_express, facebook, instagram, status_aktif)
 values
-  ('hello@debroder.example', '+62 000-0000-0000', '+62 000-0000-0001', '+62 000-0000-0002', '@debroder', true)
+  ('debroderapparel@gmail.com', '0853-5533-3364', 'https://wa.me/6285355333364', '0853-5533-3364', '0853-5533-3364', 'https://www.facebook.com/debroderapparel/', 'https://instagram.com/de_broder', true)
 on conflict do nothing;

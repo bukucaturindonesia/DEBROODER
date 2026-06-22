@@ -1,11 +1,13 @@
 export const contactLinks = {
-  email: "mailto:hello@debroder.example",
-  whatsapp: "https://wa.me/620000000000?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20layanan.",
-  instagram: "https://instagram.com/debroder",
+  email: "mailto:debroderapparel@gmail.com",
+  whatsapp:
+    "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20layanan.",
+  facebook: "https://www.facebook.com/debroderapparel/",
+  instagram: "https://instagram.com/de_broder",
   apparelWhatsapp:
-    "https://wa.me/620000000001?text=Halo%20DEBRODER%20Apparel%2C%20saya%20ingin%20bertanya%20tentang%20kaos%20polos%2C%20sablon%2C%20atau%20jersey.",
+    "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20kaos%20polos%2C%20sablon%20DTF%2C%20dan%20jersey%20custom",
   expressWhatsapp:
-    "https://wa.me/620000000002?text=Halo%20DEBRODER%20Express%2C%20saya%20ingin%20bertanya%20tentang%20layanan%20pengiriman."
+    "https://wa.me/6285355333364?text=Halo%20DEBRODER%20Express%2C%20saya%20ingin%20bertanya%20tentang%20layanan%20pengiriman."
 } as const;
 
 export const storeContacts = [

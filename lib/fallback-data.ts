@@ -10,17 +10,51 @@ import type {
 } from "@/lib/types";
 import { contactLinks, storeContacts } from "@/lib/contact";
 
-export const fallbackHero: HeroBanner = {
-  headline: "Kaos Polos, Sablon DTF, dan Jersey Custom",
-  subheadline:
-    "DEBRODER menyediakan kebutuhan apparel, sablon, jersey, dan layanan pengiriman dalam satu ekosistem bisnis yang mudah dijangkau.",
-  cta_primary_text: "Mulai Pesan",
-  cta_primary_link: contactLinks.apparelWhatsapp,
-  cta_secondary_text: "Lihat Layanan",
-  cta_secondary_link: "/koleksi",
-  image_url: "/images/debroder-hero.png",
-  status_aktif: true
-};
+export const fallbackHeroes: HeroBanner[] = [
+  {
+    badge: "KAOS POLOS IMPORT & SABLON",
+    headline: "Kaos Polos, Sablon DTF, dan Jersey Custom",
+    subheadline:
+      "DEBRODER menyediakan kebutuhan apparel, sablon, jersey, dan layanan pengiriman dalam satu ekosistem bisnis yang mudah dijangkau.",
+    cta_primary_text: "Mulai Pesan",
+    cta_primary_link: contactLinks.apparelWhatsapp,
+    cta_secondary_text: "Lihat Koleksi",
+    cta_secondary_link: "/koleksi",
+    image_url: "/images/debroder-hero.png",
+    urutan: 1,
+    status_aktif: true
+  },
+  {
+    badge: "PRODUKSI APPAREL",
+    headline: "Produksi Apparel untuk Komunitas, Event, dan Perusahaan",
+    subheadline:
+      "Dari kaos polos, sablon DTF, jersey, hingga kebutuhan partai, DEBRODER siap membantu produksi apparel Anda dengan proses yang mudah.",
+    cta_primary_text: "Konsultasi Sekarang",
+    cta_primary_link:
+      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20konsultasi%20produksi%20apparel%20untuk%20komunitas%2C%20event%2C%20atau%20perusahaan",
+    cta_secondary_text: "Lihat Store",
+    cta_secondary_link: "/store",
+    image_url: "/images/debroder-hero.png",
+    urutan: 2,
+    status_aktif: true
+  },
+  {
+    badge: "CUSTOM JERSEY",
+    headline: "Custom Jersey untuk Tim, Komunitas, dan Instansi",
+    subheadline:
+      "Buat jersey custom untuk tim olahraga, sekolah, kantor, komunitas, dan event dengan desain yang sesuai kebutuhan Anda.",
+    cta_primary_text: "Pesan Jersey",
+    cta_primary_link:
+      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20custom%20jersey",
+    cta_secondary_text: "Lihat Detail",
+    cta_secondary_link: "/jersey",
+    image_url: "/images/debroder-hero.png",
+    urutan: 3,
+    status_aktif: true
+  }
+];
+
+export const fallbackHero: HeroBanner = fallbackHeroes[0];
 
 export const fallbackAbout: AboutContent = {
   label: "TENTANG KAMI",
@@ -109,7 +143,8 @@ export const fallbackProducts: Product[] = [
     deskripsi:
       "Kaos polos untuk sablon, komunitas, brand clothing, dan kebutuhan partai.",
     gambar_url: "/images/debroder-hero.png",
-    whatsapp_link: contactLinks.apparelWhatsapp,
+    whatsapp_link:
+      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Kaos%20Polos%20Premium.",
     urutan: 1,
     status_aktif: true
   },
@@ -120,7 +155,8 @@ export const fallbackProducts: Product[] = [
     deskripsi:
       "Layanan sablon DTF untuk kaos custom, event, komunitas, dan produksi pakaian.",
     gambar_url: "/images/debroder-hero.png",
-    whatsapp_link: contactLinks.apparelWhatsapp,
+    whatsapp_link:
+      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Sablon%20DTF%20Custom.",
     urutan: 2,
     status_aktif: true
   },
@@ -131,7 +167,8 @@ export const fallbackProducts: Product[] = [
     deskripsi:
       "Pembuatan jersey untuk tim olahraga, sekolah, kantor, dan komunitas.",
     gambar_url: "/images/debroder-hero.png",
-    whatsapp_link: contactLinks.apparelWhatsapp,
+    whatsapp_link:
+      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Custom%20Jersey%20Team.",
     urutan: 3,
     status_aktif: true
   },
@@ -142,7 +179,8 @@ export const fallbackProducts: Product[] = [
     deskripsi:
       "Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel.",
     gambar_url: "/images/debroder-hero.png",
-    whatsapp_link: contactLinks.apparelWhatsapp,
+    whatsapp_link:
+      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Maklon%20DTF.",
     urutan: 4,
     status_aktif: true
   },
@@ -152,7 +190,8 @@ export const fallbackProducts: Product[] = [
     badge: "Sublim",
     deskripsi: "Layanan cetak sublim untuk jersey dan apparel custom.",
     gambar_url: "/images/debroder-hero.png",
-    whatsapp_link: contactLinks.apparelWhatsapp,
+    whatsapp_link:
+      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Cetak%20Sublim.",
     urutan: 5,
     status_aktif: true
   },
@@ -163,7 +202,8 @@ export const fallbackProducts: Product[] = [
     deskripsi:
       "Paket apparel untuk komunitas, event, brand, instansi, dan perusahaan.",
     gambar_url: "/images/debroder-hero.png",
-    whatsapp_link: contactLinks.apparelWhatsapp,
+    whatsapp_link:
+      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Paket%20Apparel%20Komunitas.",
     urutan: 6,
     status_aktif: true
   }
@@ -205,16 +245,19 @@ export const fallbackTestimonials: Testimonial[] = [
 ];
 
 export const fallbackContact: ContactSettings = {
-  email: "hello@debroder.example",
-  whatsapp_utama: "+62 000-0000-0000",
-  whatsapp_apparel: "+62 000-0000-0001",
-  whatsapp_express: "+62 000-0000-0002",
-  instagram: "@debroder",
+  email: "debroderapparel@gmail.com",
+  whatsapp_utama: "0853-5533-3364",
+  whatsapp_link: "https://wa.me/6285355333364",
+  whatsapp_apparel: "0853-5533-3364",
+  whatsapp_express: "0853-5533-3364",
+  facebook: "https://www.facebook.com/debroderapparel/",
+  instagram: "https://instagram.com/de_broder",
   status_aktif: true
 };
 
 export const fallbackContent: PublicContent = {
   hero: fallbackHero,
+  heroes: fallbackHeroes,
   about: fallbackAbout,
   categories: fallbackCategories,
   products: fallbackProducts,

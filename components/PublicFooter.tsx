@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { SocialIconLinks } from "@/components/SocialIconLinks";
 import type { PublicContent } from "@/lib/types";
-import { emailHref, instagramHref, whatsappHref } from "@/lib/url";
+import { emailHref, facebookHref, instagramHref } from "@/lib/url";
 
 function sectionPath(slug: string) {
   return `/${slug.replace(/^\/+/, "")}`;
@@ -9,7 +10,7 @@ function sectionPath(slug: string) {
 
 export function PublicFooter({ content }: { content: PublicContent }) {
   const emailLink = emailHref(content.contact.email);
-  const whatsappMainLink = whatsappHref(content.contact.whatsapp_utama);
+  const facebookLink = facebookHref(content.contact.facebook);
   const instagramLink = instagramHref(content.contact.instagram);
 
   return (
@@ -91,27 +92,13 @@ export function PublicFooter({ content }: { content: PublicContent }) {
           <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/60">
             Kontak
           </h3>
-          <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-            <a href={emailLink} className="hover:text-white">
-              Email
-            </a>
-            <a
-              href={whatsappMainLink}
-              className="hover:text-white"
-              target="_blank"
-              rel="noreferrer"
-            >
-              WhatsApp
-            </a>
-            <a
-              href={instagramLink}
-              className="hover:text-white"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Instagram
-            </a>
-          </div>
+          <SocialIconLinks
+            emailLink={emailLink}
+            facebookLink={facebookLink}
+            instagramLink={instagramLink}
+            tone="light"
+            className="mt-5"
+          />
         </div>
       </div>
       <div className="section-shell mt-10 border-t border-white/10 pt-6">

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { PublicFooter } from "@/components/PublicFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import type { Product, PublicContent, ServiceCategory, Store } from "@/lib/types";
+import { normalizeWhatsappLink } from "@/lib/url";
 
 export function PageHero({
   label,
@@ -118,10 +119,10 @@ export function ProductGrid({ products }: { products: Product[] }) {
             {product.deskripsi}
           </p>
           <a
-            href={product.whatsapp_link}
+            href={normalizeWhatsappLink(product.whatsapp_link)}
             className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-black text-white"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             Pesan Sekarang
           </a>
@@ -148,12 +149,12 @@ export function StoreGrid({ stores }: { stores: Store[] }) {
           </p>
           <div className="mt-5 grid gap-2">
             <a
-              href={store.whatsapp_link}
+              href={normalizeWhatsappLink(store.whatsapp_link)}
               className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-black text-white"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
-              Chat Store
+              Hubungi
             </a>
             <a
               href={store.maps_link}

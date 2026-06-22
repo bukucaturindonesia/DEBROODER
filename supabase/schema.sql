@@ -74,6 +74,7 @@ create table if not exists public.stores (
 
 create table if not exists public.hero_banners (
   id uuid primary key default gen_random_uuid(),
+  badge text not null default 'KAOS POLOS IMPORT & SABLON',
   headline text not null,
   subheadline text not null,
   cta_primary_text text not null,
@@ -81,6 +82,7 @@ create table if not exists public.hero_banners (
   cta_secondary_text text not null,
   cta_secondary_link text not null,
   image_url text not null default '/images/debroder-hero.png',
+  urutan integer not null default 1,
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -111,13 +113,23 @@ create table if not exists public.contact_settings (
   id uuid primary key default gen_random_uuid(),
   email text not null,
   whatsapp_utama text not null,
+  whatsapp_link text not null default 'https://wa.me/6285355333364',
   whatsapp_apparel text not null,
   whatsapp_express text not null,
+  facebook text not null default 'https://www.facebook.com/debroderapparel/',
   instagram text not null,
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table if exists public.hero_banners
+  add column if not exists badge text not null default 'KAOS POLOS IMPORT & SABLON',
+  add column if not exists urutan integer not null default 1;
+
+alter table if exists public.contact_settings
+  add column if not exists whatsapp_link text not null default 'https://wa.me/6285355333364',
+  add column if not exists facebook text not null default 'https://www.facebook.com/debroderapparel/';
 
 drop trigger if exists set_products_updated_at on public.products;
 create trigger set_products_updated_at

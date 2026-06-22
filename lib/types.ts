@@ -40,6 +40,7 @@ export type Store = {
 
 export type HeroBanner = {
   id?: string;
+  badge?: string;
   headline: string;
   subheadline: string;
   cta_primary_text: string;
@@ -47,6 +48,7 @@ export type HeroBanner = {
   cta_secondary_text: string;
   cta_secondary_link: string;
   image_url: string;
+  urutan?: number;
   status_aktif: boolean;
   created_at?: string;
   updated_at?: string;
@@ -76,8 +78,10 @@ export type ContactSettings = {
   id?: string;
   email: string;
   whatsapp_utama: string;
+  whatsapp_link?: string;
   whatsapp_apparel: string;
   whatsapp_express: string;
+  facebook?: string;
   instagram: string;
   status_aktif?: boolean;
   updated_at?: string;
@@ -85,6 +89,7 @@ export type ContactSettings = {
 
 export type PublicContent = {
   hero: HeroBanner;
+  heroes: HeroBanner[];
   about: AboutContent;
   categories: ServiceCategory[];
   products: Product[];

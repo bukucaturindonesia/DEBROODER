@@ -84,7 +84,9 @@ const tableConfigs: TableConfig[] = [
     label: "Kelola Hero Banner",
     table: "hero_banners",
     description: "Headline, CTA, dan visual hero landing page.",
+    orderField: "urutan",
     fields: [
+      { name: "badge", label: "Badge", type: "text" },
       { name: "headline", label: "Headline", type: "text" },
       { name: "subheadline", label: "Subheadline", type: "textarea" },
       { name: "cta_primary_text", label: "CTA Primary Text", type: "text" },
@@ -92,6 +94,7 @@ const tableConfigs: TableConfig[] = [
       { name: "cta_secondary_text", label: "CTA Secondary Text", type: "text" },
       { name: "cta_secondary_link", label: "CTA Secondary Link", type: "text" },
       { name: "image_url", label: "Image URL", type: "text" },
+      { name: "urutan", label: "Urutan", type: "number" },
       { name: "status_aktif", label: "Aktif", type: "boolean" }
     ]
   },
@@ -128,8 +131,10 @@ const tableConfigs: TableConfig[] = [
     fields: [
       { name: "email", label: "Email", type: "text" },
       { name: "whatsapp_utama", label: "WhatsApp Utama", type: "text" },
+      { name: "whatsapp_link", label: "WhatsApp Link", type: "text" },
       { name: "whatsapp_apparel", label: "WhatsApp Apparel", type: "text" },
       { name: "whatsapp_express", label: "WhatsApp Express", type: "text" },
+      { name: "facebook", label: "Facebook", type: "text" },
       { name: "instagram", label: "Instagram", type: "text" },
       { name: "status_aktif", label: "Aktif", type: "boolean" }
     ]

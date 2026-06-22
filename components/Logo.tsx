@@ -10,7 +10,7 @@ type LogoVariant =
 type LogoSize = "sm" | "md" | "lg";
 
 const logoSrc: Record<LogoVariant, string> = {
-  "symbol-black": "/brand/debroder/logo-symbol-black.svg",
+  "symbol-black": "/debroder-icon.png",
   "symbol-white": "/brand/debroder/logo-symbol-white.svg",
   "primary-black": "/brand/debroder/logo-primary-black.svg",
   "primary-white": "/brand/debroder/logo-primary-white.svg",
@@ -47,6 +47,11 @@ export function Logo({
         height: symbolSize[size]
       }
     : primarySize[size];
+  const imageClass = isSymbol
+    ? size === "md"
+      ? "h-10 w-10 shrink-0 object-contain sm:h-12 sm:w-12"
+      : "h-auto shrink-0 object-contain"
+    : "h-auto shrink-0 object-contain";
 
   return (
     <span className={`inline-flex items-center gap-3 ${className}`}>
@@ -55,7 +60,7 @@ export function Logo({
         alt="Logo DEBRODER"
         width={dimensions.width}
         height={dimensions.height}
-        className="h-auto shrink-0 object-contain"
+        className={imageClass}
         priority
       />
       {showText ? (

@@ -62,9 +62,9 @@ async function readSingle<T>(
 }
 
 export async function getPublicContent(): Promise<PublicContent> {
-  const [hero, about, categories, products, stores, testimonials, contact] =
+  const [heroes, about, categories, products, stores, testimonials, contact] =
     await Promise.all([
-      readSingle<HeroBanner>("hero_banners", fallbackContent.hero),
+      readActive<HeroBanner>("hero_banners", fallbackContent.heroes),
       readSingle<AboutContent>("about_content", fallbackContent.about),
       readActive<ServiceCategory>(
         "service_categories",
@@ -81,7 +81,8 @@ export async function getPublicContent(): Promise<PublicContent> {
     ]);
 
   return {
-    hero,
+    hero: heroes[0] || fallbackContent.hero,
+    heroes: heroes.length ? heroes : fallbackContent.heroes,
     about,
     categories,
     products,
