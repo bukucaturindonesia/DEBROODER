@@ -5,6 +5,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://debroder.com"),
   title: "DEBRODER | Kaos Polos Import & Sablon",
+  alternates: {
+    canonical: "/"
+  },
   description:
     "DEBRODER adalah perusahaan percetakan dan apparel sejak 2016 yang menyediakan sablon kaos, sablon DTF, custom jersey, maklon DTF, cetak sublim, kaos polos, dan layanan pengiriman melalui DEBRODER Apparel dan DEBRODER Express.",
   keywords: [

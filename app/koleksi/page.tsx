@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   PageHero,
   ProductGrid,
@@ -6,6 +7,18 @@ import {
 } from "@/components/PublicPage";
 import { getPublicContent } from "@/lib/public-data";
 import { whatsappHref } from "@/lib/url";
+
+export const metadata: Metadata = {
+  title: "Koleksi & Layanan DEBRODER",
+  description:
+    "Temukan layanan apparel, percetakan, custom jersey, sablon DTF, kaos polos, maklon DTF, cetak sublim, dan pengiriman dari DEBRODER.",
+  alternates: { canonical: "/koleksi" },
+  openGraph: {
+    title: "Koleksi & Layanan DEBRODER",
+    description:
+      "Layanan apparel, percetakan, custom jersey, sablon DTF, kaos polos, maklon DTF, cetak sublim, dan pengiriman dari DEBRODER."
+  }
+};
 
 export default async function KoleksiPage() {
   const content = await getPublicContent();
@@ -19,9 +32,15 @@ export default async function KoleksiPage() {
       <PageHero
         label="Koleksi"
         title="Koleksi & Layanan DEBRODER"
-        description="Temukan layanan apparel, percetakan, custom jersey, sablon DTF, kaos polos, dan pengiriman dari DEBRODER."
+        description="Temukan layanan apparel, percetakan, custom jersey, sablon DTF, kaos polos, maklon DTF, cetak sublim, dan pengiriman dari DEBRODER."
         ctaText="Mulai Pesan"
         ctaHref={apparelLink}
+        secondaryCtaText="Temukan Store"
+        secondaryCtaHref="/store"
+        breadcrumbs={[
+          { label: "Beranda", href: "/" },
+          { label: "Koleksi" }
+        ]}
       />
       <section className="bg-brand-offWhite pb-16 sm:pb-24">
         <div className="section-shell grid gap-5 md:grid-cols-2 lg:grid-cols-3">

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { contactLinks } from "@/lib/contact";
 
@@ -32,13 +33,15 @@ const megaItems = [
   },
   {
     title: "Maklon DTF",
-    description: "Layanan produksi untuk reseller dan brand apparel.",
-    href: "/sablon-dtf"
+    description:
+      "Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel.",
+    href: "/maklon-dtf"
   },
   {
     title: "Cetak Sublim",
-    description: "Cetak sublim untuk jersey dan apparel custom.",
-    href: "/jersey"
+    description:
+      "Layanan cetak sublim untuk jersey, apparel custom, dan kebutuhan produksi kreatif.",
+    href: "/cetak-sublim"
   },
   {
     title: "DEBRODER Express",
@@ -47,9 +50,16 @@ const megaItems = [
   }
 ];
 
+const mobileNavItems = [
+  ...navItems.map((item) => ({ label: item.label, href: item.href })),
+  ...megaItems
+    .filter((mega) => !navItems.some((item) => item.href === mega.href))
+    .map((mega) => ({ label: mega.title, href: mega.href }))
+];
+
 const topbarItems = [
-  { label: "Layanan Pelanggan", href: "/#kontak" },
-  { label: "Lacak Pesanan", href: "/#kontak" },
+  { label: "Layanan Pelanggan", href: "/cara-order" },
+  { label: "Lacak Pesanan", href: "/cara-order" },
   { label: "Temukan Toko", href: "/store" }
 ];
 
@@ -90,7 +100,12 @@ function ChatIcon() {
 }
 
 export function SiteHeader() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+
+  function isActive(href: string) {
+    return pathname === href;
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-brand-softGray bg-white/95 text-brand-charcoal backdrop-blur-xl">
@@ -135,7 +150,11 @@ export function SiteHeader() {
               <div key={item.href} className="group relative py-6">
                 <Link
                   href={item.href}
-                  className="text-sm font-bold text-brand-charcoal/75 transition hover:text-brand-green"
+                  className={`text-sm font-bold transition hover:text-brand-green ${
+                    isActive(item.href)
+                      ? "rounded-full bg-brand-offWhite px-3 py-2 text-brand-green"
+                      : "text-brand-charcoal/75"
+                  }`}
                 >
                   {item.label}
                 </Link>
@@ -145,12 +164,28 @@ export function SiteHeader() {
                       <Link
                         key={mega.title}
                         href={mega.href}
-                        className="rounded-2xl bg-brand-offWhite p-4 transition hover:bg-white hover:shadow-sm"
+                        className={`rounded-2xl p-4 transition hover:bg-white hover:shadow-sm ${
+                          isActive(mega.href)
+                            ? "bg-brand-green text-white"
+                            : "bg-brand-offWhite"
+                        }`}
                       >
-                        <p className="text-base font-black text-brand-green">
+                        <p
+                          className={`text-base font-black ${
+                            isActive(mega.href)
+                              ? "text-white"
+                              : "text-brand-green"
+                          }`}
+                        >
                           {mega.title}
                         </p>
-                        <p className="mt-2 text-sm leading-6 text-brand-charcoal/65">
+                        <p
+                          className={`mt-2 text-sm leading-6 ${
+                            isActive(mega.href)
+                              ? "text-white/75"
+                              : "text-brand-charcoal/65"
+                          }`}
+                        >
                           {mega.description}
                         </p>
                       </Link>
@@ -162,7 +197,11 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-bold text-brand-charcoal/75 transition hover:text-brand-green"
+                className={`text-sm font-bold transition hover:text-brand-green ${
+                  isActive(item.href)
+                    ? "rounded-full bg-brand-offWhite px-3 py-2 text-brand-green"
+                    : "text-brand-charcoal/75"
+                }`}
               >
                 {item.label}
               </Link>
@@ -232,23 +271,29 @@ export function SiteHeader() {
         }`}
       >
         <div className="section-shell grid gap-2 py-5">
-          {navItems.map((item) => (
+          {mobileNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-2xl px-4 py-3 text-base font-black text-brand-charcoal transition hover:bg-brand-offWhite hover:text-brand-green"
+              className={`rounded-2xl px-4 py-3 text-base font-black transition hover:bg-brand-offWhite hover:text-brand-green ${
+                isActive(item.href)
+                  ? "bg-brand-offWhite text-brand-green"
+                  : "text-brand-charcoal"
+              }`}
               onClick={() => setIsOpen(false)}
             >
               {item.label}
             </Link>
           ))}
-          <Link
-            href="/#kontak"
+          <a
+            href={contactLinks.whatsapp}
             className="rounded-2xl px-4 py-3 text-base font-black text-brand-charcoal transition hover:bg-brand-offWhite hover:text-brand-green"
             onClick={() => setIsOpen(false)}
+            target="_blank"
+            rel="noreferrer"
           >
             Hubungi Kami
-          </Link>
+          </a>
           <a
             href={contactLinks.apparelWhatsapp}
             className="mt-2 rounded-full bg-brand-green px-5 py-4 text-center text-sm font-black text-white"

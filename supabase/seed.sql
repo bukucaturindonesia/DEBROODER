@@ -15,8 +15,8 @@ values
   ('Sablon Kaos', 'Layanan sablon kaos untuk komunitas, event, brand, instansi, dan perusahaan.', '/images/debroder-hero.png', 'sablon-dtf', 1, true),
   ('Sablon DTF', 'Layanan sablon DTF untuk kaos custom, produksi pakaian, brand clothing, dan kebutuhan partai.', '/images/debroder-hero.png', 'sablon-dtf', 2, true),
   ('Custom Jersey', 'Pembuatan jersey custom untuk tim olahraga, sekolah, kantor, komunitas, dan event.', '/images/debroder-hero.png', 'jersey', 3, true),
-  ('Maklon DTF', 'Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel.', '/images/debroder-hero.png', 'sablon-dtf', 4, true),
-  ('Cetak Sublim', 'Layanan cetak sublim untuk jersey, apparel custom, dan kebutuhan produksi kreatif.', '/images/debroder-hero.png', 'jersey', 5, true),
+  ('Maklon DTF', 'Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel.', '/images/debroder-hero.png', 'maklon-dtf', 4, true),
+  ('Cetak Sublim', 'Layanan cetak sublim untuk jersey, apparel custom, dan kebutuhan produksi kreatif.', '/images/debroder-hero.png', 'cetak-sublim', 5, true),
   ('Kaos Polos & Cotton Combed', 'Penyediaan kaos polos, kaos NSA, dan kaos cotton combed untuk sablon, brand clothing, komunitas, dan pembelian partai.', '/images/debroder-hero.png', 'kaos-polos', 6, true),
   ('DEBRODER Express', 'Layanan pengiriman dan distribusi untuk mendukung kebutuhan pelanggan dan operasional bisnis.', '/images/debroder-hero.png', 'express', 7, true)
 on conflict do nothing;
@@ -24,16 +24,16 @@ on conflict do nothing;
 insert into public.stores
   (nama_store, layanan_utama, alamat, whatsapp, whatsapp_link, maps_link, urutan, status_aktif)
 values
-  ('STORE PETTARANI', 'Sablon Kaos dan Jersey', 'Jl. AP Pettarani, Ruko New Zamrud Blok G No.7', '0853-5533-3364', 'https://wa.me/6285355333364', 'https://www.google.com/maps/search/?api=1&query=Jl.%20AP%20Pettarani%2C%20Ruko%20New%20Zamrud%20Blok%20G%20No.7%20Makassar', 1, true),
-  ('STORE TELLO', 'Cetak DTF dan Sablon Kaos', 'Jl. Urip Sumoharjo, Depan PLTU', '0812-4400-3505', 'https://wa.me/6281244003505', 'https://www.google.com/maps/search/?api=1&query=Jl.%20Urip%20Sumoharjo%20Depan%20PLTU%20Makassar', 2, true),
-  ('STORE LANDAK', 'Cetak DTF dan Jersey', 'Jl. Andy Djemma LR 8B No.108', '0811-4470-1984', 'https://wa.me/6281144701984', 'https://www.google.com/maps/search/?api=1&query=Jl.%20Andy%20Djemma%20LR%208B%20No.108%20Makassar', 3, true),
-  ('STORE PAREPARE', 'Cetak DTF, Sablon, dan Kaos Polos', 'Jl. Lorong 3 No.10, Sumpang Minangae, belakang Warkop Chilos, Parepare', '0821-5658-8066', 'https://wa.me/6282156588066', 'https://www.google.com/maps/search/?api=1&query=Jl.%20Lorong%203%20No.10%20Sumpang%20Minangae%20Belakang%20Warkop%20Chilos%20Parepare', 4, true)
+  ('STORE PETTARANI', 'Sablon Kaos dan Jersey', 'Jl. AP Pettarani, Ruko New Zamrud Blok G No.7', '0853-5533-3364', 'https://wa.me/6285355333364?text=Halo%20DEBRODER%20Pettarani%2C%20saya%20ingin%20bertanya%20tentang%20sablon%20kaos%20dan%20jersey.', 'https://www.google.com/maps/search/?api=1&query=Jl.%20AP%20Pettarani%2C%20Ruko%20New%20Zamrud%20Blok%20G%20No.7%20Makassar', 1, true),
+  ('STORE TELLO', 'Cetak DTF dan Sablon Kaos', 'Jl. Urip Sumoharjo, Depan PLTU', '0812-4400-3505', 'https://wa.me/6281244003505?text=Halo%20DEBRODER%20Tello%2C%20saya%20ingin%20bertanya%20tentang%20cetak%20DTF%20dan%20sablon%20kaos.', 'https://www.google.com/maps/search/?api=1&query=Jl.%20Urip%20Sumoharjo%20Depan%20PLTU%20Makassar', 2, true),
+  ('STORE LANDAK', 'Cetak DTF dan Jersey', 'Jl. Andy Djemma LR 8B No.108', '0811-4470-1984', 'https://wa.me/6281144701984?text=Halo%20DEBRODER%20Landak%2C%20saya%20ingin%20bertanya%20tentang%20cetak%20DTF%20dan%20jersey.', 'https://www.google.com/maps/search/?api=1&query=Jl.%20Andy%20Djemma%20LR%208B%20No.108%20Makassar', 3, true),
+  ('STORE PAREPARE', 'Cetak DTF, Sablon, dan Kaos Polos', 'Jl. Lorong 3 No.10, Sumpang Minangae, belakang Warkop Chilos, Parepare', '0821-5658-8066', 'https://wa.me/6282156588066?text=Halo%20DEBRODER%20Parepare%2C%20saya%20ingin%20bertanya%20tentang%20cetak%20DTF%2C%20sablon%2C%20dan%20kaos%20polos.', 'https://www.google.com/maps/search/?api=1&query=Jl.%20Lorong%203%20No.10%20Sumpang%20Minangae%20Belakang%20Warkop%20Chilos%20Parepare', 4, true)
 on conflict do nothing;
 
 insert into public.hero_banners
   (headline, subheadline, cta_primary_text, cta_primary_link, cta_secondary_text, cta_secondary_link, image_url, status_aktif)
 values
-  ('Kaos Polos, Sablon DTF, dan Jersey Custom', 'DEBRODER menyediakan kebutuhan apparel, sablon, jersey, dan layanan pengiriman dalam satu ekosistem bisnis yang mudah dijangkau.', 'Mulai Pesan', 'https://wa.me/620000000001?text=Halo%20DEBRODER%20Apparel%2C%20saya%20ingin%20mulai%20pesan.', 'Lihat Layanan', '#layanan', '/images/debroder-hero.png', true)
+  ('Kaos Polos, Sablon DTF, dan Jersey Custom', 'DEBRODER menyediakan kebutuhan apparel, sablon, jersey, dan layanan pengiriman dalam satu ekosistem bisnis yang mudah dijangkau.', 'Mulai Pesan', 'https://wa.me/620000000001?text=Halo%20DEBRODER%20Apparel%2C%20saya%20ingin%20mulai%20pesan.', 'Lihat Layanan', '/koleksi', '/images/debroder-hero.png', true)
 on conflict do nothing;
 
 insert into public.about_content

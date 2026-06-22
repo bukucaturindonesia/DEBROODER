@@ -17,7 +17,7 @@ export const fallbackHero: HeroBanner = {
   cta_primary_text: "Mulai Pesan",
   cta_primary_link: contactLinks.apparelWhatsapp,
   cta_secondary_text: "Lihat Layanan",
-  cta_secondary_link: "#layanan",
+  cta_secondary_link: "/koleksi",
   image_url: "/images/debroder-hero.png",
   status_aktif: true
 };
@@ -68,7 +68,7 @@ export const fallbackCategories: ServiceCategory[] = [
     deskripsi:
       "Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel.",
     gambar_url: "/images/debroder-hero.png",
-    link_slug: "sablon-dtf",
+    link_slug: "maklon-dtf",
     urutan: 4,
     status_aktif: true
   },
@@ -77,7 +77,7 @@ export const fallbackCategories: ServiceCategory[] = [
     deskripsi:
       "Layanan cetak sublim untuk jersey, apparel custom, dan kebutuhan produksi kreatif.",
     gambar_url: "/images/debroder-hero.png",
-    link_slug: "jersey",
+    link_slug: "cetak-sublim",
     urutan: 5,
     status_aktif: true
   },
