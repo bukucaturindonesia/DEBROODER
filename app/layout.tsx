@@ -1,23 +1,33 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://debroder.com"),
   title: "DEBRODER | Kaos Polos Import & Sablon",
   description:
-    "Website resmi DEBRODER untuk kaos polos import, sablon DTF, jersey, dan layanan pengiriman.",
+    "DEBRODER adalah perusahaan percetakan dan apparel sejak 2016 yang menyediakan sablon kaos, sablon DTF, custom jersey, maklon DTF, cetak sublim, kaos polos, dan layanan pengiriman melalui DEBRODER Apparel dan DEBRODER Express.",
   keywords: [
     "DEBRODER",
-    "kaos polos import",
+    "De Broder",
+    "kaos polos",
     "sablon DTF",
-    "jersey",
-    "pengiriman",
+    "sablon kaos",
+    "custom jersey",
+    "maklon DTF",
+    "cetak sublim",
+    "kaos NSA",
+    "cotton combed",
     "Makassar",
-    "Parepare"
+    "Parepare",
+    "apparel",
+    "jersey",
+    "ekspedisi"
   ],
   openGraph: {
     title: "DEBRODER | Kaos Polos Import & Sablon",
     description:
-      "Kaos polos import, sablon DTF, jersey, dan layanan pengiriman dalam satu ekosistem bisnis.",
+      "Perusahaan percetakan dan apparel sejak 2016 untuk sablon kaos, sablon DTF, custom jersey, maklon DTF, cetak sublim, kaos polos, dan layanan pengiriman.",
     siteName: "DEBRODER",
     images: [
       {
@@ -42,7 +52,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="id">
