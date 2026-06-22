@@ -1,13 +1,12 @@
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 
 export default function NotFound() {
   return (
     <main className="min-h-screen bg-brand-offWhite px-4 py-10 text-brand-charcoal">
       <div className="mx-auto grid min-h-[calc(100vh-80px)] max-w-2xl place-items-center">
         <section className="w-full rounded-[32px] border border-brand-softGray bg-white p-8 text-center shadow-soft sm:p-12">
-          <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand-green text-sm font-black text-white">
-            DB
-          </span>
+          <Logo variant="symbol-black" size="lg" className="justify-center" />
           <p className="mt-8 text-sm font-black uppercase tracking-[0.24em] text-brand-green">
             DEBRODER
           </p>

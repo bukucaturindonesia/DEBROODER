@@ -5,6 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://debroder.com"),
   title: "DEBRODER | Kaos Polos Import & Sablon",
+  manifest: "/manifest.webmanifest",
   alternates: {
     canonical: "/"
   },
@@ -49,6 +50,33 @@ export const metadata: Metadata = {
     description:
       "Kaos polos import, sablon DTF, jersey, dan layanan pengiriman dalam satu ekosistem bisnis.",
     images: ["/images/debroder-hero.png"]
+  },
+  icons: {
+    icon: [
+      { url: "/brand/debroder/favicon.ico" },
+      {
+        url: "/brand/debroder/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png"
+      },
+      {
+        url: "/brand/debroder/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png"
+      },
+      {
+        url: "/brand/debroder/favicon-48x48.png",
+        sizes: "48x48",
+        type: "image/png"
+      }
+    ],
+    apple: [
+      {
+        url: "/brand/debroder/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png"
+      }
+    ]
   }
 };
 

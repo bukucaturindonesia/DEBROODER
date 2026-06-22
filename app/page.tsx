@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getPublicContent } from "@/lib/public-data";
 import type { Product, ServiceCategory } from "@/lib/types";
@@ -692,7 +693,7 @@ export default async function Home() {
       <footer className="bg-brand-charcoal py-12 text-white">
         <div className="section-shell grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
-            <h2 className="text-3xl font-black tracking-[0.18em]">DEBRODER</h2>
+            <Logo variant="primary-white" size="md" />
             <p className="mt-3 text-sm font-semibold text-white/70">
               Kaos Polos Import & Sablon
             </p>

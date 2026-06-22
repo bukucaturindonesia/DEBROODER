@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Logo } from "@/components/Logo";
 import { createSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
 
 export function AdminLogin() {
@@ -60,9 +61,7 @@ export function AdminLogin() {
           className="w-full rounded-[32px] border border-brand-softGray bg-white p-6 shadow-soft sm:p-8"
         >
           <div className="flex items-center gap-3">
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-brand-green text-sm font-black text-white">
-              DB
-            </span>
+            <Logo variant="symbol-black" size="md" />
             <div>
               <p className="text-sm font-black tracking-[0.22em] text-brand-green">
                 DEBRODER

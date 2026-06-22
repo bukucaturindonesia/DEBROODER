@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 import type { PublicContent } from "@/lib/types";
 import { emailHref, instagramHref, whatsappHref } from "@/lib/url";
 
@@ -15,7 +16,7 @@ export function PublicFooter({ content }: { content: PublicContent }) {
     <footer className="bg-brand-charcoal py-12 text-white">
       <div className="section-shell grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
         <div>
-          <h2 className="text-3xl font-black tracking-[0.18em]">DEBRODER</h2>
+          <Logo variant="primary-white" size="md" />
           <p className="mt-3 text-sm font-semibold text-white/70">
             Kaos Polos Import & Sablon
           </p>

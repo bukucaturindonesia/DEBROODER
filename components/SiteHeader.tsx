@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { Logo } from "@/components/Logo";
 import { contactLinks } from "@/lib/contact";
 
 const navItems = [
@@ -131,17 +132,12 @@ export function SiteHeader() {
         aria-label="Navigasi utama"
       >
         <Link href="/" className="group flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-green text-sm font-black tracking-tight text-white transition group-hover:scale-105">
-            DB
-          </span>
-          <span className="leading-none">
-            <span className="block text-base font-black tracking-[0.2em] text-brand-green">
-              DEBRODER
-            </span>
-            <span className="mt-2 block text-xs font-bold text-brand-charcoal/60">
-              Kaos Polos Import & Sablon
-            </span>
-          </span>
+          <Logo
+            variant="symbol-black"
+            size="md"
+            showText
+            className="transition group-hover:scale-[1.02]"
+          />
         </Link>
 
         <div className="hidden items-center gap-6 xl:flex">

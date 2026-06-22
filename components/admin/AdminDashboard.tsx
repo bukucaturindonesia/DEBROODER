@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Logo } from "@/components/Logo";
 import { createSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
 
 type FieldType = "text" | "textarea" | "number" | "boolean" | "list";
@@ -341,9 +342,7 @@ export function AdminDashboard() {
       <div className="grid lg:grid-cols-[280px_1fr]">
         <aside className="hidden min-h-screen border-r border-brand-softGray bg-white p-5 lg:block">
           <div className="flex items-center gap-3">
-            <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-green text-sm font-black text-white">
-              DB
-            </span>
+            <Logo variant="symbol-black" size="sm" />
             <div>
               <p className="font-black tracking-[0.18em] text-brand-green">
                 DEBRODER
