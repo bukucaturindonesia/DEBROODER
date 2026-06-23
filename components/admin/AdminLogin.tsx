@@ -3,7 +3,32 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Logo } from "@/components/Logo";
-import { createSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
+import {
+  createSupabaseClient,
+  getSupabaseEnvStatus,
+  isSupabaseConfigured
+} from "@/lib/supabase";
+
+function isMissingProfilesTable(errorMessage = "", errorCode?: string) {
+  const normalizedMessage = errorMessage.toLowerCase();
+  return (
+    errorCode === "42P01" ||
+    (normalizedMessage.includes("profiles") &&
+      normalizedMessage.includes("does not exist"))
+  );
+}
+
+function configMessage(status: ReturnType<typeof getSupabaseEnvStatus>) {
+  if (status.usesRestEndpoint) {
+    return "Supabase belum aktif. Gunakan Project URL, bukan URL /rest/v1.";
+  }
+
+  if (!status.anonKeyValid && status.hasAnonKey) {
+    return "Supabase belum aktif. Gunakan anon/public/publishable key, bukan secret key.";
+  }
+
+  return "Supabase belum aktif. Periksa Environment Variables.";
+}
 
 export function AdminLogin() {
   const router = useRouter();
@@ -11,6 +36,7 @@ export function AdminLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const supabaseStatus = getSupabaseEnvStatus();
   const configured = isSupabaseConfigured();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -19,7 +45,7 @@ export function AdminLogin() {
 
     const supabase = createSupabaseClient();
     if (!supabase) {
-      setError("Supabase belum dikonfigurasi.");
+      setError(configMessage(supabaseStatus));
       return;
     }
 
@@ -32,20 +58,31 @@ export function AdminLogin() {
 
     if (loginError || !data.user) {
       setIsLoading(false);
-      setError(loginError?.message || "Login gagal.");
+      setError("Email atau password salah.");
       return;
     }
 
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("role")
       .eq("id", data.user.id)
       .maybeSingle();
 
+    if (profileError) {
+      await supabase.auth.signOut();
+      setIsLoading(false);
+      setError(
+        isMissingProfilesTable(profileError.message, profileError.code)
+          ? "Tabel profiles belum tersedia. Jalankan schema.sql terlebih dahulu."
+          : "Supabase aktif, tetapi database schema belum dijalankan."
+      );
+      return;
+    }
+
     if (profile?.role !== "superadmin") {
       await supabase.auth.signOut();
       setIsLoading(false);
-      setError("Akses ditolak. Akun ini bukan superadmin.");
+      setError("Akses ditolak. Akun ini belum memiliki role superadmin.");
       return;
     }
 
@@ -79,8 +116,23 @@ export function AdminLogin() {
 
           {!configured ? (
             <div className="mt-5 rounded-2xl bg-brand-offWhite p-4 text-sm font-semibold leading-6 text-brand-charcoal/70">
-              Supabase belum aktif. Isi `NEXT_PUBLIC_SUPABASE_URL` dan
-              `NEXT_PUBLIC_SUPABASE_ANON_KEY` untuk memakai login admin.
+              <p>{configMessage(supabaseStatus)}</p>
+              <div className="mt-4 rounded-2xl bg-white p-4">
+                <p className="font-black text-brand-green">Supabase Status:</p>
+                <div className="mt-3 grid gap-1">
+                  <p>URL tersedia: {supabaseStatus.hasUrl ? "Ya" : "Tidak"}</p>
+                  <p>
+                    Anon Key tersedia:{" "}
+                    {supabaseStatus.hasAnonKey ? "Ya" : "Tidak"}
+                  </p>
+                  <p>URL valid: {supabaseStatus.urlValid ? "Ya" : "Tidak"}</p>
+                  <p>
+                    Anon Key valid:{" "}
+                    {supabaseStatus.anonKeyValid ? "Ya" : "Tidak"}
+                  </p>
+                  <p>Environment: {supabaseStatus.environment}</p>
+                </div>
+              </div>
             </div>
           ) : null}
 

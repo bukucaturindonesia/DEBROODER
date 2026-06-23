@@ -20,19 +20,26 @@ pnpm dev
 Salin `.env.example` menjadi `.env.local`, lalu isi:
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_URL=ISI_SUPABASE_PROJECT_URL_DI_SINI
+NEXT_PUBLIC_SUPABASE_ANON_KEY=ISI_SUPABASE_ANON_PUBLIC_KEY_DI_SINI
+```
+
+Gunakan Project URL Supabase, bukan URL REST endpoint. Contoh benar:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://ncpzxhoiiaesedhvhnho.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=ISI_SUPABASE_PUBLISHABLE_KEY
 ```
 
 Website publik tetap berjalan memakai fallback data statis jika Supabase belum dikonfigurasi atau data Supabase kosong.
 
 ## 3. Environment di Vercel
 
-Tambahkan environment variables yang sama di Vercel:
+Tambahkan environment variables yang sama di Vercel untuk Production, Preview, dan Development. Khusus website online, environment variables wajib ada di Production. Jika hanya diisi untuk Development, deploy Production tetap membaca Supabase sebagai belum aktif.
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_URL=ISI_SUPABASE_PROJECT_URL_DI_SINI
+NEXT_PUBLIC_SUPABASE_ANON_KEY=ISI_SUPABASE_ANON_PUBLIC_KEY_DI_SINI
 ```
 
 ## 4. Menjalankan Schema SQL
@@ -48,20 +55,29 @@ Jalankan isi `supabase/seed.sql` di SQL Editor setelah schema selesai dibuat.
 ## 6. Membuat User Superadmin
 
 1. Buat user melalui Supabase Auth.
-2. Ambil UUID user dari tabel `auth.users`.
-3. Jalankan SQL berikut untuk membuat atau mengubah role user menjadi `superadmin`:
-
-```sql
-insert into public.profiles (id, email, role)
-values ('USER_UUID_DARI_AUTH', 'email@domain.com', 'superadmin')
-on conflict (id) do update set role = 'superadmin';
-```
+2. Buka `supabase/make-superadmin.sql`.
+3. Ganti `GANTI_DENGAN_EMAIL_ADMIN` dengan email user admin.
+4. Jalankan SQL tersebut di Supabase SQL Editor untuk membuat atau mengubah role user menjadi `superadmin`.
 
 Login admin tersedia di `/admin/login`. Dashboard tersedia di `/admin/dashboard` dan hanya bisa diakses user dengan role `superadmin`.
 
 ## 7. Deploy Ulang ke Vercel
 
-Setelah schema, seed, dan env Vercel siap, redeploy project dari dashboard Vercel atau push commit baru ke repository.
+Setelah schema, seed, role superadmin, dan env Vercel siap, pilih redeploy without cache dari dashboard Vercel atau push commit baru ke repository.
+
+## Langkah Aktivasi Supabase
+
+1. Buat project Supabase.
+2. Ambil Project URL dari Project Settings -> API.
+3. Ambil anon/public/publishable key.
+4. Isi `.env.local`.
+5. Tambahkan Environment Variables di Vercel untuk Production, Preview, dan Development.
+6. Redeploy without cache.
+7. Jalankan `supabase/schema.sql`.
+8. Jalankan `supabase/seed.sql`.
+9. Buat user admin di Supabase Authentication.
+10. Jalankan `supabase/make-superadmin.sql`.
+11. Login melalui `/admin/login`.
 
 ## Build Production
 

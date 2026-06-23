@@ -2,32 +2,55 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
-
-const placeholderPattern = /^ISI_/i;
+const placeholderPattern = /^ISI_/;
 
 function hasValidSupabaseEnv() {
-  if (!supabaseUrl || !supabaseAnonKey) {
-    return false;
-  }
+  return getSupabaseEnvStatus().configured;
+}
 
+function hasPublicAnonKey(value?: string) {
+  if (!value || placeholderPattern.test(value)) return false;
+
+  const lowerValue = value.toLowerCase();
   if (
-    placeholderPattern.test(supabaseUrl) ||
-    placeholderPattern.test(supabaseAnonKey)
+    lowerValue.startsWith("sb_secret_") ||
+    lowerValue.startsWith("service_role") ||
+    lowerValue.includes("service_role")
   ) {
     return false;
   }
 
-  // Supabase URL harus base URL, bukan /rest/v1
-  if (supabaseUrl.includes("/rest/v1")) {
-    return false;
-  }
+  return true;
+}
+
+function hasValidProjectUrl(value?: string) {
+  if (!value || placeholderPattern.test(value)) return false;
+  if (value.includes("/rest/v1")) return false;
 
   try {
-    const url = new URL(supabaseUrl);
+    const url = new URL(value);
     return url.protocol === "http:" || url.protocol === "https:";
   } catch {
     return false;
   }
+}
+
+export function getSupabaseEnvStatus() {
+  const hasUrl = Boolean(supabaseUrl);
+  const hasAnonKey = Boolean(supabaseAnonKey);
+  const urlValid = hasValidProjectUrl(supabaseUrl);
+  const anonKeyValid = hasPublicAnonKey(supabaseAnonKey);
+
+  return {
+    hasUrl,
+    hasAnonKey,
+    urlValid,
+    anonKeyValid,
+    usesRestEndpoint: Boolean(supabaseUrl?.includes("/rest/v1")),
+    environment:
+      process.env.NODE_ENV === "production" ? "Production" : "Development",
+    configured: hasUrl && hasAnonKey && urlValid && anonKeyValid
+  };
 }
 
 export function isSupabaseConfigured() {
@@ -50,7 +73,7 @@ export function createSupabaseServerClient(): SupabaseClient | null {
   return createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: false,
-      persistSession: false,
-    },
+      persistSession: false
+    }
   });
 }
