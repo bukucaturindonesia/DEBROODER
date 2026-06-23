@@ -1,8 +1,9 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const placeholderPattern = /^ISI_/;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+
+const placeholderPattern = /^ISI_/i;
 
 function hasValidSupabaseEnv() {
   if (!supabaseUrl || !supabaseAnonKey) {
@@ -13,6 +14,11 @@ function hasValidSupabaseEnv() {
     placeholderPattern.test(supabaseUrl) ||
     placeholderPattern.test(supabaseAnonKey)
   ) {
+    return false;
+  }
+
+  // Supabase URL harus base URL, bukan /rest/v1
+  if (supabaseUrl.includes("/rest/v1")) {
     return false;
   }
 
@@ -29,22 +35,22 @@ export function isSupabaseConfigured() {
 }
 
 export function createSupabaseClient(): SupabaseClient | null {
-  if (!hasValidSupabaseEnv()) {
+  if (!hasValidSupabaseEnv() || !supabaseUrl || !supabaseAnonKey) {
     return null;
   }
 
-  return createClient(supabaseUrl!, supabaseAnonKey!);
+  return createClient(supabaseUrl, supabaseAnonKey);
 }
 
 export function createSupabaseServerClient(): SupabaseClient | null {
-  if (!hasValidSupabaseEnv()) {
+  if (!hasValidSupabaseEnv() || !supabaseUrl || !supabaseAnonKey) {
     return null;
   }
 
-  return createClient(supabaseUrl!, supabaseAnonKey!, {
+  return createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: false,
-      persistSession: false
-    }
+      persistSession: false,
+    },
   });
 }
