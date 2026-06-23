@@ -226,6 +226,7 @@ export const fallbackTestimonials: Testimonial[] = [
     sumber: "Custom jersey",
     isi_testimoni:
       "Pesanan jersey rapi, komunikasinya jelas, dan hasilnya sesuai kebutuhan tim.",
+    urutan: 1,
     status_aktif: true
   },
   {
@@ -233,6 +234,7 @@ export const fallbackTestimonials: Testimonial[] = [
     sumber: "Sablon DTF",
     isi_testimoni:
       "DEBRODER membantu produksi kaos custom kami dengan proses yang mudah dipantau.",
+    urutan: 2,
     status_aktif: true
   },
   {
@@ -240,6 +242,7 @@ export const fallbackTestimonials: Testimonial[] = [
     sumber: "Paket apparel",
     isi_testimoni:
       "Pilihan kaos dan sablon cocok untuk kebutuhan event dengan jumlah banyak.",
+    urutan: 3,
     status_aktif: true
   }
 ];

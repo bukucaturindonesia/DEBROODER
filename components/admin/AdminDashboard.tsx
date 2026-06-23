@@ -116,10 +116,12 @@ const tableConfigs: TableConfig[] = [
     label: "Kelola Testimoni",
     table: "testimonials",
     description: "Testimoni pelanggan yang tampil di landing page.",
+    orderField: "urutan",
     fields: [
       { name: "nama", label: "Nama", type: "text" },
       { name: "sumber", label: "Sumber", type: "text" },
       { name: "isi_testimoni", label: "Isi Testimoni", type: "textarea" },
+      { name: "urutan", label: "Urutan", type: "number" },
       { name: "status_aktif", label: "Aktif", type: "boolean" }
     ]
   },
@@ -144,7 +146,7 @@ const tableConfigs: TableConfig[] = [
 function emptyForm(fields: FieldConfig[]) {
   return fields.reduce<AdminRow>((acc, field) => {
     if (field.type === "boolean") acc[field.name] = true;
-    else if (field.type === "number") acc[field.name] = 1;
+    else if (field.type === "number") acc[field.name] = 0;
     else if (field.type === "list") acc[field.name] = [];
     else acc[field.name] = "";
     return acc;
@@ -249,7 +251,10 @@ export function AdminDashboard() {
         return { ...current, [field.name]: Boolean(value) };
       }
       if (field.type === "number") {
-        return { ...current, [field.name]: Number(value) || 0 };
+        if (typeof value !== "string" || value.trim() === "") {
+          return { ...current, [field.name]: 0 };
+        }
+        return { ...current, [field.name]: value };
       }
       if (field.type === "list" && typeof value === "string") {
         return {
@@ -262,6 +267,44 @@ export function AdminDashboard() {
       }
       return { ...current, [field.name]: value };
     });
+  }
+
+  function preparePayload() {
+    const payload: AdminRow = { ...form };
+
+    for (const field of activeConfig.fields) {
+      if (field.type !== "number") continue;
+
+      const value = payload[field.name];
+      if (value === "" || value === null || value === undefined) {
+        payload[field.name] = 0;
+        continue;
+      }
+
+      const numberValue =
+        typeof value === "number" ? value : Number(value.toString().trim());
+
+      if (Number.isNaN(numberValue)) {
+        return {
+          error: `${field.label} wajib berupa angka.`,
+          payload: null
+        };
+      }
+
+      if (numberValue < 0) {
+        return {
+          error: `${field.label} minimal 0.`,
+          payload: null
+        };
+      }
+
+      payload[field.name] = numberValue;
+    }
+
+    return {
+      error: null,
+      payload
+    };
   }
 
   function startEdit(row: AdminRow) {
@@ -280,8 +323,17 @@ export function AdminDashboard() {
     const supabase = createSupabaseClient();
     if (!supabase || !activeConfig.table) return;
 
+    const prepared = preparePayload();
+    if (prepared.error || !prepared.payload) {
+      setStatus(prepared.error || "Data belum valid.");
+      return;
+    }
+
     setIsLoading(true);
-    const payload = { ...form, updated_at: new Date().toISOString() };
+    const payload = {
+      ...prepared.payload,
+      updated_at: new Date().toISOString()
+    };
     const result = editingId
       ? await supabase
           .from(activeConfig.table)
@@ -479,6 +531,8 @@ export function AdminDashboard() {
                       ) : (
                         <input
                           type={field.type === "number" ? "number" : "text"}
+                          min={field.type === "number" ? 0 : undefined}
+                          step={field.type === "number" ? 1 : undefined}
                           value={valueToText(form[field.name])}
                           onChange={(event) =>
                             updateField(field, event.target.value)

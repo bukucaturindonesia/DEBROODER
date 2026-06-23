@@ -40,7 +40,7 @@ create table if not exists public.products (
   badge text not null default '',
   gambar_url text not null default '/images/debroder-hero.png',
   whatsapp_link text not null default '',
-  urutan integer not null default 1,
+  urutan integer not null default 0,
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -52,7 +52,7 @@ create table if not exists public.service_categories (
   deskripsi text not null,
   gambar_url text not null default '/images/debroder-hero.png',
   link_slug text not null default 'koleksi',
-  urutan integer not null default 1,
+  urutan integer not null default 0,
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -66,7 +66,7 @@ create table if not exists public.stores (
   whatsapp text not null,
   whatsapp_link text not null,
   maps_link text not null,
-  urutan integer not null default 1,
+  urutan integer not null default 0,
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -82,7 +82,7 @@ create table if not exists public.hero_banners (
   cta_secondary_text text not null,
   cta_secondary_link text not null,
   image_url text not null default '/images/debroder-hero.png',
-  urutan integer not null default 1,
+  urutan integer not null default 0,
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -104,6 +104,7 @@ create table if not exists public.testimonials (
   nama text not null,
   sumber text not null,
   isi_testimoni text not null,
+  urutan integer not null default 0,
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -125,11 +126,20 @@ create table if not exists public.contact_settings (
 
 alter table if exists public.hero_banners
   add column if not exists badge text not null default 'KAOS POLOS IMPORT & SABLON',
-  add column if not exists urutan integer not null default 1;
+  add column if not exists urutan integer not null default 0;
 
 alter table if exists public.contact_settings
   add column if not exists whatsapp_link text not null default 'https://wa.me/6285355333364',
   add column if not exists facebook text not null default 'https://www.facebook.com/debroderapparel/';
+
+alter table if exists public.testimonials
+  add column if not exists urutan integer not null default 0;
+
+alter table if exists public.products alter column urutan set default 0;
+alter table if exists public.service_categories alter column urutan set default 0;
+alter table if exists public.stores alter column urutan set default 0;
+alter table if exists public.hero_banners alter column urutan set default 0;
+alter table if exists public.testimonials alter column urutan set default 0;
 
 drop trigger if exists set_products_updated_at on public.products;
 create trigger set_products_updated_at

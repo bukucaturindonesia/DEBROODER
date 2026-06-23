@@ -69,6 +69,7 @@ export type Testimonial = {
   nama: string;
   sumber: string;
   isi_testimoni: string;
+  urutan?: number;
   status_aktif: boolean;
   created_at?: string;
   updated_at?: string;

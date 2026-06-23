@@ -47,11 +47,11 @@ Dengan pengalaman dan komitmen terhadap kualitas, DEBRODER telah dipercaya oleh 
 on conflict do nothing;
 
 insert into public.testimonials
-  (nama, sumber, isi_testimoni, status_aktif)
+  (nama, sumber, isi_testimoni, urutan, status_aktif)
 values
-  ('Komunitas Olahraga Makassar', 'Custom jersey', 'Pesanan jersey rapi, komunikasinya jelas, dan hasilnya sesuai kebutuhan tim.', true),
-  ('Brand Lokal Indonesia Timur', 'Sablon DTF', 'DEBRODER membantu produksi kaos custom kami dengan proses yang mudah dipantau.', true),
-  ('Event Organizer', 'Paket apparel', 'Pilihan kaos dan sablon cocok untuk kebutuhan event dengan jumlah banyak.', true)
+  ('Komunitas Olahraga Makassar', 'Custom jersey', 'Pesanan jersey rapi, komunikasinya jelas, dan hasilnya sesuai kebutuhan tim.', 1, true),
+  ('Brand Lokal Indonesia Timur', 'Sablon DTF', 'DEBRODER membantu produksi kaos custom kami dengan proses yang mudah dipantau.', 2, true),
+  ('Event Organizer', 'Paket apparel', 'Pilihan kaos dan sablon cocok untuk kebutuhan event dengan jumlah banyak.', 3, true)
 on conflict do nothing;
 
 insert into public.contact_settings
