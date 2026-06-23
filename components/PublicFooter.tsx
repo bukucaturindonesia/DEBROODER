@@ -23,14 +23,14 @@ export function PublicFooter({ content }: { content: PublicContent }) {
           </p>
           <Link
             href="/admin/login"
-            className="mt-6 inline-flex text-xs font-semibold text-white/35 transition hover:text-white"
+            className="mt-6 inline-flex text-xs font-semibold text-white/40 transition hover:text-white"
           >
             Admin
           </Link>
         </div>
 
         <div>
-          <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/60">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
             Menu
           </h3>
           <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
@@ -53,7 +53,7 @@ export function PublicFooter({ content }: { content: PublicContent }) {
         </div>
 
         <div>
-          <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/60">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
             Layanan
           </h3>
           <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
@@ -70,7 +70,7 @@ export function PublicFooter({ content }: { content: PublicContent }) {
         </div>
 
         <div>
-          <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/60">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
             Store
           </h3>
           <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
@@ -80,7 +80,7 @@ export function PublicFooter({ content }: { content: PublicContent }) {
                 href={store.maps_link}
                 className="hover:text-white"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 {store.nama_store.replace("STORE ", "Store ")}
               </a>
@@ -89,7 +89,7 @@ export function PublicFooter({ content }: { content: PublicContent }) {
         </div>
 
         <div>
-          <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/60">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
             Kontak
           </h3>
           <SocialIconLinks

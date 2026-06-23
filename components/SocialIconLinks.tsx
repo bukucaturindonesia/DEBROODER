@@ -75,7 +75,7 @@ export function SocialIconLinks({
 }: SocialIconLinksProps) {
   const colorClass =
     tone === "light"
-      ? "border-white/15 bg-white/10 text-white hover:bg-white hover:text-brand-green"
+      ? "border-white/20 bg-white/10 text-white hover:bg-white hover:text-brand-green"
       : "border-brand-softGray bg-white text-brand-green hover:border-brand-green hover:bg-brand-offWhite";
   const baseClass = `grid h-11 w-11 place-items-center rounded-full border transition ${colorClass}`;
 

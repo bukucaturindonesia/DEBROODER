@@ -18,9 +18,9 @@ const logoSrc: Record<LogoVariant, string> = {
 };
 
 const symbolSize: Record<LogoSize, number> = {
-  sm: 40,
-  md: 48,
-  lg: 56
+  sm: 34,
+  md: 40,
+  lg: 52
 };
 
 const primarySize: Record<LogoSize, { width: number; height: number }> = {
@@ -49,7 +49,7 @@ export function Logo({
     : primarySize[size];
   const imageClass = isSymbol
     ? size === "md"
-      ? "h-10 w-10 shrink-0 object-contain sm:h-12 sm:w-12"
+      ? "h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10"
       : "h-auto shrink-0 object-contain"
     : "h-auto shrink-0 object-contain";
 
@@ -65,10 +65,10 @@ export function Logo({
       />
       {showText ? (
         <span className="leading-none">
-          <span className="block text-base font-black tracking-[0.2em] text-brand-green">
+          <span className="block text-sm font-bold tracking-[0.18em] text-brand-green sm:text-[15px]">
             DEBRODER
           </span>
-          <span className="mt-2 block text-xs font-bold text-brand-charcoal/60">
+          <span className="mt-1 hidden text-[11px] font-medium text-brand-charcoal/55 sm:block">
             Kaos Polos Import & Sablon
           </span>
         </span>

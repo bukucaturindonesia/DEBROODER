@@ -2,7 +2,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { HeroBanner } from "@/lib/types";
 import { normalizeWhatsappLink } from "@/lib/url";
 
@@ -21,7 +21,7 @@ function HeroImage({
   alt: string;
   priority?: boolean;
 }) {
-  const className = "h-full min-h-[260px] w-full object-cover";
+  const className = "h-full min-h-[230px] w-full object-cover";
 
   if (src.startsWith("/")) {
     return (
@@ -53,8 +53,8 @@ function HeroLink({
   const isExternal = safeHref.startsWith("http");
   const className =
     variant === "primary"
-      ? "inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-brand-deep"
-      : "inline-flex min-h-12 items-center justify-center rounded-full border border-brand-softGray bg-white px-7 py-4 text-sm font-black text-brand-green transition hover:-translate-y-0.5 hover:border-brand-green";
+      ? "inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-semibold text-white transition hover:bg-brand-deep"
+      : "inline-flex min-h-12 items-center justify-center rounded-full border border-brand-softGray bg-white px-7 py-4 text-sm font-semibold text-brand-green transition hover:border-brand-green";
 
   return (
     <a
@@ -74,10 +74,27 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
     [heroes]
   );
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isHoverPaused, setIsHoverPaused] = useState(false);
+  const [isManualPaused, setIsManualPaused] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const manualPauseTimer = useRef<number | null>(null);
   const total = slides.length;
   const activeSlide = slides[activeIndex] || slides[0];
+  const isPaused = isHoverPaused || isManualPaused || prefersReducedMotion;
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotionPreference = () =>
+      setPrefersReducedMotion(mediaQuery.matches);
+
+    updateMotionPreference();
+    mediaQuery.addEventListener("change", updateMotionPreference);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateMotionPreference);
+    };
+  }, []);
 
   useEffect(() => {
     if (total <= 1 || isPaused) return;
@@ -90,6 +107,14 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
   }, [isPaused, total]);
 
   useEffect(() => {
+    return () => {
+      if (manualPauseTimer.current) {
+        window.clearTimeout(manualPauseTimer.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     if (activeIndex >= total) {
       setActiveIndex(0);
     }
@@ -97,16 +122,30 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
 
   if (!activeSlide) return null;
 
+  function pauseAfterInteraction() {
+    if (manualPauseTimer.current) {
+      window.clearTimeout(manualPauseTimer.current);
+    }
+
+    setIsManualPaused(true);
+    manualPauseTimer.current = window.setTimeout(() => {
+      setIsManualPaused(false);
+    }, 4800);
+  }
+
   function goTo(index: number) {
     setActiveIndex(index);
+    pauseAfterInteraction();
   }
 
   function goNext() {
     setActiveIndex((current) => (current + 1) % total);
+    pauseAfterInteraction();
   }
 
   function goPrev() {
     setActiveIndex((current) => (current - 1 + total) % total);
+    pauseAfterInteraction();
   }
 
   function handleTouchEnd(x: number) {
@@ -121,91 +160,105 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
   }
 
   return (
-    <section id="beranda" className="bg-brand-offWhite py-5 sm:py-8">
+    <section id="beranda" className="bg-brand-offWhite pb-5 pt-4 sm:pb-8 sm:pt-6">
       <div className="section-shell">
         <div
-          className="relative overflow-hidden rounded-[32px] border border-brand-softGray bg-white shadow-soft"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
+          className="relative min-h-[690px] overflow-hidden rounded-[30px] border border-brand-softGray bg-white shadow-soft sm:min-h-[700px] lg:min-h-[530px]"
+          onMouseEnter={() => setIsHoverPaused(true)}
+          onMouseLeave={() => setIsHoverPaused(false)}
           onTouchStart={(event) => setTouchStart(event.touches[0].clientX)}
           onTouchEnd={(event) =>
             handleTouchEnd(event.changedTouches[0].clientX)
           }
         >
-          <div className="grid lg:grid-cols-[0.94fr_1.06fr]">
-            <div className="order-1 min-h-[260px] bg-brand-offWhite lg:order-2">
-              <HeroImage
-                src={activeSlide.image_url || "/images/debroder-hero.png"}
-                alt={activeSlide.headline}
-                priority={activeIndex === 0}
-              />
-            </div>
+          {slides.map((slide, index) => {
+            const isActive = index === activeIndex;
 
-            <div className="order-2 flex flex-col justify-center px-6 py-8 sm:px-10 lg:order-1 lg:px-12 lg:py-12">
-              <p className="inline-flex w-fit rounded-full bg-brand-green px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-white">
-                {activeSlide.badge || fallbackBadges[activeIndex] || "DEBRODER"}
-              </p>
-              <h1 className="mt-6 max-w-2xl text-4xl font-black leading-tight tracking-tight text-brand-charcoal sm:text-6xl">
-                {activeSlide.headline}
-              </h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8">
-                {activeSlide.subheadline}
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <HeroLink
-                  href={activeSlide.cta_primary_link}
-                  variant="primary"
-                >
-                  {activeSlide.cta_primary_text}
-                </HeroLink>
-                <HeroLink
-                  href={activeSlide.cta_secondary_link || "/koleksi"}
-                  variant="secondary"
-                >
-                  {activeSlide.cta_secondary_text || "Lihat Koleksi"}
-                </HeroLink>
-              </div>
-
-              {total > 1 ? (
-                <div className="mt-8 flex items-center justify-between gap-4">
-                  <div className="flex gap-2" aria-label="Slider indicator">
-                    {slides.map((slide, index) => (
-                      <button
-                        key={`${slide.headline}-${index}`}
-                        type="button"
-                        className={`h-2.5 rounded-full transition ${
-                          index === activeIndex
-                            ? "w-8 bg-brand-green"
-                            : "w-2.5 bg-brand-softGray hover:bg-brand-green/40"
-                        }`}
-                        aria-label={`Tampilkan banner ${index + 1}`}
-                        aria-current={index === activeIndex}
-                        onClick={() => goTo(index)}
-                      />
-                    ))}
+            return (
+              <div
+                key={`${slide.headline}-${index}`}
+                className={`absolute inset-0 transition-opacity duration-700 ease-out ${
+                  isActive
+                    ? "pointer-events-auto opacity-100"
+                    : "pointer-events-none opacity-0"
+                }`}
+                aria-hidden={!isActive}
+              >
+                <div className="grid h-full grid-rows-[minmax(390px,auto)_1fr] lg:grid-cols-[0.94fr_1.06fr] lg:grid-rows-none">
+                  <div className="flex flex-col justify-center px-6 py-7 pb-14 sm:px-10 lg:px-12 lg:py-12">
+                    <p className="inline-flex w-fit rounded-full bg-brand-green px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+                      {slide.badge || fallbackBadges[index] || "DEBRODER"}
+                    </p>
+                    <h1 className="mt-5 max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-brand-charcoal sm:text-5xl lg:text-6xl">
+                      {slide.headline}
+                    </h1>
+                    <p className="mt-5 max-w-2xl text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8">
+                      {slide.subheadline}
+                    </p>
+                    <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                      <HeroLink href={slide.cta_primary_link} variant="primary">
+                        {slide.cta_primary_text}
+                      </HeroLink>
+                      <HeroLink
+                        href={slide.cta_secondary_link || "/koleksi"}
+                        variant="secondary"
+                      >
+                        {slide.cta_secondary_text || "Lihat Koleksi"}
+                      </HeroLink>
+                    </div>
                   </div>
-                  <div className="hidden gap-2 md:flex">
-                    <button
-                      type="button"
-                      className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray text-lg font-black text-brand-green transition hover:border-brand-green"
-                      aria-label="Banner sebelumnya"
-                      onClick={goPrev}
-                    >
-                      {"<"}
-                    </button>
-                    <button
-                      type="button"
-                      className="grid h-10 w-10 place-items-center rounded-full bg-brand-green text-lg font-black text-white transition hover:bg-brand-deep"
-                      aria-label="Banner berikutnya"
-                      onClick={goNext}
-                    >
-                      {">"}
-                    </button>
+
+                  <div className="min-h-[240px] bg-brand-offWhite lg:min-h-full">
+                    <HeroImage
+                      src={slide.image_url || "/images/debroder-hero.png"}
+                      alt={slide.headline}
+                      priority={index === 0}
+                    />
                   </div>
                 </div>
-              ) : null}
-            </div>
-          </div>
+              </div>
+            );
+          })}
+
+          {total > 1 ? (
+            <>
+              <button
+                type="button"
+                className="absolute left-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-brand-softGray bg-white/95 text-lg font-semibold text-brand-green shadow-sm transition hover:border-brand-green hover:bg-white md:grid"
+                aria-label="Banner sebelumnya"
+                onClick={goPrev}
+              >
+                {"<"}
+              </button>
+              <button
+                type="button"
+                className="absolute right-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-brand-softGray bg-white/95 text-lg font-semibold text-brand-green shadow-sm transition hover:border-brand-green hover:bg-white md:grid"
+                aria-label="Banner berikutnya"
+                onClick={goNext}
+              >
+                {">"}
+              </button>
+              <div
+                className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2 rounded-full bg-white/90 px-3 py-2 backdrop-blur"
+                aria-label="Slider indicator"
+              >
+                {slides.map((slide, index) => (
+                  <button
+                    key={`${slide.headline}-${index}`}
+                    type="button"
+                    className={`h-2.5 rounded-full transition ${
+                      index === activeIndex
+                        ? "w-8 bg-brand-green"
+                        : "w-2.5 bg-brand-softGray hover:bg-brand-green/40"
+                    }`}
+                    aria-label={`Tampilkan banner ${index + 1}`}
+                    aria-current={index === activeIndex}
+                    onClick={() => goTo(index)}
+                  />
+                ))}
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
     </section>

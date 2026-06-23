@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { HeroSlider } from "@/components/HeroSlider";
 import { Logo } from "@/components/Logo";
+import { PageMotion } from "@/components/PageMotion";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SocialIconLinks } from "@/components/SocialIconLinks";
 import { getPublicContent } from "@/lib/public-data";
@@ -112,11 +113,11 @@ function SectionHeading({
   return (
     <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
       {label ? (
-        <p className="text-sm font-black uppercase tracking-[0.24em] text-brand-green">
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-green">
           {label}
         </p>
       ) : null}
-      <h2 className="mt-4 text-3xl font-black tracking-tight text-brand-charcoal sm:text-5xl">
+      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-brand-charcoal sm:text-5xl">
         {title}
       </h2>
       {description ? (
@@ -164,22 +165,19 @@ function ProductVisual({ label, imageUrl }: { label: string; imageUrl: string })
         alt={label}
         className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
       />
-      <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-white/90 px-4 py-3 text-sm font-black text-brand-green backdrop-blur">
-        {label}
-      </div>
     </div>
   );
 }
 
 function CategoryCard({ service }: { service: ServiceCategory }) {
   return (
-    <article className="group flex min-w-[285px] flex-col rounded-[28px] border border-brand-softGray bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
+    <article className="group flex min-w-[285px] flex-col rounded-[26px] border border-brand-softGray bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
       <ProductVisual
         label={service.nama_kategori}
         imageUrl={service.gambar_url || "/images/debroder-hero.png"}
       />
       <div className="flex flex-1 flex-col p-2 pt-5">
-        <h3 className="text-2xl font-black tracking-tight">
+        <h3 className="text-2xl font-semibold tracking-tight">
           {service.nama_kategori}
         </h3>
         <p className="mt-3 flex-1 text-sm leading-6 text-brand-charcoal/70">
@@ -187,7 +185,7 @@ function CategoryCard({ service }: { service: ServiceCategory }) {
         </p>
         <Link
           href={sectionPath(service.link_slug || "koleksi")}
-          className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-black text-brand-green transition hover:border-brand-green"
+          className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-semibold text-brand-green transition hover:border-brand-green"
         >
           Lihat Detail
         </Link>
@@ -198,22 +196,22 @@ function CategoryCard({ service }: { service: ServiceCategory }) {
 
 function ProductCard({ product }: { product: Product }) {
   return (
-    <article className="group min-w-[285px] rounded-[28px] border border-brand-softGray bg-brand-offWhite p-4 transition hover:-translate-y-1 hover:shadow-soft">
+    <article className="group min-w-[285px] rounded-[26px] border border-brand-softGray bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
       <ProductVisual
         label={product.nama}
         imageUrl={product.gambar_url || "/images/debroder-hero.png"}
       />
       <div className="p-2 pt-5">
-        <span className="rounded-full bg-brand-green px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-white">
+        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-green">
           {product.badge}
         </span>
-        <h3 className="mt-4 text-2xl font-black">{product.nama}</h3>
+        <h3 className="mt-3 text-2xl font-semibold">{product.nama}</h3>
         <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
           {product.deskripsi}
         </p>
         <a
           href={normalizeWhatsappLink(product.whatsapp_link)}
-          className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-black text-brand-green transition hover:bg-brand-green hover:text-white"
+          className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-deep"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -246,10 +244,11 @@ export default async function Home() {
   return (
     <main className="min-h-screen bg-brand-offWhite text-brand-charcoal">
       <SiteHeader />
+      <PageMotion />
 
       <HeroSlider heroes={content.heroes} />
 
-      <section className="bg-brand-offWhite pb-14 pt-4">
+      <section data-reveal className="bg-brand-offWhite pb-14 pt-4">
         <div className="section-shell">
           <div className="no-scrollbar flex gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-3 lg:overflow-visible">
             {benefits.map((benefit) => (
@@ -273,7 +272,9 @@ export default async function Home() {
                     />
                   </svg>
                 </span>
-                <h2 className="mt-5 text-xl font-black">{benefit.title}</h2>
+                <h2 className="mt-5 text-xl font-semibold">
+                  {benefit.title}
+                </h2>
                 <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
                   {benefit.description}
                 </p>
@@ -283,7 +284,40 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="tentang" className="bg-white py-16 sm:py-24">
+      <section data-reveal className="bg-white py-16 sm:py-24">
+        <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-green">
+              Campaign
+            </p>
+            <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-brand-charcoal sm:text-5xl">
+              Produksi Apparel yang Siap Jalan dari Ide sampai Pengiriman
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8">
+              Dari kaos polos, sablon DTF, jersey, sampai kebutuhan partai,
+              DEBRODER membantu pelanggan menyiapkan apparel dengan proses yang
+              jelas, rapi, dan mudah diakses melalui store.
+            </p>
+            <a
+              href={whatsappMainLink}
+              className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-semibold text-white transition hover:bg-brand-deep"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Konsultasi Sekarang
+            </a>
+          </div>
+          <div className="overflow-hidden rounded-[30px] border border-brand-softGray bg-brand-offWhite">
+            <DynamicImage
+              src="/images/debroder-hero.png"
+              alt="Visual apparel DEBRODER"
+              className="aspect-[4/3] w-full object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section data-reveal id="tentang" className="bg-white py-16 sm:py-24">
         <div className="section-shell grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <SectionHeading
             label={content.about.label}
@@ -304,7 +338,7 @@ export default async function Home() {
               {aboutServiceTags.map((service) => (
                 <div
                   key={service}
-                  className="rounded-2xl border border-brand-softGray bg-brand-offWhite px-4 py-3 text-sm font-black text-brand-charcoal"
+                  className="rounded-2xl border border-brand-softGray bg-brand-offWhite px-4 py-3 text-sm font-semibold text-brand-charcoal"
                 >
                   {service}
                 </div>
@@ -314,7 +348,7 @@ export default async function Home() {
               {content.about.highlights.map((fact) => (
                 <div
                   key={fact}
-                  className="rounded-2xl bg-brand-green px-4 py-4 text-sm font-black text-white"
+                  className="rounded-2xl bg-brand-green px-4 py-4 text-sm font-semibold text-white"
                 >
                   {fact}
                 </div>
@@ -324,7 +358,11 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="layanan" className="bg-brand-offWhite py-16 sm:py-24">
+      <section
+        data-reveal
+        id="layanan"
+        className="bg-brand-offWhite py-16 sm:py-24"
+      >
         <div className="section-shell">
           <SectionHeading
             label="Kategori Layanan"
@@ -340,7 +378,11 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="unit-bisnis" className="bg-white py-16 sm:py-24">
+      <section
+        data-reveal
+        id="unit-bisnis"
+        className="bg-white py-16 sm:py-24"
+      >
         <div className="section-shell">
           <SectionHeading
             label="Unit Bisnis"
@@ -355,10 +397,10 @@ export default async function Home() {
                 id={unit.id}
                 className="rounded-[30px] border border-brand-softGray bg-brand-offWhite p-6 shadow-sm sm:p-8"
               >
-                <p className="text-sm font-black uppercase tracking-[0.18em] text-brand-green">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-green">
                   {unit.category}
                 </p>
-                <h3 className="mt-5 text-3xl font-black tracking-tight sm:text-4xl">
+                <h3 className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">
                   {unit.title}
                 </h3>
                 <p className="mt-5 text-base leading-7 text-brand-charcoal/70">
@@ -368,7 +410,7 @@ export default async function Home() {
                   {unit.services.map((service) => (
                     <div
                       key={service}
-                      className="rounded-2xl bg-white px-4 py-3 text-sm font-black"
+                      className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold"
                     >
                       {service}
                     </div>
@@ -376,7 +418,7 @@ export default async function Home() {
                 </div>
                 <a
                   href={unit.key === "apparel" ? apparelLink : expressLink}
-                  className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-brand-deep sm:w-auto"
+                  className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-semibold text-white transition hover:bg-brand-deep sm:w-auto"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -388,7 +430,11 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="store" className="bg-brand-offWhite py-16 sm:py-24">
+      <section
+        data-reveal
+        id="store"
+        className="bg-brand-offWhite py-16 sm:py-24"
+      >
         <div className="section-shell">
           <SectionHeading
             label="Store"
@@ -402,10 +448,10 @@ export default async function Home() {
                 key={store.nama_store}
                 className="flex flex-col rounded-[28px] border border-brand-softGray bg-white p-5 shadow-sm"
               >
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-brand-green">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-green">
                   {store.layanan_utama}
                 </p>
-                <h3 className="mt-5 text-2xl font-black">
+                <h3 className="mt-5 text-2xl font-semibold">
                   {store.nama_store}
                 </h3>
                 <p className="mt-4 flex-1 text-sm leading-6 text-brand-charcoal/70">
@@ -414,7 +460,7 @@ export default async function Home() {
                 <div className="mt-5 grid gap-2">
                   <a
                     href={normalizeWhatsappLink(store.whatsapp_link)}
-                    className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-black text-white transition hover:bg-brand-deep"
+                    className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-deep"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -422,7 +468,7 @@ export default async function Home() {
                   </a>
                   <a
                     href={store.maps_link}
-                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-black text-brand-green transition hover:border-brand-green"
+                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-semibold text-brand-green transition hover:border-brand-green"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -435,7 +481,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="koleksi" className="bg-white py-16 sm:py-24">
+      <section data-reveal id="koleksi" className="bg-white py-16 sm:py-24">
         <div className="section-shell">
           <SectionHeading
             label="Koleksi"
@@ -451,7 +497,11 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="cara-order" className="bg-brand-offWhite py-16 sm:py-24">
+      <section
+        data-reveal
+        id="cara-order"
+        className="bg-brand-offWhite py-16 sm:py-24"
+      >
         <div className="section-shell">
           <SectionHeading
             label="Cara Order"
@@ -465,16 +515,18 @@ export default async function Home() {
                 key={step}
                 className="relative rounded-3xl border border-brand-softGray bg-white p-5"
               >
-                <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-green text-sm font-black text-white">
+                <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-green text-sm font-semibold text-white">
                   {index + 1}
                 </span>
-                <h3 className="mt-8 text-lg font-black leading-6">{step}</h3>
+                <h3 className="mt-8 text-lg font-semibold leading-6">
+                  {step}
+                </h3>
               </article>
             ))}
           </div>
           <a
             href={whatsappMainLink}
-            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-brand-deep"
+            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-semibold text-white transition hover:bg-brand-deep"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -483,7 +535,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-white py-16 sm:py-24">
+      <section data-reveal className="bg-white py-16 sm:py-24">
         <div className="section-shell">
           <SectionHeading
             label="Testimoni"
@@ -496,10 +548,10 @@ export default async function Home() {
                 key={`${testimonial.nama}-${testimonial.sumber}`}
                 className="rounded-[28px] border border-brand-softGray bg-brand-offWhite p-6"
               >
-                <p className="text-sm leading-7 text-brand-charcoal/75">
+                <p className="text-sm leading-7 text-brand-charcoal/70">
                   &ldquo;{testimonial.isi_testimoni}&rdquo;
                 </p>
-                <p className="mt-6 text-base font-black">
+                <p className="mt-6 text-base font-semibold">
                   {testimonial.nama}
                 </p>
                 <p className="mt-1 text-sm font-bold text-brand-green">
@@ -511,13 +563,13 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-brand-offWhite py-16 sm:py-20">
+      <section data-reveal className="bg-brand-offWhite py-16 sm:py-20">
         <div className="section-shell">
           <div className="max-w-3xl">
-            <p className="text-sm font-black uppercase tracking-[0.24em] text-brand-green">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-green">
               Keunggulan
             </p>
-            <h2 className="mt-4 text-3xl font-black tracking-tight text-brand-charcoal sm:text-5xl">
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-brand-charcoal sm:text-5xl">
               Keunggulan DEBRODER
             </h2>
           </div>
@@ -528,10 +580,10 @@ export default async function Home() {
                 key={advantage}
                 className="rounded-3xl border border-brand-softGray bg-white p-5 shadow-sm"
               >
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-green text-xs font-black text-white">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-green text-xs font-semibold text-white">
                   {index + 1}
                 </span>
-                <h3 className="mt-7 text-base font-black leading-6 text-brand-charcoal">
+                <h3 className="mt-7 text-base font-semibold leading-6 text-brand-charcoal">
                   {advantage}
                 </h3>
               </article>
@@ -540,7 +592,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="kontak" className="bg-white py-16 sm:py-24">
+      <section data-reveal id="kontak" className="bg-white py-16 sm:py-24">
         <div className="section-shell">
           <SectionHeading
             label="Kontak"
@@ -550,10 +602,10 @@ export default async function Home() {
 
           <div className="mt-10 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
             <div className="rounded-[30px] border border-brand-softGray bg-brand-offWhite p-6 sm:p-8">
-              <p className="text-sm font-black uppercase tracking-[0.2em] text-brand-green">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-green">
                 Kanal Resmi
               </p>
-              <h3 className="mt-4 text-3xl font-black">
+              <h3 className="mt-4 text-3xl font-semibold">
                 Pilih kanal yang paling nyaman
               </h3>
               <p className="mt-4 text-sm leading-6 text-brand-charcoal/70">
@@ -569,7 +621,7 @@ export default async function Home() {
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 <a
                   href={whatsappMainLink}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-center text-sm font-black text-white transition hover:bg-brand-deep"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-brand-deep"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -577,7 +629,7 @@ export default async function Home() {
                 </a>
                 <a
                   href={apparelLink}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-green bg-white px-5 py-3 text-center text-sm font-black text-brand-green transition hover:bg-brand-green hover:text-white"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-green bg-white px-5 py-3 text-center text-sm font-semibold text-brand-green transition hover:bg-brand-green hover:text-white"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -585,7 +637,7 @@ export default async function Home() {
                 </a>
                 <a
                   href={expressLink}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-green bg-white px-5 py-3 text-center text-sm font-black text-brand-green transition hover:bg-brand-green hover:text-white"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-green bg-white px-5 py-3 text-center text-sm font-semibold text-brand-green transition hover:bg-brand-green hover:text-white"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -595,21 +647,23 @@ export default async function Home() {
             </div>
 
             <div className="rounded-[30px] border border-brand-softGray bg-brand-offWhite p-6 sm:p-8">
-              <h3 className="text-2xl font-black">Chat Store</h3>
+              <h3 className="text-2xl font-semibold">Chat Store</h3>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {content.stores.map((store) => (
                   <div
                     key={store.nama_store}
                     className="rounded-2xl bg-white p-4"
                   >
-                    <p className="text-sm font-black">{store.nama_store}</p>
+                    <p className="text-sm font-semibold">
+                      {store.nama_store}
+                    </p>
                     <p className="mt-1 text-sm font-semibold text-brand-charcoal/60">
                       {store.layanan_utama}
                     </p>
                     <div className="mt-4 grid gap-2 sm:grid-cols-2">
                       <a
                         href={normalizeWhatsappLink(store.whatsapp_link)}
-                        className="inline-flex min-h-10 items-center justify-center rounded-full bg-brand-green px-4 py-2 text-xs font-black text-white transition hover:bg-brand-deep"
+                        className="inline-flex min-h-10 items-center justify-center rounded-full bg-brand-green px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand-deep"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -617,7 +671,7 @@ export default async function Home() {
                       </a>
                       <a
                         href={store.maps_link}
-                        className="inline-flex min-h-10 items-center justify-center rounded-full border border-brand-softGray px-4 py-2 text-xs font-black text-brand-green transition hover:border-brand-green"
+                        className="inline-flex min-h-10 items-center justify-center rounded-full border border-brand-softGray px-4 py-2 text-xs font-semibold text-brand-green transition hover:border-brand-green"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -632,9 +686,9 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-brand-green py-16 text-white sm:py-20">
+      <section data-reveal className="bg-brand-green py-16 text-white sm:py-20">
         <div className="section-shell text-center">
-          <h2 className="mx-auto max-w-4xl text-3xl font-black tracking-tight sm:text-5xl">
+          <h2 className="mx-auto max-w-4xl text-3xl font-semibold tracking-tight sm:text-5xl">
             Butuh Kaos Polos, Sablon, Jersey, atau Pengiriman?
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/80 sm:text-lg sm:leading-8">
@@ -643,7 +697,7 @@ export default async function Home() {
           </p>
           <a
             href={whatsappMainLink}
-            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-black text-brand-green transition hover:-translate-y-0.5 hover:bg-brand-offWhite"
+            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-semibold text-brand-green transition hover:bg-brand-offWhite"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -661,14 +715,14 @@ export default async function Home() {
             </p>
             <Link
               href="/admin/login"
-              className="mt-6 inline-flex text-xs font-semibold text-white/35 transition hover:text-white"
+              className="mt-6 inline-flex text-xs font-semibold text-white/40 transition hover:text-white"
             >
               Admin
             </Link>
           </div>
 
           <div>
-            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/60">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
               Menu
             </h3>
             <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
@@ -691,7 +745,7 @@ export default async function Home() {
           </div>
 
           <div>
-            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/60">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
               Layanan
             </h3>
             <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
@@ -708,7 +762,7 @@ export default async function Home() {
           </div>
 
           <div>
-            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/60">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
               Store
             </h3>
             <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
@@ -727,7 +781,7 @@ export default async function Home() {
           </div>
 
           <div>
-            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/60">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
               Kontak
             </h3>
             <SocialIconLinks

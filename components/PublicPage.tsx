@@ -1,9 +1,39 @@
+/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { PageMotion } from "@/components/PageMotion";
 import { PublicFooter } from "@/components/PublicFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import type { Product, PublicContent, ServiceCategory, Store } from "@/lib/types";
 import { normalizeWhatsappLink } from "@/lib/url";
+
+function PublicImage({
+  src,
+  alt,
+  className
+}: {
+  src?: string;
+  alt: string;
+  className: string;
+}) {
+  const imageSrc = src || "/images/debroder-hero.png";
+
+  if (imageSrc.startsWith("/")) {
+    return (
+      <Image
+        src={imageSrc}
+        alt={alt}
+        width={1536}
+        height={1024}
+        className={className}
+        sizes="(min-width: 1024px) 33vw, 100vw"
+      />
+    );
+  }
+
+  return <img src={imageSrc} alt={alt} className={className} loading="lazy" />;
+}
 
 export function PageHero({
   label,
@@ -25,13 +55,13 @@ export function PageHero({
   breadcrumbs?: { label: string; href?: string }[];
 }) {
   return (
-    <section className="bg-brand-offWhite py-10 sm:py-16">
+    <section data-reveal className="bg-brand-offWhite py-10 sm:py-16">
       <div className="section-shell">
         <div className="rounded-[32px] border border-brand-softGray bg-white p-6 shadow-soft sm:p-10 lg:p-14">
           {breadcrumbs?.length ? (
             <nav
               aria-label="Breadcrumb"
-              className="mb-6 flex flex-wrap gap-2 text-sm font-bold text-brand-charcoal/55"
+              className="mb-6 flex flex-wrap gap-2 text-sm font-semibold text-brand-charcoal/60"
             >
               {breadcrumbs.map((item, index) => (
                 <span key={`${item.label}-${index}`} className="flex gap-2">
@@ -47,10 +77,10 @@ export function PageHero({
               ))}
             </nav>
           ) : null}
-          <p className="inline-flex rounded-full bg-brand-green px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-white">
+          <p className="inline-flex rounded-full bg-brand-green px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white">
             {label}
           </p>
-          <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-6xl">
+          <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">
             {title}
           </h1>
           <p className="mt-5 max-w-3xl text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8">
@@ -60,16 +90,16 @@ export function PageHero({
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href={ctaHref}
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-black text-white transition hover:bg-brand-deep"
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-semibold text-white transition hover:bg-brand-deep"
                 target={ctaHref.startsWith("http") ? "_blank" : undefined}
-                rel="noreferrer"
+                rel={ctaHref.startsWith("http") ? "noopener noreferrer" : undefined}
               >
                 {ctaText}
               </a>
               {secondaryCtaText && secondaryCtaHref ? (
                 <Link
                   href={secondaryCtaHref}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-softGray px-7 py-4 text-sm font-black text-brand-green transition hover:border-brand-green"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-softGray px-7 py-4 text-sm font-semibold text-brand-green transition hover:border-brand-green"
                 >
                   {secondaryCtaText}
                 </Link>
@@ -86,15 +116,21 @@ export function ServiceCard({ service }: { service: ServiceCategory }) {
   const href = `/${service.link_slug.replace(/^\/+/, "") || "koleksi"}`;
 
   return (
-    <article className="rounded-[28px] border border-brand-softGray bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
-      <div className="aspect-[4/3] rounded-3xl bg-[linear-gradient(135deg,#F5F5F0,#FFFFFF_48%,#E5E5E5)]" />
-      <h2 className="mt-6 text-2xl font-black">{service.nama_kategori}</h2>
+    <article className="rounded-[26px] border border-brand-softGray bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
+      <div className="overflow-hidden rounded-3xl bg-brand-offWhite">
+        <PublicImage
+          src={service.gambar_url}
+          alt={service.nama_kategori}
+          className="aspect-[4/3] w-full object-cover"
+        />
+      </div>
+      <h2 className="mt-6 text-2xl font-semibold">{service.nama_kategori}</h2>
       <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
         {service.deskripsi}
       </p>
       <Link
         href={href}
-        className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-black text-brand-green transition hover:border-brand-green"
+        className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-semibold text-brand-green transition hover:border-brand-green"
       >
         Lihat Detail
       </Link>
@@ -108,19 +144,25 @@ export function ProductGrid({ products }: { products: Product[] }) {
       {products.map((product) => (
         <article
           key={product.nama}
-          className="rounded-[28px] border border-brand-softGray bg-white p-5 shadow-sm"
+          className="rounded-[26px] border border-brand-softGray bg-white p-5 shadow-sm"
         >
-          <div className="aspect-[4/3] rounded-3xl bg-[linear-gradient(135deg,#F5F5F0,#FFFFFF_48%,#E5E5E5)]" />
-          <span className="mt-6 inline-flex rounded-full bg-brand-green px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-white">
+          <div className="overflow-hidden rounded-3xl bg-brand-offWhite">
+            <PublicImage
+              src={product.gambar_url}
+              alt={product.nama}
+              className="aspect-[4/3] w-full object-cover"
+            />
+          </div>
+          <span className="mt-6 inline-flex text-xs font-semibold uppercase tracking-[0.16em] text-brand-green">
             {product.badge}
           </span>
-          <h2 className="mt-4 text-2xl font-black">{product.nama}</h2>
+          <h2 className="mt-3 text-2xl font-semibold">{product.nama}</h2>
           <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
             {product.deskripsi}
           </p>
           <a
             href={normalizeWhatsappLink(product.whatsapp_link)}
-            className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-black text-white"
+            className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-deep"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -140,17 +182,17 @@ export function StoreGrid({ stores }: { stores: Store[] }) {
           key={store.nama_store}
           className="flex flex-col rounded-[28px] border border-brand-softGray bg-white p-5 shadow-sm"
         >
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-brand-green">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-green">
             {store.layanan_utama}
           </p>
-          <h2 className="mt-5 text-2xl font-black">{store.nama_store}</h2>
+          <h2 className="mt-5 text-2xl font-semibold">{store.nama_store}</h2>
           <p className="mt-4 flex-1 text-sm leading-6 text-brand-charcoal/70">
             {store.alamat}
           </p>
           <div className="mt-5 grid gap-2">
             <a
               href={normalizeWhatsappLink(store.whatsapp_link)}
-              className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-black text-white"
+              className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-deep"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -158,9 +200,9 @@ export function StoreGrid({ stores }: { stores: Store[] }) {
             </a>
             <a
               href={store.maps_link}
-              className="inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-black text-brand-green"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-semibold text-brand-green transition hover:border-brand-green"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               Lihat Lokasi
             </a>
@@ -179,10 +221,10 @@ export function OrderTimeline({ steps }: { steps: string[] }) {
           key={step}
           className="rounded-3xl border border-brand-softGray bg-white p-5 shadow-sm"
         >
-          <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-green text-sm font-black text-white">
+          <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-green text-sm font-semibold text-white">
             {index + 1}
           </span>
-          <h2 className="mt-8 text-lg font-black leading-6">{step}</h2>
+          <h2 className="mt-8 text-lg font-semibold leading-6">{step}</h2>
         </article>
       ))}
     </div>
@@ -197,13 +239,13 @@ export function RecommendationGrid({
   currentSlug?: string;
 }) {
   return (
-    <section className="bg-white py-16 sm:py-24">
+    <section data-reveal className="bg-white py-16 sm:py-24">
       <div className="section-shell">
         <div className="max-w-3xl">
-          <p className="text-sm font-black uppercase tracking-[0.24em] text-brand-green">
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-green">
             Rekomendasi
           </p>
-          <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
             Layanan DEBRODER lainnya
           </h2>
         </div>
@@ -257,15 +299,15 @@ export function CategoryDetailPage({
           { label: title }
         ]}
       />
-      <section className="bg-brand-offWhite pb-16 sm:pb-24">
+      <section data-reveal className="bg-brand-offWhite pb-16 sm:pb-24">
         <div className="section-shell grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
           <div className="rounded-[28px] border border-brand-softGray bg-white p-6 shadow-sm sm:p-8">
-            <h2 className="text-3xl font-black">Detail layanan</h2>
+            <h2 className="text-3xl font-semibold">Detail layanan</h2>
             <div className="mt-6 grid gap-3">
               {details.map((detail) => (
                 <div
                   key={detail}
-                  className="rounded-2xl bg-brand-offWhite px-4 py-4 text-sm font-black leading-6"
+                  className="rounded-2xl bg-brand-offWhite px-4 py-4 text-sm font-semibold leading-6"
                 >
                   {detail}
                 </div>
@@ -273,17 +315,12 @@ export function CategoryDetailPage({
             </div>
           </div>
           <div className="rounded-[28px] border border-brand-softGray bg-white p-5 shadow-sm">
-            <div className="grid min-h-[320px] place-items-center rounded-3xl bg-[linear-gradient(135deg,#F5F5F0,#FFFFFF_48%,#E5E5E5)] p-6 text-center">
-              <div>
-                <p className="text-sm font-black uppercase tracking-[0.22em] text-brand-green">
-                  Placeholder Visual
-                </p>
-                <h3 className="mt-4 text-3xl font-black">{visualLabel}</h3>
-                <p className="mt-3 text-sm font-semibold leading-6 text-brand-charcoal/65">
-                  Area gambar bisa diganti dari dashboard Super Admin melalui
-                  field gambar URL.
-                </p>
-              </div>
+            <div className="overflow-hidden rounded-3xl bg-brand-offWhite">
+              <PublicImage
+                src="/images/debroder-hero.png"
+                alt={visualLabel}
+                className="aspect-[4/3] w-full object-cover"
+              />
             </div>
           </div>
         </div>
@@ -306,6 +343,7 @@ export function PublicShell({
   return (
     <main className="min-h-screen bg-brand-offWhite text-brand-charcoal">
       <SiteHeader />
+      <PageMotion />
       {children}
       <PublicFooter content={content} />
     </main>
