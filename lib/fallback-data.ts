@@ -2,54 +2,59 @@ import type {
   AboutContent,
   ContactSettings,
   HeroBanner,
+  InstagramBanner,
+  OrderStep,
+  PageHeroContent,
   Product,
   PublicContent,
   ServiceCategory,
   Store,
-  Testimonial
+  Testimonial,
+  TrustAboutContent
 } from "@/lib/types";
 import { contactLinks, storeContacts } from "@/lib/contact";
+import { whatsappLinkWithMessage } from "@/lib/url";
+
+export const fallbackImages = {
+  hero: "/images/debroder/hero/hero-home.jpg",
+  pageHero: "/images/debroder/hero/page-hero.jpg",
+  product: "/images/debroder/fallback/fallback-product.jpg",
+  banner: "/images/debroder/banners/instagram-banner.jpg",
+  store: "/images/debroder/fallback/fallback-store.jpg",
+  benefit: "/images/debroder/fallback/fallback-benefit.jpg"
+} as const;
+
+export const storeImageFallbacks: Record<string, string> = {
+  "STORE PETTARANI": "/images/debroder/stores/store-pettarani.jpg",
+  "STORE TELLO": "/images/debroder/stores/store-tello.jpg",
+  "STORE LANDAK": "/images/debroder/stores/store-landak.jpg",
+  "STORE PAREPARE": "/images/debroder/stores/store-parepare.jpg"
+};
+
+export function getStoreImage(store: Pick<Store, "nama_store" | "image_url">) {
+  return (
+    store.image_url ||
+    storeImageFallbacks[store.nama_store] ||
+    fallbackImages.store
+  );
+}
 
 export const fallbackHeroes: HeroBanner[] = [
   {
-    badge: "KAOS POLOS IMPORT & SABLON",
-    headline: "Kaos Polos, Sablon DTF, dan Jersey Custom",
-    subheadline:
-      "DEBRODER menyediakan kebutuhan apparel, sablon, jersey, dan layanan pengiriman dalam satu ekosistem bisnis yang mudah dijangkau.",
-    cta_primary_text: "Mulai Pesan",
-    cta_primary_link: contactLinks.apparelWhatsapp,
-    cta_secondary_text: "Lihat Koleksi",
-    cta_secondary_link: "/koleksi",
-    image_url: "/images/debroder-hero.png",
+    badge: "KAOS POLOS IMPORT",
+    headline: "KAOS POLOS IMPORT",
+    subheadline: "Sablon DTF, Jersey, dan Custom Apparel",
+    title: "KAOS POLOS IMPORT",
+    subtitle: "Sablon DTF, Jersey, dan Custom Apparel",
+    cta_primary_text: "Beli Sekarang",
+    cta_primary_link: "/koleksi",
+    cta_secondary_text: "",
+    cta_secondary_link: "",
+    cta_text: "Beli Sekarang",
+    cta_link: "/koleksi",
+    image_url: fallbackImages.hero,
+    object_position: "center center",
     urutan: 1,
-    status_aktif: true
-  },
-  {
-    badge: "PRODUKSI APPAREL",
-    headline: "Produksi Apparel untuk Komunitas, Event, dan Perusahaan",
-    subheadline:
-      "Dari kaos polos, sablon DTF, jersey, hingga kebutuhan partai, DEBRODER siap membantu produksi apparel Anda dengan proses yang mudah.",
-    cta_primary_text: "Konsultasi Sekarang",
-    cta_primary_link:
-      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20konsultasi%20produksi%20apparel%20untuk%20komunitas%2C%20event%2C%20atau%20perusahaan",
-    cta_secondary_text: "Lihat Store",
-    cta_secondary_link: "/store",
-    image_url: "/images/debroder-hero.png",
-    urutan: 2,
-    status_aktif: true
-  },
-  {
-    badge: "CUSTOM JERSEY",
-    headline: "Custom Jersey untuk Tim, Komunitas, dan Instansi",
-    subheadline:
-      "Buat jersey custom untuk tim olahraga, sekolah, kantor, komunitas, dan event dengan desain yang sesuai kebutuhan Anda.",
-    cta_primary_text: "Pesan Jersey",
-    cta_primary_link:
-      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20custom%20jersey",
-    cta_secondary_text: "Lihat Detail",
-    cta_secondary_link: "/jersey",
-    image_url: "/images/debroder-hero.png",
-    urutan: 3,
     status_aktif: true
   }
 ];
@@ -57,153 +62,151 @@ export const fallbackHeroes: HeroBanner[] = [
 export const fallbackHero: HeroBanner = fallbackHeroes[0];
 
 export const fallbackAbout: AboutContent = {
-  label: "TENTANG KAMI",
+  label: "TENTANG DEBRODER",
   title: "Tentang DEBRODER",
-  body: "DEBRODER adalah perusahaan percetakan dan apparel yang berdiri sejak tahun 2016. Kami berfokus pada layanan sablon kaos, custom jersey, maklon DTF, cetak sublim, distribusi kaos NSA, dan penyediaan kaos cotton combed.\n\nDengan pengalaman dan komitmen terhadap kualitas, DEBRODER telah dipercaya oleh berbagai perusahaan, instansi, komunitas, dan event besar di Indonesia Timur, khususnya di kota Makassar.",
+  body: "DEBRODER adalah brand yang bergerak dalam ekosistem apparel dan layanan bisnis pendukung. Melalui DEBRODER Apparel dan DEBRODER Express, DEBRODER hadir untuk memberikan solusi kaos polos, sablon DTF, custom jersey, produksi apparel, dan layanan pengiriman yang lebih mudah dijangkau pelanggan.\n\nDEBRODER melayani kebutuhan individu, komunitas, brand, event, sekolah, instansi, hingga perusahaan melalui beberapa store yang tersebar di Pettarani, Tello, Landak, dan Parepare.",
   highlights: [
-    "Berdiri sejak 2016",
-    "Melayani perusahaan, instansi, komunitas, dan event",
-    "Fokus layanan di Indonesia Timur",
-    "Berbasis di Makassar"
+    "4 Store Aktif",
+    "Apparel & Custom",
+    "Sablon DTF",
+    "Jersey Custom",
+    "DEBRODER Express"
   ],
   status_aktif: true
 };
 
 export const fallbackCategories: ServiceCategory[] = [
   {
-    nama_kategori: "Sablon Kaos",
-    deskripsi:
-      "Layanan sablon kaos untuk komunitas, event, brand, instansi, dan perusahaan.",
-    gambar_url: "/images/debroder-hero.png",
-    link_slug: "sablon-dtf",
+    nama_kategori: "Kaos Polos",
+    deskripsi: "Kaos polos import dan cotton combed",
+    gambar_url: "/images/debroder/products/kaos-polos.jpg",
+    link_slug: "kaos-polos",
     urutan: 1,
     status_aktif: true
   },
   {
     nama_kategori: "Sablon DTF",
-    deskripsi:
-      "Layanan sablon DTF untuk kaos custom, produksi pakaian, brand clothing, dan kebutuhan partai.",
-    gambar_url: "/images/debroder-hero.png",
+    deskripsi: "Sablon kaos, logo, komunitas, dan brand",
+    gambar_url: "/images/debroder/products/sablon-dtf.jpg",
     link_slug: "sablon-dtf",
     urutan: 2,
     status_aktif: true
   },
   {
     nama_kategori: "Custom Jersey",
-    deskripsi:
-      "Pembuatan jersey custom untuk tim olahraga, sekolah, kantor, komunitas, dan event.",
-    gambar_url: "/images/debroder-hero.png",
+    deskripsi: "Jersey tim, komunitas, sekolah, dan instansi",
+    gambar_url: "/images/debroder/products/custom-jersey.jpg",
     link_slug: "jersey",
     urutan: 3,
     status_aktif: true
   },
   {
     nama_kategori: "Maklon DTF",
-    deskripsi:
-      "Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel.",
-    gambar_url: "/images/debroder-hero.png",
+    deskripsi: "Layanan produksi DTF untuk kebutuhan bisnis",
+    gambar_url: "/images/debroder/products/maklon-dtf.jpg",
     link_slug: "maklon-dtf",
     urutan: 4,
     status_aktif: true
   },
   {
     nama_kategori: "Cetak Sublim",
-    deskripsi:
-      "Layanan cetak sublim untuk jersey, apparel custom, dan kebutuhan produksi kreatif.",
-    gambar_url: "/images/debroder-hero.png",
+    deskripsi: "Cetak sublim untuk apparel dan jersey",
+    gambar_url: "/images/debroder/products/cetak-sublim.jpg",
     link_slug: "cetak-sublim",
     urutan: 5,
     status_aktif: true
   },
   {
-    nama_kategori: "Kaos Polos & Cotton Combed",
-    deskripsi:
-      "Penyediaan kaos polos, kaos NSA, dan kaos cotton combed untuk sablon, brand clothing, komunitas, dan pembelian partai.",
-    gambar_url: "/images/debroder-hero.png",
-    link_slug: "kaos-polos",
-    urutan: 6,
-    status_aktif: true
-  },
-  {
     nama_kategori: "DEBRODER Express",
-    deskripsi:
-      "Layanan pengiriman dan distribusi untuk mendukung kebutuhan pelanggan dan operasional bisnis.",
-    gambar_url: "/images/debroder-hero.png",
+    deskripsi: "Pengiriman dan distribusi pesanan",
+    gambar_url: "/images/debroder/products/debroder-express.jpg",
     link_slug: "express",
-    urutan: 7,
+    urutan: 6,
     status_aktif: true
   }
 ];
 
 export const fallbackProducts: Product[] = [
   {
-    nama: "Kaos Polos Premium",
+    nama: "Kaos Polos Cotton Combed",
     kategori: "Kaos Polos",
-    badge: "Populer",
-    deskripsi:
-      "Kaos polos untuk sablon, komunitas, brand clothing, dan kebutuhan partai.",
-    gambar_url: "/images/debroder-hero.png",
-    whatsapp_link:
-      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Kaos%20Polos%20Premium.",
+    badge: "",
+    deskripsi: "Kaos polos import dan cotton combed",
+    short_detail: "Kaos polos import dan cotton combed",
+    gambar_url: "/images/debroder/products/kaos-polos.jpg",
+    image_url: "/images/debroder/products/kaos-polos.jpg",
+    whatsapp_link: contactLinks.whatsapp,
+    link_url: "/kaos-polos",
+    price: 45000,
     urutan: 1,
     status_aktif: true
   },
   {
     nama: "Sablon DTF Custom",
     kategori: "Sablon DTF",
-    badge: "Custom",
-    deskripsi:
-      "Layanan sablon DTF untuk kaos custom, event, komunitas, dan produksi pakaian.",
-    gambar_url: "/images/debroder-hero.png",
-    whatsapp_link:
-      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Sablon%20DTF%20Custom.",
+    badge: "",
+    deskripsi: "Sablon DTF untuk logo, brand, dan komunitas",
+    short_detail: "Sablon DTF untuk logo, brand, dan komunitas",
+    gambar_url: "/images/debroder/products/sablon-dtf.jpg",
+    image_url: "/images/debroder/products/sablon-dtf.jpg",
+    whatsapp_link: contactLinks.whatsapp,
+    link_url: "/sablon-dtf",
+    price: 15000,
     urutan: 2,
     status_aktif: true
   },
   {
-    nama: "Custom Jersey Team",
+    nama: "Custom Jersey",
     kategori: "Jersey",
-    badge: "Jersey",
-    deskripsi:
-      "Pembuatan jersey untuk tim olahraga, sekolah, kantor, dan komunitas.",
-    gambar_url: "/images/debroder-hero.png",
-    whatsapp_link:
-      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Custom%20Jersey%20Team.",
+    badge: "",
+    deskripsi: "Jersey custom untuk tim dan komunitas",
+    short_detail: "Jersey custom untuk tim dan komunitas",
+    gambar_url: "/images/debroder/products/custom-jersey.jpg",
+    image_url: "/images/debroder/products/custom-jersey.jpg",
+    whatsapp_link: contactLinks.whatsapp,
+    link_url: "/jersey",
+    price: 85000,
     urutan: 3,
     status_aktif: true
   },
   {
     nama: "Maklon DTF",
-    kategori: "Maklon",
-    badge: "Maklon",
-    deskripsi:
-      "Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel.",
-    gambar_url: "/images/debroder-hero.png",
-    whatsapp_link:
-      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Maklon%20DTF.",
+    kategori: "Maklon DTF",
+    badge: "",
+    deskripsi: "Produksi DTF untuk reseller dan brand apparel",
+    short_detail: "Produksi DTF untuk reseller dan brand apparel",
+    gambar_url: "/images/debroder/products/maklon-dtf.jpg",
+    image_url: "/images/debroder/products/maklon-dtf.jpg",
+    whatsapp_link: contactLinks.whatsapp,
+    link_url: "/maklon-dtf",
+    price: 12000,
     urutan: 4,
     status_aktif: true
   },
   {
     nama: "Cetak Sublim",
-    kategori: "Sublim",
-    badge: "Sublim",
-    deskripsi: "Layanan cetak sublim untuk jersey dan apparel custom.",
-    gambar_url: "/images/debroder-hero.png",
-    whatsapp_link:
-      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Cetak%20Sublim.",
+    kategori: "Cetak Sublim",
+    badge: "",
+    deskripsi: "Cetak sublim untuk jersey dan apparel custom",
+    short_detail: "Cetak sublim untuk jersey dan apparel custom",
+    gambar_url: "/images/debroder/products/cetak-sublim.jpg",
+    image_url: "/images/debroder/products/cetak-sublim.jpg",
+    whatsapp_link: contactLinks.whatsapp,
+    link_url: "/cetak-sublim",
+    price: 35000,
     urutan: 5,
     status_aktif: true
   },
   {
-    nama: "Paket Apparel Komunitas",
-    kategori: "Paket",
-    badge: "Paket",
-    deskripsi:
-      "Paket apparel untuk komunitas, event, brand, instansi, dan perusahaan.",
-    gambar_url: "/images/debroder-hero.png",
-    whatsapp_link:
-      "https://wa.me/6285355333364?text=Halo%20DEBRODER%2C%20saya%20ingin%20bertanya%20tentang%20Paket%20Apparel%20Komunitas.",
+    nama: "DEBRODER Express",
+    kategori: "Express",
+    badge: "",
+    deskripsi: "Pengiriman dan distribusi pesanan",
+    short_detail: "Pengiriman dan distribusi pesanan",
+    gambar_url: "/images/debroder/products/debroder-express.jpg",
+    image_url: "/images/debroder/products/debroder-express.jpg",
+    whatsapp_link: contactLinks.whatsapp,
+    link_url: "/express",
     urutan: 6,
     status_aktif: true
   }
@@ -214,11 +217,129 @@ export const fallbackStores: Store[] = storeContacts.map((store, index) => ({
   layanan_utama: store.service,
   alamat: store.address,
   whatsapp: store.whatsapp,
-  whatsapp_link: store.whatsappLink,
+  whatsapp_link: whatsappLinkWithMessage(
+    store.whatsappLink,
+    `Halo DEBRODER, saya ingin bertanya tentang layanan di Store ${store.name}.`
+  ),
   maps_link: store.mapsLink,
+  image_url: storeImageFallbacks[store.name],
   urutan: index + 1,
   status_aktif: true
 }));
+
+export const fallbackInstagramBanner: InstagramBanner = {
+  title: "Instagram DEBRODER",
+  image_url: fallbackImages.banner,
+  link_url: contactLinks.instagram,
+  status_aktif: true
+};
+
+export const fallbackPageHeroes: PageHeroContent[] = [
+  {
+    page_key: "koleksi",
+    label: "KOLEKSI",
+    title: "Layanan & Produk DEBRODER",
+    subtitle:
+      "Temukan kebutuhan apparel, sablon, jersey, dan layanan custom dalam satu tempat.",
+    image_url: fallbackImages.pageHero,
+    object_position: "center center",
+    status_aktif: true
+  },
+  {
+    page_key: "kaos-polos",
+    label: "KAOS POLOS",
+    title: "Kaos Polos Import & Cotton Combed",
+    subtitle:
+      "Pilihan kaos polos untuk brand, komunitas, event, dan kebutuhan harian.",
+    image_url: fallbackImages.pageHero,
+    object_position: "center center",
+    status_aktif: true
+  },
+  {
+    page_key: "sablon-dtf",
+    label: "SABLON DTF",
+    title: "Sablon DTF untuk Apparel Custom",
+    subtitle:
+      "Hasil sablon rapi untuk logo, desain brand, komunitas, dan produksi apparel.",
+    image_url: fallbackImages.pageHero,
+    object_position: "center center",
+    status_aktif: true
+  },
+  {
+    page_key: "jersey",
+    label: "CUSTOM JERSEY",
+    title: "Jersey Custom untuk Tim dan Komunitas",
+    subtitle:
+      "Produksi jersey untuk tim olahraga, sekolah, instansi, dan event.",
+    image_url: fallbackImages.pageHero,
+    object_position: "center center",
+    status_aktif: true
+  },
+  {
+    page_key: "express",
+    label: "DEBRODER EXPRESS",
+    title: "Layanan Pengiriman dan Distribusi",
+    subtitle:
+      "Mendukung kebutuhan pengiriman pesanan dan distribusi bisnis DEBRODER.",
+    image_url: fallbackImages.pageHero,
+    object_position: "center center",
+    status_aktif: true
+  },
+  {
+    page_key: "store",
+    label: "STORE DEBRODER",
+    title: "Temukan Store DEBRODER Terdekat",
+    subtitle: "Pettarani, Tello, Landak, dan Parepare.",
+    image_url: fallbackImages.pageHero,
+    object_position: "center center",
+    status_aktif: true
+  }
+];
+
+export const fallbackOrderSteps: OrderStep[] = [
+  {
+    title: "Pilih layanan",
+    description: "Tentukan kebutuhan apparel, sablon, jersey, atau express.",
+    urutan: 1,
+    status_aktif: true
+  },
+  {
+    title: "Konsultasi kebutuhan",
+    description: "Diskusikan bahan, desain, jumlah, ukuran, dan estimasi.",
+    urutan: 2,
+    status_aktif: true
+  },
+  {
+    title: "Kirim desain/detail",
+    description: "Kirim file, logo, referensi, atau detail pesanan.",
+    urutan: 3,
+    status_aktif: true
+  },
+  {
+    title: "Proses produksi",
+    description: "Pesanan diproses sesuai detail yang disepakati.",
+    urutan: 4,
+    status_aktif: true
+  },
+  {
+    title: "Ambil di store atau kirim",
+    description: "Ambil di store DEBRODER atau kirim sesuai kebutuhan.",
+    urutan: 5,
+    status_aktif: true
+  }
+];
+
+export const fallbackTrustAbout: TrustAboutContent = {
+  trust_items: [
+    "4 Store Aktif",
+    "Apparel & Custom",
+    "Sablon DTF",
+    "Jersey Custom",
+    "DEBRODER Express"
+  ],
+  about_body: fallbackAbout.body,
+  status_aktif: true
+};
 
 export const fallbackTestimonials: Testimonial[] = [
   {
@@ -228,33 +349,18 @@ export const fallbackTestimonials: Testimonial[] = [
       "Pesanan jersey rapi, komunikasinya jelas, dan hasilnya sesuai kebutuhan tim.",
     urutan: 1,
     status_aktif: true
-  },
-  {
-    nama: "Brand Lokal Indonesia Timur",
-    sumber: "Sablon DTF",
-    isi_testimoni:
-      "DEBRODER membantu produksi kaos custom kami dengan proses yang mudah dipantau.",
-    urutan: 2,
-    status_aktif: true
-  },
-  {
-    nama: "Event Organizer",
-    sumber: "Paket apparel",
-    isi_testimoni:
-      "Pilihan kaos dan sablon cocok untuk kebutuhan event dengan jumlah banyak.",
-    urutan: 3,
-    status_aktif: true
   }
 ];
 
 export const fallbackContact: ContactSettings = {
   email: "debroderapparel@gmail.com",
   whatsapp_utama: "0853-5533-3364",
-  whatsapp_link: "https://wa.me/6285355333364",
+  whatsapp_link: contactLinks.whatsapp,
   whatsapp_apparel: "0853-5533-3364",
   whatsapp_express: "0853-5533-3364",
-  facebook: "https://www.facebook.com/debroderapparel/",
-  instagram: "https://instagram.com/de_broder",
+  facebook: contactLinks.facebook,
+  instagram: contactLinks.instagram,
+  copyright_text: "\u00a9 2026 DEBRODER. All rights reserved.",
   status_aktif: true
 };
 
@@ -262,9 +368,13 @@ export const fallbackContent: PublicContent = {
   hero: fallbackHero,
   heroes: fallbackHeroes,
   about: fallbackAbout,
+  instagramBanner: fallbackInstagramBanner,
+  pageHeroes: fallbackPageHeroes,
   categories: fallbackCategories,
   products: fallbackProducts,
   stores: fallbackStores,
+  orderSteps: fallbackOrderSteps,
+  trustAbout: fallbackTrustAbout,
   testimonials: fallbackTestimonials,
   contact: fallbackContact
 };

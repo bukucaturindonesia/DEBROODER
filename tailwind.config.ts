@@ -15,11 +15,12 @@ const config: Config = {
           white: "#FFFFFF",
           offWhite: "#F5F5F0",
           charcoal: "#111111",
-          softGray: "#E5E5E5"
+          softGray: "#E5E5E5",
+          muted: "#737373"
         }
       },
       boxShadow: {
-        soft: "0 24px 80px rgba(0, 43, 8, 0.12)"
+        soft: "0 18px 60px rgba(17, 17, 17, 0.08)"
       }
     }
   },

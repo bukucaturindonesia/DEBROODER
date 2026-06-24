@@ -37,9 +37,16 @@ create table if not exists public.products (
   nama text not null,
   kategori text not null,
   deskripsi text not null,
+  short_detail text,
   badge text not null default '',
   gambar_url text not null default '/images/debroder-hero.png',
+  image_url text,
   whatsapp_link text not null default '',
+  link_url text,
+  price numeric,
+  harga numeric,
+  base_price numeric,
+  price_label text,
   urutan integer not null default 0,
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
@@ -66,6 +73,7 @@ create table if not exists public.stores (
   whatsapp text not null,
   whatsapp_link text not null,
   maps_link text not null,
+  image_url text,
   urutan integer not null default 0,
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
@@ -82,6 +90,9 @@ create table if not exists public.hero_banners (
   cta_secondary_text text not null,
   cta_secondary_link text not null,
   image_url text not null default '/images/debroder-hero.png',
+  hero_video_url text,
+  video_url text,
+  object_position text not null default 'center center',
   urutan integer not null default 0,
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
@@ -119,6 +130,49 @@ create table if not exists public.contact_settings (
   whatsapp_express text not null,
   facebook text not null default 'https://www.facebook.com/debroderapparel/',
   instagram text not null,
+  copyright_text text not null default '© 2026 DEBRODER. All rights reserved.',
+  status_aktif boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.instagram_banners (
+  id uuid primary key default gen_random_uuid(),
+  title text not null default 'Instagram DEBRODER',
+  image_url text not null default '/images/debroder/banners/instagram-banner.jpg',
+  link_url text not null default 'https://instagram.com/de_broder',
+  status_aktif boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.page_heroes (
+  id uuid primary key default gen_random_uuid(),
+  page_key text not null unique,
+  label text not null,
+  title text not null,
+  subtitle text not null,
+  image_url text not null default '/images/debroder/hero/page-hero.jpg',
+  object_position text not null default 'center center',
+  status_aktif boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.order_steps (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  description text not null default '',
+  urutan integer not null default 0,
+  status_aktif boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.trust_about_content (
+  id uuid primary key default gen_random_uuid(),
+  trust_items text[] not null default '{}',
+  about_body text not null default '',
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -126,11 +180,31 @@ create table if not exists public.contact_settings (
 
 alter table if exists public.hero_banners
   add column if not exists badge text not null default 'KAOS POLOS IMPORT & SABLON',
+  add column if not exists title text,
+  add column if not exists subtitle text,
+  add column if not exists cta_text text,
+  add column if not exists cta_link text,
+  add column if not exists hero_video_url text,
+  add column if not exists video_url text,
+  add column if not exists object_position text not null default 'center center',
   add column if not exists urutan integer not null default 0;
+
+alter table if exists public.products
+  add column if not exists short_detail text,
+  add column if not exists image_url text,
+  add column if not exists link_url text,
+  add column if not exists price numeric,
+  add column if not exists harga numeric,
+  add column if not exists base_price numeric,
+  add column if not exists price_label text;
+
+alter table if exists public.stores
+  add column if not exists image_url text;
 
 alter table if exists public.contact_settings
   add column if not exists whatsapp_link text not null default 'https://wa.me/6285355333364',
-  add column if not exists facebook text not null default 'https://www.facebook.com/debroderapparel/';
+  add column if not exists facebook text not null default 'https://www.facebook.com/debroderapparel/',
+  add column if not exists copyright_text text not null default '© 2026 DEBRODER. All rights reserved.';
 
 alter table if exists public.testimonials
   add column if not exists urutan integer not null default 0;
@@ -176,6 +250,26 @@ create trigger set_contact_settings_updated_at
 before update on public.contact_settings
 for each row execute function public.set_updated_at();
 
+drop trigger if exists set_instagram_banners_updated_at on public.instagram_banners;
+create trigger set_instagram_banners_updated_at
+before update on public.instagram_banners
+for each row execute function public.set_updated_at();
+
+drop trigger if exists set_page_heroes_updated_at on public.page_heroes;
+create trigger set_page_heroes_updated_at
+before update on public.page_heroes
+for each row execute function public.set_updated_at();
+
+drop trigger if exists set_order_steps_updated_at on public.order_steps;
+create trigger set_order_steps_updated_at
+before update on public.order_steps
+for each row execute function public.set_updated_at();
+
+drop trigger if exists set_trust_about_content_updated_at on public.trust_about_content;
+create trigger set_trust_about_content_updated_at
+before update on public.trust_about_content
+for each row execute function public.set_updated_at();
+
 alter table public.profiles enable row level security;
 alter table public.products enable row level security;
 alter table public.service_categories enable row level security;
@@ -184,6 +278,10 @@ alter table public.hero_banners enable row level security;
 alter table public.about_content enable row level security;
 alter table public.testimonials enable row level security;
 alter table public.contact_settings enable row level security;
+alter table public.instagram_banners enable row level security;
+alter table public.page_heroes enable row level security;
+alter table public.order_steps enable row level security;
+alter table public.trust_about_content enable row level security;
 
 drop policy if exists "Users can read own profile" on public.profiles;
 create policy "Users can read own profile"
@@ -270,5 +368,49 @@ using (status_aktif = true);
 drop policy if exists "Superadmin can manage contact settings" on public.contact_settings;
 create policy "Superadmin can manage contact settings"
 on public.contact_settings for all
+using (public.is_superadmin())
+with check (public.is_superadmin());
+
+drop policy if exists "Public can read active instagram banners" on public.instagram_banners;
+create policy "Public can read active instagram banners"
+on public.instagram_banners for select
+using (status_aktif = true);
+
+drop policy if exists "Superadmin can manage instagram banners" on public.instagram_banners;
+create policy "Superadmin can manage instagram banners"
+on public.instagram_banners for all
+using (public.is_superadmin())
+with check (public.is_superadmin());
+
+drop policy if exists "Public can read active page heroes" on public.page_heroes;
+create policy "Public can read active page heroes"
+on public.page_heroes for select
+using (status_aktif = true);
+
+drop policy if exists "Superadmin can manage page heroes" on public.page_heroes;
+create policy "Superadmin can manage page heroes"
+on public.page_heroes for all
+using (public.is_superadmin())
+with check (public.is_superadmin());
+
+drop policy if exists "Public can read active order steps" on public.order_steps;
+create policy "Public can read active order steps"
+on public.order_steps for select
+using (status_aktif = true);
+
+drop policy if exists "Superadmin can manage order steps" on public.order_steps;
+create policy "Superadmin can manage order steps"
+on public.order_steps for all
+using (public.is_superadmin())
+with check (public.is_superadmin());
+
+drop policy if exists "Public can read active trust about content" on public.trust_about_content;
+create policy "Public can read active trust about content"
+on public.trust_about_content for select
+using (status_aktif = true);
+
+drop policy if exists "Superadmin can manage trust about content" on public.trust_about_content;
+create policy "Superadmin can manage trust about content"
+on public.trust_about_content for all
 using (public.is_superadmin())
 with check (public.is_superadmin());
