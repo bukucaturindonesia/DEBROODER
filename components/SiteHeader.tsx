@@ -7,7 +7,7 @@ import { Logo } from "@/components/Logo";
 import { contactLinks } from "@/lib/contact";
 
 const navItems = [
-  { label: "Koleksi", href: "/koleksi", hasMega: true },
+  { label: "Koleksi", href: "/koleksi" },
   { label: "Kaos Polos", href: "/kaos-polos" },
   { label: "Sablon DTF", href: "/sablon-dtf" },
   { label: "Jersey", href: "/jersey" },
@@ -16,53 +16,7 @@ const navItems = [
   { label: "Cara Order", href: "/cara-order" }
 ];
 
-const megaItems = [
-  {
-    title: "Kaos Polos",
-    description: "Kaos NSA, cotton combed, dan kebutuhan partai.",
-    href: "/kaos-polos"
-  },
-  {
-    title: "Sablon DTF",
-    description: "Sablon custom untuk brand, event, dan komunitas.",
-    href: "/sablon-dtf"
-  },
-  {
-    title: "Custom Jersey",
-    description: "Jersey team untuk sekolah, kantor, dan komunitas.",
-    href: "/jersey"
-  },
-  {
-    title: "Maklon DTF",
-    description:
-      "Layanan maklon DTF untuk kebutuhan produksi, reseller, dan brand apparel.",
-    href: "/maklon-dtf"
-  },
-  {
-    title: "Cetak Sublim",
-    description:
-      "Layanan cetak sublim untuk jersey, apparel custom, dan kebutuhan produksi kreatif.",
-    href: "/cetak-sublim"
-  },
-  {
-    title: "DEBRODER Express",
-    description: "Pengiriman dan distribusi antar wilayah.",
-    href: "/express"
-  }
-];
-
-const mobileNavItems = [
-  ...navItems.map((item) => ({ label: item.label, href: item.href })),
-  ...megaItems
-    .filter((mega) => !navItems.some((item) => item.href === mega.href))
-    .map((mega) => ({ label: mega.title, href: mega.href }))
-];
-
-const topbarItems = [
-  { label: "Layanan Pelanggan", href: "/cara-order" },
-  { label: "Lacak Pesanan", href: "/cara-order" },
-  { label: "Temukan Toko", href: "/store" }
-];
+const mobileNavItems = navItems;
 
 const searchItems = [
   {
@@ -169,6 +123,20 @@ function ChatIcon() {
   );
 }
 
+function DesktopSearchButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      className="hidden h-11 w-[220px] items-center gap-3 rounded-full bg-brand-offWhite px-4 text-left text-sm font-medium text-brand-charcoal/55 ring-1 ring-transparent transition hover:text-brand-charcoal focus:outline-none focus:ring-2 focus:ring-brand-green lg:flex 2xl:w-[260px]"
+      aria-label="Cari produk"
+      onClick={onClick}
+    >
+      <SearchIcon />
+      <span>Cari produk</span>
+    </button>
+  );
+}
+
 function SearchModal({
   isOpen,
   onClose
@@ -254,7 +222,7 @@ function SearchModal({
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={handleInputKeyDown}
             aria-label="Cari layanan, produk, atau store"
-            placeholder="Cari layanan, produk, atau store..."
+            placeholder="Cari produk"
             className="min-h-11 flex-1 bg-transparent text-base outline-none placeholder:text-brand-charcoal/40"
           />
           <button
@@ -301,17 +269,6 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isAtTop, setIsAtTop] = useState(true);
-
-  useEffect(() => {
-    function updateTopbarState() {
-      setIsAtTop(window.scrollY < 16);
-    }
-
-    updateTopbarState();
-    window.addEventListener("scroll", updateTopbarState, { passive: true });
-    return () => window.removeEventListener("scroll", updateTopbarState);
-  }, []);
 
   function isActive(href: string) {
     return pathname === href;
@@ -319,31 +276,8 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-brand-softGray bg-white/95 text-brand-charcoal backdrop-blur-xl">
-      <div
-        className={`hidden overflow-hidden border-b border-brand-softGray bg-brand-offWhite text-xs font-medium text-brand-charcoal/70 transition-all duration-300 md:block ${
-          isAtTop
-            ? "max-h-9 translate-y-0 opacity-100"
-            : "max-h-0 -translate-y-2 opacity-0"
-        }`}
-      >
-        <div className="section-shell flex h-9 items-center justify-between">
-          <div className="flex items-center gap-5">
-            {topbarItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="transition hover:text-brand-green"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-          <span className="font-semibold text-brand-green">ID</span>
-        </div>
-      </div>
-
       <nav
-        className="section-shell flex min-h-[60px] items-center justify-between gap-3 md:min-h-[64px]"
+        className="section-shell flex min-h-[62px] items-center justify-between gap-3 md:min-h-[68px]"
         aria-label="Navigasi utama"
       >
         <Link href="/" className="group flex items-center gap-3">
@@ -351,93 +285,38 @@ export function SiteHeader() {
             variant="symbol-black"
             size="md"
             showText
+            symbolTone="green"
             className="transition group-hover:scale-[1.02]"
           />
         </Link>
 
-        <div className="hidden items-center gap-4 xl:flex">
-          {navItems.map((item) =>
-            item.hasMega ? (
-              <div key={item.href} className="group relative py-5">
-                <Link
-                  href={item.href}
-                  className={`text-sm font-semibold transition hover:text-brand-green ${
-                    isActive(item.href)
-                      ? "rounded-full bg-brand-offWhite px-3 py-2 text-brand-green"
-                      : "text-brand-charcoal/75"
-                  }`}
-                >
+        <div className="hidden items-center gap-3 xl:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`rounded-full px-2.5 py-2 text-[13px] font-semibold transition hover:bg-brand-offWhite hover:text-brand-green 2xl:text-sm ${
+                isActive(item.href)
+                  ? "bg-brand-offWhite text-brand-green"
+                  : "text-brand-charcoal/75"
+              }`}
+            >
+              {item.label === "Sablon DTF" ? (
+                <span className="navbar-glitch" data-text="Sablon DTF">
                   {item.label}
-                </Link>
-                <div className="invisible absolute left-1/2 top-[60px] w-[720px] -translate-x-1/2 rounded-[28px] border border-brand-softGray bg-white p-5 opacity-0 shadow-soft transition group-hover:visible group-hover:opacity-100">
-                  <div className="grid grid-cols-2 gap-3">
-                    {megaItems.map((mega) => (
-                      <Link
-                        key={mega.title}
-                        href={mega.href}
-                        className={`rounded-2xl p-4 transition hover:bg-white hover:shadow-sm ${
-                          isActive(mega.href)
-                            ? "bg-brand-green text-white"
-                            : "bg-brand-offWhite"
-                        }`}
-                      >
-                        <p
-                          className={`text-base font-semibold ${
-                            isActive(mega.href)
-                              ? "text-white"
-                              : "text-brand-green"
-                          }`}
-                        >
-                          {mega.title}
-                        </p>
-                        <p
-                          className={`mt-2 text-sm leading-6 ${
-                            isActive(mega.href)
-                              ? "text-white/75"
-                              : "text-brand-charcoal/70"
-                          }`}
-                        >
-                          {mega.description}
-                        </p>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`text-sm font-semibold transition hover:text-brand-green ${
-                  isActive(item.href)
-                    ? "rounded-full bg-brand-offWhite px-3 py-2 text-brand-green"
-                    : "text-brand-charcoal/75"
-                }`}
-              >
-                {item.label === "Sablon DTF" ? (
-                  <span className="navbar-glitch" data-text="Sablon DTF">
-                    {item.label}
-                  </span>
-                ) : (
-                  item.label
-                )}
-              </Link>
-            )
-          )}
+                </span>
+              ) : (
+                item.label
+              )}
+            </Link>
+          ))}
         </div>
 
         <div className="flex items-center gap-2">
-          <a
-            href={contactLinks.apparelWhatsapp}
-            className="hidden rounded-full bg-brand-green px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-deep lg:inline-flex"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Mulai Pesan
-          </a>
+          <DesktopSearchButton onClick={() => setIsSearchOpen(true)} />
           <button
             type="button"
-            className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray bg-white text-brand-charcoal transition hover:border-brand-green hover:text-brand-green"
+            className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray bg-white text-brand-charcoal transition hover:border-brand-green hover:text-brand-green lg:hidden"
             aria-label="Cari"
             onClick={() => setIsSearchOpen(true)}
           >
@@ -511,15 +390,6 @@ export function SiteHeader() {
             rel="noopener noreferrer"
           >
             Hubungi Kami
-          </a>
-          <a
-            href={contactLinks.apparelWhatsapp}
-            className="mt-2 rounded-full bg-brand-green px-5 py-4 text-center text-sm font-semibold text-white"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setIsOpen(false)}
-          >
-            Mulai Pesan
           </a>
         </div>
       </div>

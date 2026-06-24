@@ -4,124 +4,161 @@ import Link from "next/link";
 import { HeroSlider } from "@/components/HeroSlider";
 import { Logo } from "@/components/Logo";
 import { PageMotion } from "@/components/PageMotion";
+import { ScrollButtons } from "@/components/ScrollButtons";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SocialIconLinks } from "@/components/SocialIconLinks";
+import { contactLinks, storeContacts } from "@/lib/contact";
 import { getPublicContent } from "@/lib/public-data";
-import type { Product, ServiceCategory } from "@/lib/types";
-import {
-  emailHref,
-  facebookHref,
-  instagramHref,
-  normalizeWhatsappLink,
-  whatsappHref
-} from "@/lib/url";
+import type { ServiceCategory, Store } from "@/lib/types";
+import { normalizeWhatsappLink } from "@/lib/url";
 
-const benefits = [
+const benefitCards = [
   {
     title: "Bisa pesan sesuai kebutuhan",
     description:
-      "Cocok untuk individu, komunitas, brand, event, instansi, dan perusahaan."
+      "Cocok untuk individu, komunitas, brand, event, instansi, dan perusahaan.",
+    image: "/images/debroder-hero.png"
   },
   {
     title: "Layanan apparel lengkap",
     description:
-      "Sablon kaos, sablon DTF, custom jersey, maklon DTF, cetak sublim, kaos NSA, dan cotton combed."
+      "Sablon kaos, sablon DTF, custom jersey, maklon DTF, cetak sublim, kaos NSA, dan cotton combed.",
+    image: "/images/debroder-hero.png"
   },
   {
     title: "Tersedia beberapa store",
     description:
-      "DEBRODER Apparel hadir di Pettarani, Tello, Landak, dan Parepare."
+      "DEBRODER Apparel hadir di Pettarani, Tello, Landak, dan Parepare.",
+    image: "/images/debroder-hero.png"
   }
 ];
 
-const unitCards = [
+const catalogDefaults = [
   {
-    id: "apparel",
-    title: "DEBRODER Apparel",
-    category: "Apparel, Percetakan, Jersey, Sablon, dan Kaos Polos",
-    description:
-      "Unit bisnis yang bergerak di bidang apparel, sablon kaos, sablon DTF, custom jersey, maklon DTF, cetak sublim, kaos polos, dan cotton combed.",
-    services: [
-      "Sablon Kaos",
-      "Sablon DTF",
-      "Custom Jersey",
-      "Maklon DTF",
-      "Cetak Sublim",
-      "Distributor Kaos NSA",
-      "Kaos Cotton Combed"
-    ],
-    key: "apparel" as const,
-    cta: "Hubungi DEBRODER Apparel"
+    title: "Kaos Polos",
+    category: "Cotton combed, NSA, dan kaos polos import",
+    slug: "kaos-polos"
   },
   {
-    id: "express",
+    title: "Sablon DTF",
+    category: "Sablon kaos, logo, komunitas, dan brand",
+    slug: "sablon-dtf"
+  },
+  {
+    title: "Custom Jersey",
+    category: "Jersey tim, komunitas, sekolah, dan instansi",
+    slug: "jersey"
+  },
+  {
+    title: "Maklon DTF",
+    category: "Layanan produksi DTF untuk kebutuhan bisnis",
+    slug: "maklon-dtf"
+  },
+  {
+    title: "Cetak Sublim",
+    category: "Cetak sublim untuk apparel dan jersey",
+    slug: "cetak-sublim"
+  },
+  {
     title: "DEBRODER Express",
-    category: "Ekspedisi, Pengiriman, dan Distribusi",
-    description:
-      "Unit bisnis yang bergerak di bidang ekspedisi, pengiriman barang, distribusi, dan pengiriman antar wilayah.",
-    services: [
-      "Pengiriman Barang",
-      "Distribusi",
-      "Layanan Ekspedisi",
-      "Pengiriman Antar Wilayah"
-    ],
-    key: "express" as const,
-    cta: "Hubungi DEBRODER Express"
+    category: "Pengiriman dan distribusi pesanan",
+    slug: "express"
   }
 ];
 
 const orderSteps = [
-  "Pilih layanan",
-  "Konsultasi kebutuhan",
-  "Kirim desain atau detail pesanan",
-  "Proses produksi",
-  "Ambil di store atau kirim melalui DEBRODER Express"
+  {
+    title: "Pilih layanan",
+    description:
+      "Tentukan kebutuhan Anda, mulai dari kaos polos, sablon DTF, jersey custom, maklon DTF, atau layanan express."
+  },
+  {
+    title: "Konsultasi kebutuhan",
+    description:
+      "Hubungi tim DEBRODER untuk menyesuaikan bahan, desain, jumlah, ukuran, dan estimasi pengerjaan."
+  },
+  {
+    title: "Kirim desain atau detail pesanan",
+    description:
+      "Kirim file desain, referensi, logo, atau detail pesanan yang ingin diproduksi."
+  },
+  {
+    title: "Proses produksi",
+    description:
+      "Pesanan diproses sesuai detail yang sudah disepakati dengan hasil yang rapi dan siap digunakan."
+  },
+  {
+    title: "Ambil di store atau kirim",
+    description:
+      "Pesanan bisa diambil di store DEBRODER atau dikirim sesuai kebutuhan pelanggan."
+  }
 ];
 
 const advantages = [
-  "Layanan apparel lengkap",
-  "Tersedia beberapa store",
-  "Cocok untuk individu, komunitas, brand, dan perusahaan",
-  "Mendukung kebutuhan custom dan partai",
-  "Memiliki ekosistem apparel dan layanan pengiriman"
+  {
+    title: "Layanan apparel lengkap",
+    description:
+      "Mulai dari kaos polos, sablon DTF, jersey custom, maklon DTF, hingga cetak sublim."
+  },
+  {
+    title: "Cocok untuk berbagai kebutuhan",
+    description:
+      "Mendukung kebutuhan individu, komunitas, brand, event, sekolah, instansi, dan perusahaan."
+  },
+  {
+    title: "Tersedia beberapa store",
+    description:
+      "DEBRODER memiliki beberapa titik layanan di Pettarani, Tello, Landak, dan Parepare."
+  },
+  {
+    title: "Bisa custom sesuai pesanan",
+    description:
+      "Pesanan dapat disesuaikan berdasarkan bahan, desain, ukuran, jumlah, dan kebutuhan pelanggan."
+  },
+  {
+    title: "Didukung DEBRODER Express",
+    description:
+      "Pengiriman dan distribusi pesanan lebih mudah melalui ekosistem DEBRODER Express."
+  }
 ];
 
-const aboutServiceTags = [
-  "Sablon Kaos",
+const trustHighlights = [
+  "4 Store Aktif",
+  "Apparel & Custom",
   "Sablon DTF",
-  "Custom Jersey",
-  "Maklon DTF",
-  "Cetak Sublim",
-  "Kaos Polos & Cotton Combed"
+  "Jersey Custom",
+  "DEBRODER Express"
 ];
+
+const officialStores: Store[] = storeContacts.map((store, index) => ({
+  nama_store: store.name,
+  layanan_utama: store.service,
+  alamat: store.address,
+  whatsapp: store.whatsapp,
+  whatsapp_link: store.whatsappLink,
+  maps_link: store.mapsLink,
+  urutan: index + 1,
+  status_aktif: true
+}));
 
 function sectionPath(slug: string) {
   return `/${slug.replace(/^\/+/, "")}`;
 }
 
 function SectionHeading({
-  label,
   title,
-  description,
-  centered = false
+  description
 }: {
-  label?: string;
   title: string;
   description?: string;
-  centered?: boolean;
 }) {
   return (
-    <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
-      {label ? (
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-green">
-          {label}
-        </p>
-      ) : null}
-      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-brand-charcoal sm:text-5xl">
+    <div className="max-w-3xl">
+      <h2 className="text-3xl font-semibold tracking-tight text-brand-charcoal sm:text-4xl">
         {title}
       </h2>
       {description ? (
-        <p className="mt-5 text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8">
+        <p className="mt-4 text-base leading-7 text-brand-charcoal/70">
           {description}
         </p>
       ) : null}
@@ -133,12 +170,14 @@ function DynamicImage({
   src,
   alt,
   priority = false,
-  className
+  className,
+  sizes = "(min-width: 1024px) 33vw, 100vw"
 }: {
   src: string;
   alt: string;
   priority?: boolean;
   className: string;
+  sizes?: string;
 }) {
   if (src.startsWith("/")) {
     return (
@@ -149,7 +188,7 @@ function DynamicImage({
         height={1024}
         priority={priority}
         className={className}
-        sizes="(min-width: 1024px) 52vw, 100vw"
+        sizes={sizes}
       />
     );
   }
@@ -157,310 +196,183 @@ function DynamicImage({
   return <img src={src} alt={alt} className={className} loading="lazy" />;
 }
 
-function ProductVisual({ label, imageUrl }: { label: string; imageUrl: string }) {
+function findCategory(
+  categories: ServiceCategory[],
+  item: (typeof catalogDefaults)[number]
+) {
+  const normalizedTitle = item.title.toLowerCase();
+
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-brand-offWhite">
-      <DynamicImage
-        src={imageUrl || "/images/debroder-hero.png"}
-        alt={label}
-        className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
-      />
-    </div>
+    categories.find(
+      (category) => category.nama_kategori.toLowerCase() === normalizedTitle
+    ) ||
+    categories.find(
+      (category) => category.link_slug.replace(/^\/+/, "") === item.slug
+    )
   );
 }
 
-function CategoryCard({ service }: { service: ServiceCategory }) {
-  return (
-    <article className="group flex min-w-[285px] flex-col rounded-[26px] border border-brand-softGray bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
-      <ProductVisual
-        label={service.nama_kategori}
-        imageUrl={service.gambar_url || "/images/debroder-hero.png"}
-      />
-      <div className="flex flex-1 flex-col p-2 pt-5">
-        <h3 className="text-2xl font-semibold tracking-tight">
-          {service.nama_kategori}
-        </h3>
-        <p className="mt-3 flex-1 text-sm leading-6 text-brand-charcoal/70">
-          {service.deskripsi}
-        </p>
-        <Link
-          href={sectionPath(service.link_slug || "koleksi")}
-          className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-semibold text-brand-green transition hover:border-brand-green"
-        >
-          Lihat Detail
-        </Link>
-      </div>
-    </article>
-  );
+function buildCatalogItems(categories: ServiceCategory[]) {
+  return catalogDefaults.map((item) => {
+    const category = findCategory(categories, item);
+
+    return {
+      title: item.title,
+      category: category?.deskripsi || item.category,
+      image: category?.gambar_url || "/images/debroder-hero.png",
+      href: sectionPath(category?.link_slug || item.slug)
+    };
+  });
 }
 
-function ProductCard({ product }: { product: Product }) {
+function MiniIcon({ index }: { index: number }) {
   return (
-    <article className="group min-w-[285px] rounded-[26px] border border-brand-softGray bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
-      <ProductVisual
-        label={product.nama}
-        imageUrl={product.gambar_url || "/images/debroder-hero.png"}
-      />
-      <div className="p-2 pt-5">
-        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-green">
-          {product.badge}
-        </span>
-        <h3 className="mt-3 text-2xl font-semibold">{product.nama}</h3>
-        <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
-          {product.deskripsi}
-        </p>
-        <a
-          href={normalizeWhatsappLink(product.whatsapp_link)}
-          className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-deep"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Pesan Sekarang
-        </a>
-      </div>
-    </article>
+    <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-offWhite text-sm font-semibold text-brand-green">
+      {String(index + 1).padStart(2, "0")}
+    </span>
   );
 }
 
 export default async function Home() {
   const content = await getPublicContent();
-  const emailLink = emailHref(content.contact.email);
-  const facebookLink = facebookHref(content.contact.facebook);
-  const whatsappMainLink = whatsappHref(
-    content.contact.whatsapp_utama,
-    "Halo DEBRODER, saya ingin bertanya tentang layanan."
-  );
-  const apparelLink = whatsappHref(
-    content.contact.whatsapp_apparel,
-    "Halo DEBRODER Apparel, saya ingin bertanya tentang kaos polos, sablon, atau jersey."
-  );
-  const expressLink = whatsappHref(
-    content.contact.whatsapp_express,
-    "Halo DEBRODER Express, saya ingin bertanya tentang layanan pengiriman."
-  );
-  const instagramLink = instagramHref(content.contact.instagram);
-  const aboutParagraphs = content.about.body.split(/\n{2,}/).filter(Boolean);
+  const catalogItems = buildCatalogItems(content.categories);
+  const stores = (content.stores.length ? content.stores : officialStores)
+    .slice(0, 4)
+    .sort((a, b) => a.urutan - b.urutan);
 
   return (
-    <main className="min-h-screen bg-brand-offWhite text-brand-charcoal">
+    <main className="min-h-screen overflow-x-hidden bg-brand-offWhite text-brand-charcoal">
       <SiteHeader />
       <PageMotion />
 
       <HeroSlider heroes={content.heroes} />
 
-      <section data-reveal className="bg-brand-offWhite pb-14 pt-4">
+      <section data-reveal className="bg-brand-offWhite pb-12 pt-4 sm:pb-16">
+        <div className="section-shell grid gap-4 md:grid-cols-3">
+          {benefitCards.map((benefit, index) => (
+            <article
+              key={benefit.title}
+              className="group rounded-2xl border border-brand-softGray bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-soft"
+            >
+              <div className="overflow-hidden rounded-xl bg-brand-offWhite">
+                <DynamicImage
+                  src={benefit.image}
+                  alt={benefit.title}
+                  priority={index === 0}
+                  className="aspect-[4/3] w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                />
+              </div>
+              <h2 className="mt-4 text-lg font-semibold text-brand-charcoal">
+                {benefit.title}
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-brand-charcoal/70">
+                {benefit.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section data-reveal id="koleksi" className="bg-white py-14 sm:py-20">
         <div className="section-shell">
-          <div className="no-scrollbar flex gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-3 lg:overflow-visible">
-            {benefits.map((benefit) => (
-              <article
-                key={benefit.title}
-                className="min-w-[280px] rounded-3xl border border-brand-softGray bg-white p-5 shadow-sm"
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <SectionHeading title="Layanan & Produk DEBRODER" />
+            <div className="flex items-center gap-3">
+              <Link
+                href="/koleksi"
+                className="inline-flex min-h-10 items-center rounded-full border border-brand-softGray px-5 text-sm font-semibold text-brand-charcoal transition hover:border-brand-green hover:text-brand-green"
               >
-                <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-offWhite text-brand-green">
-                  <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    className="h-5 w-5"
-                  >
-                    <path
-                      d="m6 12.5 4 4 8-9"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2.4"
+                Lihat Semua
+              </Link>
+              <ScrollButtons containerId="landing-catalog-carousel" />
+            </div>
+          </div>
+
+          <div
+            id="landing-catalog-carousel"
+            className="no-scrollbar mt-8 flex snap-x gap-5 overflow-x-auto pb-4"
+          >
+            {catalogItems.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="group min-w-[82vw] snap-start sm:min-w-[330px] lg:min-w-[350px]"
+              >
+                <article className="rounded-2xl border border-brand-softGray bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-soft">
+                  <div className="overflow-hidden rounded-2xl bg-brand-offWhite">
+                    <DynamicImage
+                      src={item.image}
+                      alt={item.title}
+                      className="aspect-[4/5] w-full object-cover transition duration-300 group-hover:scale-[1.02]"
                     />
-                  </svg>
-                </span>
-                <h2 className="mt-5 text-xl font-semibold">
-                  {benefit.title}
-                </h2>
-                <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
-                  {benefit.description}
-                </p>
-              </article>
+                  </div>
+                  <h3 className="mt-4 text-xl font-semibold text-brand-charcoal">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-brand-charcoal/65">
+                    {item.category}
+                  </p>
+                </article>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section data-reveal className="bg-white py-16 sm:py-24">
-        <div className="section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-green">
-              Campaign
-            </p>
-            <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-brand-charcoal sm:text-5xl">
-              Produksi Apparel yang Siap Jalan dari Ide sampai Pengiriman
-            </h2>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8">
-              Dari kaos polos, sablon DTF, jersey, sampai kebutuhan partai,
-              DEBRODER membantu pelanggan menyiapkan apparel dengan proses yang
-              jelas, rapi, dan mudah diakses melalui store.
-            </p>
-            <a
-              href={whatsappMainLink}
-              className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-semibold text-white transition hover:bg-brand-deep"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Konsultasi Sekarang
-            </a>
-          </div>
-          <div className="overflow-hidden rounded-[30px] border border-brand-softGray bg-brand-offWhite">
+      <section data-reveal className="w-full bg-white px-3 py-8 sm:px-6 sm:py-12">
+        <a
+          href={contactLinks.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative mx-auto block w-full max-w-[1600px] overflow-hidden rounded-3xl bg-brand-offWhite"
+          aria-label="Buka Instagram DEBRODER"
+        >
+          <div className="relative aspect-[16/9] w-full sm:aspect-[16/7]">
             <DynamicImage
               src="/images/debroder-hero.png"
-              alt="Visual apparel DEBRODER"
-              className="aspect-[4/3] w-full object-cover"
+              alt="DEBRODER Instagram Banner"
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+              sizes="100vw"
             />
-          </div>
-        </div>
-      </section>
-
-      <section data-reveal id="tentang" className="bg-white py-16 sm:py-24">
-        <div className="section-shell grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <SectionHeading
-            label={content.about.label}
-            title={content.about.title}
-            description={aboutParagraphs[0]}
-          />
-
-          <div>
-            {aboutParagraphs.slice(1).map((paragraph) => (
-              <p
-                key={paragraph}
-                className="mb-4 text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8"
-              >
-                {paragraph}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent" />
+            <div className="absolute bottom-5 left-5 right-5 max-w-md text-white sm:bottom-8 sm:left-8">
+              <p className="text-sm font-medium uppercase tracking-[0.18em] text-white/80">
+                Instagram
               </p>
-            ))}
-            <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {aboutServiceTags.map((service) => (
-                <div
-                  key={service}
-                  className="rounded-2xl border border-brand-softGray bg-brand-offWhite px-4 py-3 text-sm font-semibold text-brand-charcoal"
-                >
-                  {service}
-                </div>
-              ))}
-            </div>
-            <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {content.about.highlights.map((fact) => (
-                <div
-                  key={fact}
-                  className="rounded-2xl bg-brand-green px-4 py-4 text-sm font-semibold text-white"
-                >
-                  {fact}
-                </div>
-              ))}
+              <h2 className="mt-2 text-2xl font-semibold sm:text-4xl">
+                Ikuti update DEBRODER
+              </h2>
             </div>
           </div>
-        </div>
+        </a>
       </section>
 
-      <section
-        data-reveal
-        id="layanan"
-        className="bg-brand-offWhite py-16 sm:py-24"
-      >
+      <section data-reveal id="store" className="bg-brand-offWhite py-14 sm:py-20">
         <div className="section-shell">
           <SectionHeading
-            label="Kategori Layanan"
-            title="Layanan DEBRODER"
-            description="Pilih layanan apparel, percetakan, kaos polos, atau pengiriman yang paling sesuai dengan kebutuhan pesanan Anda."
-          />
-
-          <div className="no-scrollbar mt-10 flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-3 lg:overflow-visible">
-            {content.categories.map((service) => (
-              <CategoryCard key={service.nama_kategori} service={service} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        data-reveal
-        id="unit-bisnis"
-        className="bg-white py-16 sm:py-24"
-      >
-        <div className="section-shell">
-          <SectionHeading
-            label="Unit Bisnis"
-            title="Satu Brand, Dua Unit Bisnis"
-            description="DEBRODER menaungi layanan apparel dan layanan pengiriman agar kebutuhan produksi sampai distribusi bisa berjalan lebih mudah."
-          />
-
-          <div className="mt-10 grid gap-6 lg:grid-cols-2">
-            {unitCards.map((unit) => (
-              <article
-                key={unit.title}
-                id={unit.id}
-                className="rounded-[30px] border border-brand-softGray bg-brand-offWhite p-6 shadow-sm sm:p-8"
-              >
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-green">
-                  {unit.category}
-                </p>
-                <h3 className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">
-                  {unit.title}
-                </h3>
-                <p className="mt-5 text-base leading-7 text-brand-charcoal/70">
-                  {unit.description}
-                </p>
-                <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                  {unit.services.map((service) => (
-                    <div
-                      key={service}
-                      className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold"
-                    >
-                      {service}
-                    </div>
-                  ))}
-                </div>
-                <a
-                  href={unit.key === "apparel" ? apparelLink : expressLink}
-                  className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-semibold text-white transition hover:bg-brand-deep sm:w-auto"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {unit.cta}
-                </a>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        data-reveal
-        id="store"
-        className="bg-brand-offWhite py-16 sm:py-24"
-      >
-        <div className="section-shell">
-          <SectionHeading
-            label="Store"
             title="Store DEBRODER"
-            description="Temukan store DEBRODER Apparel terdekat untuk kebutuhan sablon kaos, cetak DTF, jersey, dan kaos polos."
+            description="Temukan store DEBRODER terdekat untuk kebutuhan kaos polos, sablon DTF, jersey, dan layanan apparel lainnya."
           />
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {content.stores.map((store) => (
+          <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {stores.map((store) => (
               <article
                 key={store.nama_store}
-                className="flex flex-col rounded-[28px] border border-brand-softGray bg-white p-5 shadow-sm"
+                className="flex flex-col rounded-3xl border border-brand-softGray bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-soft"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-green">
+                <p className="text-sm font-medium text-brand-green">
                   {store.layanan_utama}
                 </p>
-                <h3 className="mt-5 text-2xl font-semibold">
+                <h3 className="mt-4 text-xl font-semibold text-brand-charcoal">
                   {store.nama_store}
                 </h3>
-                <p className="mt-4 flex-1 text-sm leading-6 text-brand-charcoal/70">
+                <p className="mt-3 flex-1 text-sm leading-6 text-brand-charcoal/70">
                   {store.alamat}
                 </p>
-                <div className="mt-5 grid gap-2">
+                <div className="mt-6 grid gap-2">
                   <a
                     href={normalizeWhatsappLink(store.whatsapp_link)}
-                    className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-deep"
+                    className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-green px-5 text-sm font-semibold text-white transition hover:bg-brand-deep"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -468,7 +380,7 @@ export default async function Home() {
                   </a>
                   <a
                     href={store.maps_link}
-                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-5 py-3 text-sm font-semibold text-brand-green transition hover:border-brand-green"
+                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray bg-white px-5 text-sm font-semibold text-brand-charcoal transition hover:border-brand-green hover:text-brand-green"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -481,320 +393,204 @@ export default async function Home() {
         </div>
       </section>
 
-      <section data-reveal id="koleksi" className="bg-white py-16 sm:py-24">
+      <section
+        data-reveal
+        id="cara-order"
+        className="bg-white py-14 sm:py-20"
+      >
         <div className="section-shell">
           <SectionHeading
-            label="Koleksi"
-            title="Produk & Layanan Populer"
-            description="Pilihan layanan yang paling sering dipesan untuk kebutuhan apparel, event, komunitas, brand, dan perusahaan."
+            title="Cara Order di DEBRODER"
+            description="Pesan kebutuhan apparel Anda dengan proses yang mudah, jelas, dan cepat."
           />
 
-          <div className="no-scrollbar mt-10 flex gap-5 overflow-x-auto pb-4 lg:grid lg:grid-cols-3 lg:overflow-visible">
-            {content.products.map((product) => (
-              <ProductCard key={product.nama} product={product} />
+          <div className="mt-8 grid gap-4 lg:grid-cols-5">
+            {orderSteps.map((step, index) => (
+              <article
+                key={step.title}
+                className="rounded-3xl border border-brand-softGray bg-brand-offWhite p-5"
+              >
+                <span className="text-sm font-semibold text-brand-green">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-5 text-lg font-semibold text-brand-charcoal">
+                  {step.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-brand-charcoal/65">
+                  {step.description}
+                </p>
+              </article>
             ))}
+          </div>
+
+          <a
+            href={contactLinks.whatsapp}
+            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 text-sm font-semibold text-white transition hover:bg-brand-deep"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Mulai Order
+          </a>
+        </div>
+      </section>
+
+      <section data-reveal className="bg-brand-offWhite py-14 sm:py-20">
+        <div className="section-shell">
+          <SectionHeading
+            title="Keunggulan DEBRODER"
+            description="DEBRODER hadir untuk membantu kebutuhan apparel, custom, dan pengiriman dengan layanan yang lebih mudah dijangkau."
+          />
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {advantages.map((advantage, index) => (
+              <article
+                key={advantage.title}
+                className="rounded-3xl border border-brand-softGray bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-soft"
+              >
+                <MiniIcon index={index} />
+                <h3 className="mt-5 text-base font-semibold leading-6 text-brand-charcoal">
+                  {advantage.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-brand-charcoal/65">
+                  {advantage.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section data-reveal className="bg-brand-green py-12 text-white sm:py-14">
+        <div className="section-shell">
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            <div>
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                Dipercaya untuk Kebutuhan Apparel dan Custom
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-white/80">
+                DEBRODER melayani kebutuhan personal, komunitas, brand, event,
+                dan perusahaan dengan layanan yang mudah diakses melalui
+                beberapa store.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {trustHighlights.map((highlight) => (
+                <div
+                  key={highlight}
+                  className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-medium text-white"
+                >
+                  {highlight}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       <section
         data-reveal
-        id="cara-order"
-        className="bg-brand-offWhite py-16 sm:py-24"
+        id="tentang"
+        aria-labelledby="tentang-debroder-akhir"
+        className="bg-brand-offWhite py-14 sm:py-16"
       >
-        <div className="section-shell">
-          <SectionHeading
-            label="Cara Order"
-            title="Cara Order di DEBRODER"
-            description="Proses pemesanan dibuat sederhana agar pelanggan bisa mulai dari konsultasi sampai produksi tanpa alur yang rumit."
-          />
-
-          <div className="mt-10 grid gap-4 lg:grid-cols-5">
-            {orderSteps.map((step, index) => (
-              <article
-                key={step}
-                className="relative rounded-3xl border border-brand-softGray bg-white p-5"
-              >
-                <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-green text-sm font-semibold text-white">
-                  {index + 1}
-                </span>
-                <h3 className="mt-8 text-lg font-semibold leading-6">
-                  {step}
-                </h3>
-              </article>
-            ))}
-          </div>
-          <a
-            href={whatsappMainLink}
-            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-semibold text-white transition hover:bg-brand-deep"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Mulai Pesan
-          </a>
-        </div>
-      </section>
-
-      <section data-reveal className="bg-white py-16 sm:py-24">
-        <div className="section-shell">
-          <SectionHeading
-            label="Testimoni"
-            title="Dipercaya pelanggan DEBRODER"
-            description="Beberapa kesan pelanggan yang menggunakan layanan apparel, sablon, jersey, dan paket komunitas."
-          />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {content.testimonials.map((testimonial) => (
-              <article
-                key={`${testimonial.nama}-${testimonial.sumber}`}
-                className="rounded-[28px] border border-brand-softGray bg-brand-offWhite p-6"
-              >
-                <p className="text-sm leading-7 text-brand-charcoal/70">
-                  &ldquo;{testimonial.isi_testimoni}&rdquo;
-                </p>
-                <p className="mt-6 text-base font-semibold">
-                  {testimonial.nama}
-                </p>
-                <p className="mt-1 text-sm font-bold text-brand-green">
-                  {testimonial.sumber}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section data-reveal className="bg-brand-offWhite py-16 sm:py-20">
-        <div className="section-shell">
+        <div className="section-shell grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
           <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-green">
-              Keunggulan
-            </p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-brand-charcoal sm:text-5xl">
-              Keunggulan DEBRODER
+            <h2
+              id="tentang-debroder-akhir"
+              className="text-3xl font-semibold tracking-tight text-brand-charcoal sm:text-4xl"
+            >
+              Tentang DEBRODER
             </h2>
-          </div>
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {advantages.map((advantage, index) => (
-              <article
-                key={advantage}
-                className="rounded-3xl border border-brand-softGray bg-white p-5 shadow-sm"
-              >
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-green text-xs font-semibold text-white">
-                  {index + 1}
-                </span>
-                <h3 className="mt-7 text-base font-semibold leading-6 text-brand-charcoal">
-                  {advantage}
-                </h3>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section data-reveal id="kontak" className="bg-white py-16 sm:py-24">
-        <div className="section-shell">
-          <SectionHeading
-            label="Kontak"
-            title="Hubungi DEBRODER"
-            description="Gunakan tombol WhatsApp untuk konsultasi cepat atau pilih kanal resmi DEBRODER melalui icon kontak."
-          />
-
-          <div className="mt-10 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="rounded-[30px] border border-brand-softGray bg-brand-offWhite p-6 sm:p-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-green">
-                Kanal Resmi
+            <div className="mt-5 grid gap-4 text-base leading-7 text-brand-charcoal/70">
+              <p>
+                DEBRODER adalah brand yang bergerak dalam ekosistem apparel dan
+                layanan bisnis pendukung. Melalui DEBRODER Apparel dan DEBRODER
+                Express, DEBRODER hadir untuk memberikan solusi kaos polos,
+                sablon DTF, custom jersey, produksi apparel, dan layanan
+                pengiriman yang lebih mudah dijangkau pelanggan.
               </p>
-              <h3 className="mt-4 text-3xl font-semibold">
-                Pilih kanal yang paling nyaman
-              </h3>
-              <p className="mt-4 text-sm leading-6 text-brand-charcoal/70">
-                Icon di bawah mengarah langsung ke email, Facebook, dan
-                Instagram resmi DEBRODER.
+              <p>
+                DEBRODER melayani kebutuhan individu, komunitas, brand, event,
+                sekolah, instansi, hingga perusahaan melalui beberapa store yang
+                tersebar di Pettarani, Tello, Landak, dan Parepare.
               </p>
-              <SocialIconLinks
-                emailLink={emailLink}
-                facebookLink={facebookLink}
-                instagramLink={instagramLink}
-                className="mt-6"
-              />
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                <a
-                  href={whatsappMainLink}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-brand-deep"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Hubungi DEBRODER
-                </a>
-                <a
-                  href={apparelLink}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-green bg-white px-5 py-3 text-center text-sm font-semibold text-brand-green transition hover:bg-brand-green hover:text-white"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Apparel
-                </a>
-                <a
-                  href={expressLink}
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-green bg-white px-5 py-3 text-center text-sm font-semibold text-brand-green transition hover:bg-brand-green hover:text-white"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Express
-                </a>
-              </div>
-            </div>
-
-            <div className="rounded-[30px] border border-brand-softGray bg-brand-offWhite p-6 sm:p-8">
-              <h3 className="text-2xl font-semibold">Chat Store</h3>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {content.stores.map((store) => (
-                  <div
-                    key={store.nama_store}
-                    className="rounded-2xl bg-white p-4"
-                  >
-                    <p className="text-sm font-semibold">
-                      {store.nama_store}
-                    </p>
-                    <p className="mt-1 text-sm font-semibold text-brand-charcoal/60">
-                      {store.layanan_utama}
-                    </p>
-                    <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                      <a
-                        href={normalizeWhatsappLink(store.whatsapp_link)}
-                        className="inline-flex min-h-10 items-center justify-center rounded-full bg-brand-green px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand-deep"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Hubungi
-                      </a>
-                      <a
-                        href={store.maps_link}
-                        className="inline-flex min-h-10 items-center justify-center rounded-full border border-brand-softGray px-4 py-2 text-xs font-semibold text-brand-green transition hover:border-brand-green"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Lokasi
-                      </a>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
+
+          <aside className="rounded-3xl border border-brand-softGray bg-white p-5 shadow-sm sm:p-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-green">
+              Ringkasan Brand
+            </p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              {trustHighlights.map((highlight) => (
+                <div
+                  key={highlight}
+                  className="rounded-2xl border border-brand-softGray bg-brand-offWhite px-4 py-3 text-sm font-medium text-brand-charcoal"
+                >
+                  {highlight}
+                </div>
+              ))}
+            </div>
+          </aside>
         </div>
       </section>
 
-      <section data-reveal className="bg-brand-green py-16 text-white sm:py-20">
-        <div className="section-shell text-center">
-          <h2 className="mx-auto max-w-4xl text-3xl font-semibold tracking-tight sm:text-5xl">
-            Butuh Kaos Polos, Sablon, Jersey, atau Pengiriman?
-          </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/80 sm:text-lg sm:leading-8">
-            Hubungi DEBRODER dan pilih unit bisnis yang sesuai dengan kebutuhan
-            Anda.
-          </p>
-          <a
-            href={whatsappMainLink}
-            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-semibold text-brand-green transition hover:bg-brand-offWhite"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Hubungi DEBRODER
-          </a>
-        </div>
-      </section>
-
-      <footer className="bg-brand-charcoal py-12 text-white">
-        <div className="section-shell grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
-          <div className="lg:col-span-1">
+      <footer className="bg-brand-charcoal py-10 text-white">
+        <div className="section-shell grid gap-8 md:grid-cols-[1fr_1fr_auto] md:items-start">
+          <div>
             <Logo variant="primary-white" size="md" />
-            <p className="mt-3 text-sm font-semibold text-white/70">
+            <p className="mt-3 text-sm font-medium text-white/70">
               Kaos Polos Import & Sablon
             </p>
             <Link
               href="/admin/login"
-              className="mt-6 inline-flex text-xs font-semibold text-white/40 transition hover:text-white"
+              className="mt-5 inline-flex text-xs font-medium text-white/35 transition hover:text-white"
             >
               Admin
             </Link>
           </div>
 
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
+          <nav aria-label="Menu footer">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/55">
               Menu
             </h3>
-            <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-              <Link href="/#tentang" className="hover:text-white">
-                Tentang
+            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-3 text-sm font-medium text-white/75">
+              <Link href="/koleksi" className="hover:text-white">
+                Koleksi
               </Link>
-              <Link href="/#apparel" className="hover:text-white">
-                DEBRODER Apparel
+              <Link href="/kaos-polos" className="hover:text-white">
+                Kaos Polos
               </Link>
-              <Link href="/express" className="hover:text-white">
-                DEBRODER Express
+              <Link href="/sablon-dtf" className="hover:text-white">
+                Sablon DTF
+              </Link>
+              <Link href="/jersey" className="hover:text-white">
+                Jersey
               </Link>
               <Link href="/store" className="hover:text-white">
                 Store
               </Link>
-              <Link href="/#kontak" className="hover:text-white">
-                Kontak
+              <Link href="/cara-order" className="hover:text-white">
+                Cara Order
               </Link>
             </div>
-          </div>
+          </nav>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
-              Layanan
-            </h3>
-            <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-              {content.categories.slice(0, 7).map((service) => (
-                <Link
-                  key={service.nama_kategori}
-                  href={sectionPath(service.link_slug || "koleksi")}
-                  className="hover:text-white"
-                >
-                  {service.nama_kategori}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
-              Store
-            </h3>
-            <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-              {content.stores.map((store) => (
-                <a
-                  key={store.nama_store}
-                  href={store.maps_link}
-                  className="hover:text-white"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {store.nama_store.replace("STORE ", "Store ")}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/55">
               Kontak
             </h3>
             <SocialIconLinks
-              emailLink={emailLink}
-              facebookLink={facebookLink}
-              instagramLink={instagramLink}
+              emailLink={contactLinks.email}
+              facebookLink={contactLinks.facebook}
+              instagramLink={contactLinks.instagram}
               tone="light"
-              className="mt-5"
+              className="mt-4"
             />
           </div>
         </div>
-        <div className="section-shell mt-10 border-t border-white/10 pt-6">
-          <p className="text-sm font-semibold text-white/60">
+        <div className="section-shell mt-8 border-t border-white/10 pt-5">
+          <p className="text-sm font-medium text-white/55">
             &copy; 2026 DEBRODER. All rights reserved.
           </p>
         </div>

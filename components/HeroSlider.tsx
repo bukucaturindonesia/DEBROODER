@@ -4,13 +4,6 @@
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { HeroBanner } from "@/lib/types";
-import { normalizeWhatsappLink } from "@/lib/url";
-
-const fallbackBadges = [
-  "KAOS POLOS IMPORT & SABLON",
-  "PRODUKSI APPAREL",
-  "CUSTOM JERSEY"
-];
 
 function HeroImage({
   src,
@@ -21,7 +14,7 @@ function HeroImage({
   alt: string;
   priority?: boolean;
 }) {
-  const className = "h-full min-h-[230px] w-full object-cover";
+  const className = "h-full w-full object-cover";
 
   if (src.startsWith("/")) {
     return (
@@ -32,40 +25,12 @@ function HeroImage({
         height={1024}
         priority={priority}
         className={className}
-        sizes="(min-width: 1024px) 48vw, 100vw"
+        sizes="100vw"
       />
     );
   }
 
   return <img src={src} alt={alt} className={className} loading="lazy" />;
-}
-
-function HeroLink({
-  href,
-  children,
-  variant
-}: {
-  href: string;
-  children: string;
-  variant: "primary" | "secondary";
-}) {
-  const safeHref = normalizeWhatsappLink(href);
-  const isExternal = safeHref.startsWith("http");
-  const className =
-    variant === "primary"
-      ? "inline-flex min-h-12 items-center justify-center rounded-full bg-brand-green px-7 py-4 text-sm font-semibold text-white transition hover:bg-brand-deep"
-      : "inline-flex min-h-12 items-center justify-center rounded-full border border-brand-softGray bg-white px-7 py-4 text-sm font-semibold text-brand-green transition hover:border-brand-green";
-
-  return (
-    <a
-      href={safeHref}
-      className={className}
-      target={isExternal ? "_blank" : undefined}
-      rel={isExternal ? "noopener noreferrer" : undefined}
-    >
-      {children}
-    </a>
-  );
 }
 
 export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
@@ -160,19 +125,18 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
   }
 
   return (
-    <section id="beranda" className="bg-brand-offWhite pb-5 pt-4 sm:pb-8 sm:pt-6">
-      <div className="section-shell">
-        <div
-          className="relative min-h-[690px] overflow-hidden rounded-[30px] border border-brand-softGray bg-white shadow-soft sm:min-h-[700px] lg:min-h-[530px]"
-          onMouseEnter={() => setIsHoverPaused(true)}
-          onMouseLeave={() => setIsHoverPaused(false)}
-          onTouchStart={(event) => setTouchStart(event.touches[0].clientX)}
-          onTouchEnd={(event) =>
-            handleTouchEnd(event.changedTouches[0].clientX)
-          }
-        >
+    <section id="beranda" className="w-full bg-brand-offWhite px-3 py-4 sm:px-6 sm:py-6">
+      <div
+        className="relative mx-auto w-full max-w-[1600px] overflow-hidden rounded-3xl bg-brand-offWhite shadow-soft"
+        onMouseEnter={() => setIsHoverPaused(true)}
+        onMouseLeave={() => setIsHoverPaused(false)}
+        onTouchStart={(event) => setTouchStart(event.touches[0].clientX)}
+        onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
+      >
+        <div className="relative aspect-[16/9] w-full sm:aspect-[16/7]">
           {slides.map((slide, index) => {
             const isActive = index === activeIndex;
+            const videoUrl = slide.hero_video_url;
 
             return (
               <div
@@ -184,47 +148,52 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
                 }`}
                 aria-hidden={!isActive}
               >
-                <div className="grid h-full grid-rows-[minmax(390px,auto)_1fr] lg:grid-cols-[0.94fr_1.06fr] lg:grid-rows-none">
-                  <div className="flex flex-col justify-center px-6 py-7 pb-14 sm:px-10 lg:px-12 lg:py-12">
-                    <p className="inline-flex w-fit rounded-full bg-brand-green px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
-                      {slide.badge || fallbackBadges[index] || "DEBRODER"}
-                    </p>
-                    <h1 className="mt-5 max-w-2xl text-4xl font-semibold leading-tight tracking-tight text-brand-charcoal sm:text-5xl lg:text-6xl">
-                      {slide.headline}
-                    </h1>
-                    <p className="mt-5 max-w-2xl text-base leading-7 text-brand-charcoal/70 sm:text-lg sm:leading-8">
-                      {slide.subheadline}
-                    </p>
-                    <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                      <HeroLink href={slide.cta_primary_link} variant="primary">
-                        {slide.cta_primary_text}
-                      </HeroLink>
-                      <HeroLink
-                        href={slide.cta_secondary_link || "/koleksi"}
-                        variant="secondary"
-                      >
-                        {slide.cta_secondary_text || "Lihat Koleksi"}
-                      </HeroLink>
-                    </div>
-                  </div>
-
-                  <div className="min-h-[240px] bg-brand-offWhite lg:min-h-full">
-                    <HeroImage
-                      src={slide.image_url || "/images/debroder-hero.png"}
-                      alt={slide.headline}
-                      priority={index === 0}
-                    />
-                  </div>
-                </div>
+                {videoUrl ? (
+                  <video
+                    src={videoUrl}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <HeroImage
+                    src={slide.image_url || "/images/debroder-hero.png"}
+                    alt={slide.headline || "DEBRODER Hero"}
+                    priority={index === 0}
+                  />
+                )}
               </div>
             );
           })}
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-black/5 to-transparent" />
+
+          <div className="absolute bottom-4 left-4 right-4 z-10 sm:bottom-8 sm:left-8 sm:right-auto">
+            <div className="max-w-md rounded-2xl bg-white/90 p-4 shadow-sm backdrop-blur-sm sm:p-6">
+              <h1 className="text-2xl font-bold leading-tight text-brand-charcoal sm:text-4xl">
+                {activeSlide.headline ||
+                  "Kaos Polos, Sablon DTF, dan Jersey Custom"}
+              </h1>
+              <p className="mt-3 text-sm font-normal leading-6 text-brand-charcoal/70 sm:text-base">
+                {activeSlide.subheadline ||
+                  "Solusi apparel modern untuk komunitas, brand, event, dan perusahaan."}
+              </p>
+              <a
+                href="/koleksi"
+                className="mt-5 inline-flex rounded-full bg-brand-green px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-deep"
+              >
+                Beli Sekarang
+              </a>
+            </div>
+          </div>
 
           {total > 1 ? (
             <>
               <button
                 type="button"
-                className="absolute left-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-brand-softGray bg-white/95 text-lg font-semibold text-brand-green shadow-sm transition hover:border-brand-green hover:bg-white md:grid"
+                className="absolute left-4 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-brand-charcoal shadow-sm transition hover:bg-white sm:left-6 sm:h-11 sm:w-11"
                 aria-label="Banner sebelumnya"
                 onClick={goPrev}
               >
@@ -232,24 +201,24 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
               </button>
               <button
                 type="button"
-                className="absolute right-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-brand-softGray bg-white/95 text-lg font-semibold text-brand-green shadow-sm transition hover:border-brand-green hover:bg-white md:grid"
+                className="absolute right-4 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-brand-charcoal shadow-sm transition hover:bg-white sm:right-6 sm:h-11 sm:w-11"
                 aria-label="Banner berikutnya"
                 onClick={goNext}
               >
                 {">"}
               </button>
               <div
-                className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2 rounded-full bg-white/90 px-3 py-2 backdrop-blur"
+                className="absolute right-4 top-4 z-20 flex gap-2 rounded-full bg-white/85 px-3 py-2 backdrop-blur sm:bottom-6 sm:right-6 sm:top-auto"
                 aria-label="Slider indicator"
               >
                 {slides.map((slide, index) => (
                   <button
                     key={`${slide.headline}-${index}`}
                     type="button"
-                    className={`h-2.5 rounded-full transition ${
+                    className={`h-2 rounded-full transition ${
                       index === activeIndex
-                        ? "w-8 bg-brand-green"
-                        : "w-2.5 bg-brand-softGray hover:bg-brand-green/40"
+                        ? "w-6 bg-brand-green"
+                        : "w-2 bg-brand-softGray hover:bg-brand-green/40"
                     }`}
                     aria-label={`Tampilkan banner ${index + 1}`}
                     aria-current={index === activeIndex}

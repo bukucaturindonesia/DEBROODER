@@ -33,12 +33,14 @@ export function Logo({
   variant,
   size = "md",
   className = "",
-  showText = false
+  showText = false,
+  symbolTone = "default"
 }: {
   variant: LogoVariant;
   size?: LogoSize;
   className?: string;
   showText?: boolean;
+  symbolTone?: "default" | "green";
 }) {
   const isSymbol = variant.startsWith("symbol");
   const dimensions = isSymbol
@@ -49,8 +51,16 @@ export function Logo({
     : primarySize[size];
   const imageClass = isSymbol
     ? size === "md"
-      ? "h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10"
-      : "h-auto shrink-0 object-contain"
+      ? `h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10 ${
+          symbolTone === "green"
+            ? "[filter:brightness(0)_saturate(100%)_invert(14%)_sepia(68%)_saturate(1274%)_hue-rotate(104deg)_brightness(92%)_contrast(108%)]"
+            : ""
+        }`
+      : `h-auto shrink-0 object-contain ${
+          symbolTone === "green"
+            ? "[filter:brightness(0)_saturate(100%)_invert(14%)_sepia(68%)_saturate(1274%)_hue-rotate(104deg)_brightness(92%)_contrast(108%)]"
+            : ""
+        }`
     : "h-auto shrink-0 object-contain";
 
   return (
@@ -65,7 +75,7 @@ export function Logo({
       />
       {showText ? (
         <span className="leading-none">
-          <span className="block text-sm font-bold tracking-[0.18em] text-brand-green sm:text-[15px]">
+          <span className="block text-sm font-bold tracking-[0.18em] text-brand-charcoal sm:text-[15px]">
             DEBRODER
           </span>
           <span className="mt-1 hidden text-[11px] font-medium text-brand-charcoal/55 sm:block">

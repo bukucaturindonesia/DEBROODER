@@ -48,6 +48,7 @@ export type HeroBanner = {
   cta_secondary_text: string;
   cta_secondary_link: string;
   image_url: string;
+  hero_video_url?: string;
   urutan?: number;
   status_aktif: boolean;
   created_at?: string;
