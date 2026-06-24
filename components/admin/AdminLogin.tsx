@@ -97,20 +97,10 @@ export function AdminLogin() {
           onSubmit={handleSubmit}
           className="w-full rounded-[32px] border border-brand-softGray bg-white p-6 shadow-soft sm:p-8"
         >
-          <div className="flex items-center gap-3">
-            <Logo variant="symbol-black" size="md" />
-            <div>
-              <p className="text-sm font-black tracking-[0.22em] text-brand-green">
-                DEBRODER
-              </p>
-              <p className="text-xs font-bold text-brand-charcoal/60">
-                Super Admin
-              </p>
-            </div>
-          </div>
+          <Logo variant="symbol-black" size="md" showText />
 
           <h1 className="mt-8 text-3xl font-black">Login Super Admin</h1>
-          <p className="mt-3 text-sm leading-6 text-brand-charcoal/65">
+          <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
             Login ini hanya untuk pengelola konten website DEBRODER.
           </p>
 
@@ -118,7 +108,7 @@ export function AdminLogin() {
             <div className="mt-5 rounded-2xl bg-brand-offWhite p-4 text-sm font-semibold leading-6 text-brand-charcoal/70">
               <p>{configMessage(supabaseStatus)}</p>
               <div className="mt-4 rounded-2xl bg-white p-4">
-                <p className="font-black text-brand-green">Supabase Status:</p>
+                <p className="font-black text-brand-charcoal">Supabase Status:</p>
                 <div className="mt-3 grid gap-1">
                   <p>URL tersedia: {supabaseStatus.hasUrl ? "Ya" : "Tidak"}</p>
                   <p>
@@ -142,7 +132,7 @@ export function AdminLogin() {
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-brand-softGray px-4 py-3 text-base outline-none transition focus:border-brand-green"
+              className="mt-2 w-full rounded-lg border border-brand-softGray px-4 py-3 text-base outline-none transition focus:border-brand-charcoal"
               required
             />
           </label>
@@ -153,7 +143,7 @@ export function AdminLogin() {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-brand-softGray px-4 py-3 text-base outline-none transition focus:border-brand-green"
+              className="mt-2 w-full rounded-lg border border-brand-softGray px-4 py-3 text-base outline-none transition focus:border-brand-charcoal"
               required
             />
           </label>
@@ -167,7 +157,7 @@ export function AdminLogin() {
           <button
             type="submit"
             disabled={isLoading || !configured}
-            className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-black text-white transition hover:bg-brand-deep disabled:cursor-not-allowed disabled:opacity-50"
+            className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-brand-charcoal px-6 py-4 text-sm font-black text-white transition hover:bg-black/80 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isLoading ? "Memproses..." : "Login"}
           </button>

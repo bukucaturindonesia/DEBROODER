@@ -1,109 +1,131 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Logo } from "@/components/Logo";
-import { SocialIconLinks } from "@/components/SocialIconLinks";
 import type { PublicContent } from "@/lib/types";
-import { emailHref, facebookHref, instagramHref } from "@/lib/url";
+import {
+  emailHref,
+  facebookHref,
+  instagramHref,
+  whatsappLinkWithMessage
+} from "@/lib/url";
 
-function sectionPath(slug: string) {
-  return `/${slug.replace(/^\/+/, "")}`;
+const menuLinks = [
+  { label: "Koleksi", href: "/koleksi" },
+  { label: "Kaos Polos", href: "/kaos-polos" },
+  { label: "Sablon DTF", href: "/sablon-dtf" },
+  { label: "Jersey", href: "/jersey" },
+  { label: "Store", href: "/store" },
+  { label: "Cara Order", href: "/cara-order" }
+];
+
+const serviceLinks = [
+  { label: "Sablon Kaos", href: "/sablon-dtf" },
+  { label: "Sablon DTF", href: "/sablon-dtf" },
+  { label: "Custom Jersey", href: "/jersey" },
+  { label: "Maklon DTF", href: "/maklon-dtf" },
+  { label: "Cetak Sublim", href: "/cetak-sublim" },
+  { label: "DEBRODER Express", href: "/express" }
+];
+
+function FooterColumn({
+  title,
+  children
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <div>
+      <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">
+        {title}
+      </h3>
+      <div className="mt-4 grid gap-2.5 text-sm font-medium text-white/70">
+        {children}
+      </div>
+    </div>
+  );
 }
 
 export function PublicFooter({ content }: { content: PublicContent }) {
   const emailLink = emailHref(content.contact.email);
   const facebookLink = facebookHref(content.contact.facebook);
   const instagramLink = instagramHref(content.contact.instagram);
+  const whatsappLink = whatsappLinkWithMessage(
+    content.contact.whatsapp_link || content.contact.whatsapp_utama,
+    "Halo DEBRODER, saya ingin bertanya tentang layanan DEBRODER."
+  );
 
   return (
-    <footer className="bg-brand-charcoal py-12 text-white">
-      <div className="section-shell grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+    <footer className="bg-brand-charcoal py-10 text-white">
+      <div className="section-shell grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Logo variant="primary-white" size="md" />
-          <p className="mt-3 text-sm font-semibold text-white/70">
+          <Logo
+            variant="symbol-white"
+            size="md"
+            showText
+            textTone="white"
+          />
+          <p className="mt-3 text-sm font-medium text-white/60">
             Kaos Polos Import & Sablon
           </p>
           <Link
             href="/admin/login"
-            className="mt-6 inline-flex text-xs font-semibold text-white/40 transition hover:text-white"
+            className="mt-5 inline-flex text-xs font-medium text-white/40 transition hover:text-white"
           >
             Admin
           </Link>
         </div>
 
-        <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
-            Menu
-          </h3>
-          <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-            <Link href="/#tentang" className="hover:text-white">
-              Tentang
+        <FooterColumn title="Koleksi">
+          {menuLinks.map((item) => (
+            <Link key={item.href} href={item.href} className="hover:text-white">
+              {item.label}
             </Link>
-            <Link href="/#apparel" className="hover:text-white">
-              DEBRODER Apparel
-            </Link>
-            <Link href="/express" className="hover:text-white">
-              DEBRODER Express
-            </Link>
-            <Link href="/store" className="hover:text-white">
-              Store
-            </Link>
-            <Link href="/#kontak" className="hover:text-white">
-              Kontak
-            </Link>
-          </div>
-        </div>
+          ))}
+        </FooterColumn>
 
-        <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
-            Layanan
-          </h3>
-          <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-            {content.categories.slice(0, 7).map((service) => (
-              <Link
-                key={service.nama_kategori}
-                href={sectionPath(service.link_slug || "koleksi")}
-                className="hover:text-white"
-              >
-                {service.nama_kategori}
-              </Link>
-            ))}
-          </div>
-        </div>
+        <FooterColumn title="Layanan">
+          {serviceLinks.map((item) => (
+            <Link key={item.href} href={item.href} className="hover:text-white">
+              {item.label}
+            </Link>
+          ))}
+        </FooterColumn>
 
-        <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
-            Store
-          </h3>
-          <div className="mt-5 grid gap-3 text-sm font-semibold text-white/75">
-            {content.stores.map((store) => (
-              <a
-                key={store.nama_store}
-                href={store.maps_link}
-                className="hover:text-white"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {store.nama_store.replace("STORE ", "Store ")}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/60">
-            Kontak
-          </h3>
-          <SocialIconLinks
-            emailLink={emailLink}
-            facebookLink={facebookLink}
-            instagramLink={instagramLink}
-            tone="light"
-            className="mt-5"
-          />
-        </div>
+        <FooterColumn title="Kontak">
+          <a href={emailLink} className="hover:text-white">
+            Email
+          </a>
+          <a
+            href={facebookLink}
+            className="hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Facebook
+          </a>
+          <a
+            href={instagramLink}
+            className="hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+          </a>
+          <a
+            href={whatsappLink}
+            className="hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WhatsApp
+          </a>
+        </FooterColumn>
       </div>
-      <div className="section-shell mt-10 border-t border-white/10 pt-6">
-        <p className="text-sm font-semibold text-white/60">
-          &copy; 2026 DEBRODER. All rights reserved.
+      <div className="section-shell mt-8 border-t border-white/10 pt-5">
+        <p className="text-sm font-medium text-white/60">
+          {content.contact.copyright_text ||
+            "\u00a9 2026 DEBRODER. All rights reserved."}
         </p>
       </div>
     </footer>

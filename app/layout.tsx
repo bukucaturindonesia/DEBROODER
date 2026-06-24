@@ -4,13 +4,13 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://debroder.com"),
-  title: "DEBRODER | Kaos Polos Import & Sablon",
+  title: "DEBRODER \u2014 Kaos Polos Import & Sablon",
   manifest: "/manifest.webmanifest",
   alternates: {
     canonical: "/"
   },
   description:
-    "DEBRODER adalah perusahaan percetakan dan apparel sejak 2016 yang menyediakan sablon kaos, sablon DTF, custom jersey, maklon DTF, cetak sublim, kaos polos, dan layanan pengiriman melalui DEBRODER Apparel dan DEBRODER Express.",
+    "DEBRODER menyediakan kaos polos import, sablon DTF, custom jersey, maklon DTF, cetak sublim, dan layanan DEBRODER Express melalui beberapa store di Makassar dan Parepare.",
   keywords: [
     "DEBRODER",
     "De Broder",
@@ -29,16 +29,16 @@ export const metadata: Metadata = {
     "ekspedisi"
   ],
   openGraph: {
-    title: "DEBRODER | Kaos Polos Import & Sablon",
+    title: "DEBRODER \u2014 Kaos Polos Import & Sablon",
     description:
-      "Perusahaan percetakan dan apparel sejak 2016 untuk sablon kaos, sablon DTF, custom jersey, maklon DTF, cetak sublim, kaos polos, dan layanan pengiriman.",
+      "Kaos polos, sablon DTF, custom jersey, apparel, dan layanan pengiriman dalam satu ekosistem DEBRODER.",
     siteName: "DEBRODER",
     images: [
       {
-        url: "/images/debroder-hero.png",
+        url: "/images/debroder/hero/hero-home.jpg",
         width: 1536,
         height: 1024,
-        alt: "Kaos polos dan paket pengiriman DEBRODER"
+        alt: "Kaos polos import dan layanan sablon DEBRODER"
       }
     ],
     locale: "id_ID",
@@ -46,10 +46,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "DEBRODER | Kaos Polos Import & Sablon",
+    title: "DEBRODER \u2014 Kaos Polos Import & Sablon",
     description:
-      "Kaos polos import, sablon DTF, jersey, dan layanan pengiriman dalam satu ekosistem bisnis.",
-    images: ["/images/debroder-hero.png"]
+      "Kaos polos import, sablon DTF, custom jersey, apparel, dan layanan pengiriman dalam satu ekosistem DEBRODER.",
+    images: ["/images/debroder/hero/hero-home.jpg"]
   },
   icons: {
     icon: [

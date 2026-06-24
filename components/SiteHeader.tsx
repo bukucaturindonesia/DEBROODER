@@ -5,9 +5,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Logo } from "@/components/Logo";
 import { contactLinks } from "@/lib/contact";
+import { whatsappLinkWithMessage } from "@/lib/url";
 
 const navItems = [
-  { label: "Koleksi", href: "/koleksi" },
+  { label: "Koleksi", href: "/koleksi", hasDropdown: true },
   { label: "Kaos Polos", href: "/kaos-polos" },
   { label: "Sablon DTF", href: "/sablon-dtf" },
   { label: "Jersey", href: "/jersey" },
@@ -16,7 +17,25 @@ const navItems = [
   { label: "Cara Order", href: "/cara-order" }
 ];
 
-const mobileNavItems = navItems;
+const topbarItems = ["Layanan Pelanggan", "Lacak Pesanan", "Temukan Toko", "ID"];
+
+const collectionGroups = [
+  {
+    title: "Koleksi",
+    items: [
+      "Belanja Semua",
+      "Best Seller",
+      "Kids",
+      "New",
+      "Populer",
+      "Turun Harga"
+    ]
+  },
+  {
+    title: "Belanja Berdasarkan Warna",
+    items: ["Butter", "Gold", "White", "Black", "Lilac", "Red", "Black-Forest Camo"]
+  }
+];
 
 const searchItems = [
   {
@@ -87,6 +106,11 @@ const searchItems = [
   }
 ];
 
+const whatsappUrl = whatsappLinkWithMessage(
+  contactLinks.whatsapp,
+  "Halo DEBRODER, saya ingin bertanya tentang layanan DEBRODER."
+);
+
 function SearchIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5">
@@ -127,7 +151,7 @@ function DesktopSearchButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       type="button"
-      className="hidden h-11 w-[220px] items-center gap-3 rounded-full bg-brand-offWhite px-4 text-left text-sm font-medium text-brand-charcoal/55 ring-1 ring-transparent transition hover:text-brand-charcoal focus:outline-none focus:ring-2 focus:ring-brand-green lg:flex 2xl:w-[260px]"
+      className="hidden h-10 w-[190px] items-center gap-3 rounded-full bg-brand-offWhite px-4 text-left text-sm font-medium text-brand-charcoal/60 ring-1 ring-transparent transition hover:text-brand-charcoal focus:outline-none focus:ring-2 focus:ring-brand-charcoal lg:flex 2xl:w-[235px]"
       aria-label="Cari produk"
       onClick={onClick}
     >
@@ -153,11 +177,7 @@ function SearchModal({
     if (!normalizedQuery) return searchItems.slice(0, 6);
 
     return searchItems.filter((item) => {
-      const haystack = [
-        item.title,
-        item.description,
-        ...item.keywords
-      ]
+      const haystack = [item.title, item.description, ...item.keywords]
         .join(" ")
         .toLowerCase();
 
@@ -205,7 +225,7 @@ function SearchModal({
 
   return (
     <div
-      className="fixed inset-0 z-[80] bg-brand-charcoal/40 px-4 py-5 backdrop-blur-sm"
+      className="fixed inset-0 z-[80] bg-brand-charcoal/50 px-4 py-5 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label="Pencarian DEBRODER"
@@ -213,7 +233,7 @@ function SearchModal({
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div className="mx-auto mt-16 max-w-2xl overflow-hidden rounded-[28px] border border-brand-softGray bg-white shadow-soft">
+      <div className="mx-auto mt-16 max-w-2xl overflow-hidden rounded-xl border border-brand-softGray bg-white shadow-soft">
         <div className="flex items-center gap-3 border-b border-brand-softGray p-4">
           <SearchIcon />
           <input
@@ -227,7 +247,7 @@ function SearchModal({
           />
           <button
             type="button"
-            className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray text-brand-charcoal transition hover:border-brand-green hover:text-brand-green"
+            className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray text-brand-charcoal transition hover:border-brand-charcoal hover:bg-brand-charcoal hover:text-white"
             aria-label="Tutup pencarian"
             onClick={onClose}
           >
@@ -241,7 +261,7 @@ function SearchModal({
                 <button
                   key={`${item.title}-${item.href}`}
                   type="button"
-                  className="rounded-2xl p-4 text-left transition hover:bg-brand-offWhite"
+                  className="rounded-lg p-4 text-left transition hover:bg-brand-offWhite"
                   onClick={() => openResult(item.href)}
                 >
                   <span className="text-base font-semibold text-brand-charcoal">
@@ -254,7 +274,7 @@ function SearchModal({
               ))}
             </div>
           ) : (
-            <p className="rounded-2xl bg-brand-offWhite p-4 text-sm text-brand-charcoal/70">
+            <p className="rounded-lg bg-brand-offWhite p-4 text-sm text-brand-charcoal/70">
               Tidak ada hasil. Coba kata kunci lain seperti kaos, sablon,
               jersey, store, atau cara order.
             </p>
@@ -265,17 +285,101 @@ function SearchModal({
   );
 }
 
+function CollectionDropdown({
+  onNavigate
+}: {
+  onNavigate?: () => void;
+}) {
+  return (
+    <div className="grid gap-6 p-5 md:grid-cols-2">
+      {collectionGroups.map((group) => (
+        <div key={group.title}>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-charcoal/50">
+            {group.title}
+          </p>
+          <div className="mt-3 grid gap-1">
+            {group.items.map((item) => (
+              <Link
+                key={item}
+                href="/koleksi"
+                className="rounded-md px-2 py-2 text-sm font-medium text-brand-charcoal/75 transition hover:bg-brand-offWhite hover:text-brand-charcoal"
+                onClick={onNavigate}
+              >
+                {item}
+              </Link>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCollectionOpen, setIsCollectionOpen] = useState(false);
+  const [isMobileCollectionOpen, setIsMobileCollectionOpen] = useState(false);
+  const [showTopbar, setShowTopbar] = useState(true);
+  const collectionRef = useRef<HTMLDivElement>(null);
 
   function isActive(href: string) {
     return pathname === href;
   }
 
+  useEffect(() => {
+    function handleScroll() {
+      setShowTopbar(window.scrollY < 12);
+    }
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!isCollectionOpen) return;
+
+    function handlePointer(event: MouseEvent) {
+      if (
+        collectionRef.current &&
+        !collectionRef.current.contains(event.target as Node)
+      ) {
+        setIsCollectionOpen(false);
+      }
+    }
+
+    function handleKey(event: globalThis.KeyboardEvent) {
+      if (event.key === "Escape") setIsCollectionOpen(false);
+    }
+
+    document.addEventListener("mousedown", handlePointer);
+    document.addEventListener("keydown", handleKey);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointer);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [isCollectionOpen]);
+
   return (
     <header className="sticky top-0 z-50 border-b border-brand-softGray bg-white/95 text-brand-charcoal backdrop-blur-xl">
+      <div
+        className={`overflow-hidden border-b border-brand-softGray bg-brand-offWhite text-xs font-medium text-brand-charcoal/60 transition-all duration-300 ${
+          showTopbar
+            ? "max-h-10 translate-y-0 opacity-100"
+            : "max-h-0 -translate-y-full opacity-0"
+        }`}
+      >
+        <div className="section-shell flex h-8 items-center justify-end gap-4 whitespace-nowrap">
+          {topbarItems.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+      </div>
+
       <nav
         className="section-shell flex min-h-[62px] items-center justify-between gap-3 md:min-h-[68px]"
         aria-label="Navigasi utama"
@@ -285,46 +389,71 @@ export function SiteHeader() {
             variant="symbol-black"
             size="md"
             showText
-            symbolTone="green"
-            className="transition group-hover:scale-[1.02]"
+            className="transition group-hover:scale-[1.01]"
           />
         </Link>
 
-        <div className="hidden items-center gap-3 xl:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`rounded-full px-2.5 py-2 text-[13px] font-semibold transition hover:bg-brand-offWhite hover:text-brand-green 2xl:text-sm ${
-                isActive(item.href)
-                  ? "bg-brand-offWhite text-brand-green"
-                  : "text-brand-charcoal/75"
-              }`}
-            >
-              {item.label === "Sablon DTF" ? (
-                <span className="navbar-glitch" data-text="Sablon DTF">
+        <div className="hidden items-center gap-1 xl:flex">
+          {navItems.map((item) =>
+            item.hasDropdown ? (
+              <div
+                key={item.href}
+                className="relative"
+                ref={collectionRef}
+                onMouseEnter={() => setIsCollectionOpen(true)}
+              >
+                <button
+                  type="button"
+                  className={`whitespace-nowrap rounded-full px-3 py-2 text-[13px] font-semibold transition hover:bg-brand-offWhite 2xl:text-sm ${
+                    isActive(item.href)
+                      ? "bg-brand-charcoal text-white"
+                      : "text-brand-charcoal/75"
+                  }`}
+                  aria-expanded={isCollectionOpen}
+                  onClick={() => setIsCollectionOpen((current) => !current)}
+                >
                   {item.label}
-                </span>
-              ) : (
-                item.label
-              )}
-            </Link>
-          ))}
+                </button>
+                {isCollectionOpen ? (
+                  <div
+                    className="absolute left-0 top-full z-[60] mt-3 w-[520px] overflow-hidden border border-brand-softGray bg-white shadow-soft"
+                    onMouseLeave={() => setIsCollectionOpen(false)}
+                  >
+                    <CollectionDropdown
+                      onNavigate={() => setIsCollectionOpen(false)}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`whitespace-nowrap rounded-full px-3 py-2 text-[13px] font-semibold transition hover:bg-brand-offWhite 2xl:text-sm ${
+                  isActive(item.href)
+                    ? "bg-brand-charcoal text-white"
+                    : "text-brand-charcoal/75"
+                }`}
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </div>
 
         <div className="flex items-center gap-2">
           <DesktopSearchButton onClick={() => setIsSearchOpen(true)} />
           <button
             type="button"
-            className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray bg-white text-brand-charcoal transition hover:border-brand-green hover:text-brand-green lg:hidden"
+            className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray bg-white text-brand-charcoal transition hover:border-brand-charcoal hover:bg-brand-charcoal hover:text-white lg:hidden"
             aria-label="Cari"
             onClick={() => setIsSearchOpen(true)}
           >
             <SearchIcon />
           </button>
           <a
-            href={contactLinks.whatsapp}
-            className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray bg-white text-brand-green transition hover:border-brand-green hover:bg-brand-offWhite"
+            href={whatsappUrl}
+            className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray bg-white text-brand-charcoal transition hover:border-brand-charcoal hover:bg-brand-charcoal hover:text-white"
             aria-label="Hubungi WhatsApp DEBRODER"
             target="_blank"
             rel="noopener noreferrer"
@@ -333,7 +462,7 @@ export function SiteHeader() {
           </a>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-brand-softGray bg-white text-brand-charcoal transition hover:border-brand-green hover:text-brand-green xl:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-brand-softGray bg-white text-brand-charcoal transition hover:border-brand-charcoal hover:bg-brand-charcoal hover:text-white xl:hidden"
             aria-label={isOpen ? "Tutup menu" : "Buka menu"}
             aria-expanded={isOpen}
             onClick={() => setIsOpen((current) => !current)}
@@ -367,24 +496,46 @@ export function SiteHeader() {
           isOpen ? "block" : "hidden"
         }`}
       >
-        <div className="section-shell grid gap-2 py-5">
-          {mobileNavItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`rounded-2xl px-4 py-3 text-base font-semibold transition hover:bg-brand-offWhite hover:text-brand-green ${
-                isActive(item.href)
-                  ? "bg-brand-offWhite text-brand-green"
-                  : "text-brand-charcoal"
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <div className="section-shell grid max-h-[calc(100vh-88px)] gap-2 overflow-y-auto py-5">
+          <button
+            type="button"
+            className="flex items-center justify-between rounded-lg px-4 py-3 text-left text-base font-semibold text-brand-charcoal transition hover:bg-brand-offWhite"
+            onClick={() =>
+              setIsMobileCollectionOpen((current) => !current)
+            }
+          >
+            <span>Koleksi</span>
+            <span>{isMobileCollectionOpen ? "-" : "+"}</span>
+          </button>
+          {isMobileCollectionOpen ? (
+            <div className="rounded-lg bg-brand-offWhite">
+              <CollectionDropdown
+                onNavigate={() => {
+                  setIsOpen(false);
+                  setIsMobileCollectionOpen(false);
+                }}
+              />
+            </div>
+          ) : null}
+          {navItems
+            .filter((item) => !item.hasDropdown)
+            .map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-lg px-4 py-3 text-base font-semibold transition hover:bg-brand-offWhite ${
+                  isActive(item.href)
+                    ? "bg-brand-charcoal text-white"
+                    : "text-brand-charcoal"
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
           <a
-            href={contactLinks.whatsapp}
-            className="rounded-2xl px-4 py-3 text-base font-semibold text-brand-charcoal transition hover:bg-brand-offWhite hover:text-brand-green"
+            href={whatsappUrl}
+            className="rounded-lg px-4 py-3 text-base font-semibold text-brand-charcoal transition hover:bg-brand-offWhite"
             onClick={() => setIsOpen(false)}
             target="_blank"
             rel="noopener noreferrer"

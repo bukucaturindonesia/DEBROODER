@@ -16,19 +16,22 @@ export const metadata: Metadata = {
 
 export default async function StorePage() {
   const content = await getPublicContent();
+  const pageHero = content.pageHeroes.find((hero) => hero.page_key === "store");
 
   return (
     <PublicShell content={content}>
       <PageHero
-        label="Store"
-        title="Store DEBRODER Apparel"
-        description="Temukan store DEBRODER Apparel terdekat untuk kebutuhan sablon kaos, cetak DTF, jersey, dan kaos polos."
+        label={pageHero?.label || "STORE DEBRODER"}
+        title={pageHero?.title || "Temukan Store DEBRODER Terdekat"}
+        description={pageHero?.subtitle || "Pettarani, Tello, Landak, dan Parepare."}
+        imageUrl={pageHero?.image_url}
+        objectPosition={pageHero?.object_position}
         breadcrumbs={[
           { label: "Beranda", href: "/" },
           { label: "Store" }
         ]}
       />
-      <section className="bg-brand-offWhite pb-16 sm:pb-24">
+      <section className="bg-brand-offWhite py-14 sm:py-20">
         <div className="section-shell">
           <StoreGrid stores={content.stores} />
         </div>

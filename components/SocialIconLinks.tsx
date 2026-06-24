@@ -2,7 +2,7 @@ type SocialIconLinksProps = {
   emailLink: string;
   facebookLink: string;
   instagramLink: string;
-  tone?: "green" | "light";
+  tone?: "dark" | "light";
   className?: string;
 };
 
@@ -70,13 +70,13 @@ export function SocialIconLinks({
   emailLink,
   facebookLink,
   instagramLink,
-  tone = "green",
+  tone = "dark",
   className = ""
 }: SocialIconLinksProps) {
   const colorClass =
     tone === "light"
-      ? "border-white/20 bg-white/10 text-white hover:bg-white hover:text-brand-green"
-      : "border-brand-softGray bg-white text-brand-green hover:border-brand-green hover:bg-brand-offWhite";
+      ? "border-white/20 bg-white/10 text-white hover:bg-white hover:text-brand-charcoal"
+      : "border-brand-softGray bg-white text-brand-charcoal hover:border-brand-charcoal hover:bg-brand-charcoal hover:text-white";
   const baseClass = `grid h-11 w-11 place-items-center rounded-full border transition ${colorClass}`;
 
   return (

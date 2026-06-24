@@ -34,13 +34,13 @@ export function Logo({
   size = "md",
   className = "",
   showText = false,
-  symbolTone = "default"
+  textTone = "green"
 }: {
   variant: LogoVariant;
   size?: LogoSize;
   className?: string;
   showText?: boolean;
-  symbolTone?: "default" | "green";
+  textTone?: "green" | "white" | "black";
 }) {
   const isSymbol = variant.startsWith("symbol");
   const dimensions = isSymbol
@@ -51,16 +51,8 @@ export function Logo({
     : primarySize[size];
   const imageClass = isSymbol
     ? size === "md"
-      ? `h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10 ${
-          symbolTone === "green"
-            ? "[filter:brightness(0)_saturate(100%)_invert(14%)_sepia(68%)_saturate(1274%)_hue-rotate(104deg)_brightness(92%)_contrast(108%)]"
-            : ""
-        }`
-      : `h-auto shrink-0 object-contain ${
-          symbolTone === "green"
-            ? "[filter:brightness(0)_saturate(100%)_invert(14%)_sepia(68%)_saturate(1274%)_hue-rotate(104deg)_brightness(92%)_contrast(108%)]"
-            : ""
-        }`
+      ? "h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10"
+      : "h-auto shrink-0 object-contain"
     : "h-auto shrink-0 object-contain";
 
   return (
@@ -75,10 +67,22 @@ export function Logo({
       />
       {showText ? (
         <span className="leading-none">
-          <span className="block text-sm font-bold tracking-[0.18em] text-brand-charcoal sm:text-[15px]">
+          <span
+            className={`block text-sm font-bold tracking-[0.18em] sm:text-[15px] ${
+              textTone === "white"
+                ? "text-white"
+                : textTone === "black"
+                  ? "text-brand-charcoal"
+                  : "text-brand-green"
+            }`}
+          >
             DEBRODER
           </span>
-          <span className="mt-1 hidden text-[11px] font-medium text-brand-charcoal/55 sm:block">
+          <span
+            className={`mt-1 hidden text-[11px] font-medium sm:block ${
+              textTone === "white" ? "text-white/60" : "text-brand-charcoal/60"
+            }`}
+          >
             Kaos Polos Import & Sablon
           </span>
         </span>

@@ -6,7 +6,6 @@ import {
   ServiceCard
 } from "@/components/PublicPage";
 import { getPublicContent } from "@/lib/public-data";
-import { whatsappHref } from "@/lib/url";
 
 export const metadata: Metadata = {
   title: "Koleksi & Layanan DEBRODER",
@@ -22,36 +21,37 @@ export const metadata: Metadata = {
 
 export default async function KoleksiPage() {
   const content = await getPublicContent();
+  const pageHero = content.pageHeroes.find((hero) => hero.page_key === "koleksi");
   const categories = content.categories.filter(
-    (category) => category.nama_kategori !== "Sablon Kaos"
+    (category) => category.status_aktif !== false
   );
-  const apparelLink = whatsappHref(content.contact.whatsapp_apparel);
 
   return (
     <PublicShell content={content}>
       <PageHero
-        label="Koleksi"
-        title="Koleksi & Layanan DEBRODER"
-        description="Temukan layanan apparel, percetakan, custom jersey, sablon DTF, kaos polos, maklon DTF, cetak sublim, dan pengiriman dari DEBRODER."
-        ctaText="Mulai Pesan"
-        ctaHref={apparelLink}
-        secondaryCtaText="Temukan Store"
-        secondaryCtaHref="/store"
+        label={pageHero?.label || "KOLEKSI"}
+        title={pageHero?.title || "Layanan & Produk DEBRODER"}
+        description={
+          pageHero?.subtitle ||
+          "Temukan kebutuhan apparel, sablon, jersey, dan layanan custom dalam satu tempat."
+        }
+        imageUrl={pageHero?.image_url}
+        objectPosition={pageHero?.object_position}
         breadcrumbs={[
           { label: "Beranda", href: "/" },
           { label: "Koleksi" }
         ]}
       />
-      <section className="bg-brand-offWhite pb-16 sm:pb-24">
+      <section className="bg-brand-offWhite py-14 sm:py-20">
         <div className="section-shell grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {categories.map((category) => (
             <ServiceCard key={category.nama_kategori} service={category} />
           ))}
         </div>
       </section>
-      <section className="bg-white py-16 sm:py-24">
+      <section className="bg-white py-14 sm:py-20">
         <div className="section-shell">
-          <h2 className="text-3xl font-black tracking-tight sm:text-5xl">
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Produk & Layanan Populer
           </h2>
           <div className="mt-10">

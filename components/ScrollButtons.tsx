@@ -13,7 +13,7 @@ export function ScrollButtons({ containerId }: { containerId: string }) {
   }
 
   const buttonClass =
-    "grid h-10 w-10 place-items-center rounded-full border border-brand-softGray bg-brand-offWhite text-brand-charcoal transition hover:border-brand-green hover:text-brand-green";
+    "grid h-10 w-10 place-items-center rounded-full border border-brand-softGray bg-white text-brand-charcoal transition hover:border-brand-charcoal hover:bg-brand-charcoal hover:text-white";
 
   return (
     <div className="flex items-center gap-2" aria-label="Kontrol katalog">

@@ -26,7 +26,7 @@ body {
 }
 
 ::selection {
-  background: #003b0a;
+  background: #111111;
   color: #ffffff;
 }
 
@@ -60,44 +60,6 @@ body {
   transform: translateY(0);
 }
 
-.navbar-glitch {
-  position: relative;
-  display: inline-block;
-}
-
-.navbar-glitch::before,
-.navbar-glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.navbar-glitch::before {
-  color: #003b0a;
-  transform: translateX(1px);
-}
-
-.navbar-glitch::after {
-  color: #111111;
-  transform: translateX(-1px);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .navbar-glitch {
-    animation: nav-glitch-base 3.2s infinite;
-  }
-
-  .navbar-glitch::before {
-    animation: nav-glitch-layer 3.2s infinite;
-  }
-
-  .navbar-glitch::after {
-    animation: nav-glitch-layer-alt 3.2s infinite;
-  }
-}
-
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -107,54 +69,6 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes nav-glitch-base {
-  0%,
-  45%,
-  52%,
-  100% {
-    text-shadow: none;
-    transform: translateX(0);
-  }
-
-  47% {
-    text-shadow: 1px 0 rgba(0, 59, 10, 0.24);
-    transform: translateX(0.5px);
-  }
-
-  49% {
-    text-shadow: -1px 0 rgba(17, 17, 17, 0.18);
-    transform: translateX(-0.5px);
-  }
-}
-
-@keyframes nav-glitch-layer {
-  0%,
-  45%,
-  52%,
-  100% {
-    opacity: 0;
-  }
-
-  47%,
-  49% {
-    opacity: 0.22;
-  }
-}
-
-@keyframes nav-glitch-layer-alt {
-  0%,
-  45%,
-  52%,
-  100% {
-    opacity: 0;
-  }
-
-  48%,
-  50% {
-    opacity: 0.16;
   }
 }
 

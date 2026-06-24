@@ -8,11 +8,13 @@ import type { HeroBanner } from "@/lib/types";
 function HeroImage({
   src,
   alt,
-  priority
+  priority,
+  objectPosition
 }: {
   src: string;
   alt: string;
   priority?: boolean;
+  objectPosition?: string;
 }) {
   const className = "h-full w-full object-cover";
 
@@ -25,12 +27,21 @@ function HeroImage({
         height={1024}
         priority={priority}
         className={className}
+        style={{ objectPosition }}
         sizes="100vw"
       />
     );
   }
 
-  return <img src={src} alt={alt} className={className} loading="lazy" />;
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      loading="lazy"
+      style={{ objectPosition }}
+    />
+  );
 }
 
 export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
@@ -125,18 +136,19 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
   }
 
   return (
-    <section id="beranda" className="w-full bg-brand-offWhite px-3 py-4 sm:px-6 sm:py-6">
+    <section id="beranda" className="w-full bg-white">
       <div
-        className="relative mx-auto w-full max-w-[1600px] overflow-hidden rounded-3xl bg-brand-offWhite shadow-soft"
+        className="relative mx-auto w-full overflow-hidden bg-brand-offWhite"
         onMouseEnter={() => setIsHoverPaused(true)}
         onMouseLeave={() => setIsHoverPaused(false)}
         onTouchStart={(event) => setTouchStart(event.touches[0].clientX)}
         onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
       >
-        <div className="relative aspect-[16/9] w-full sm:aspect-[16/7]">
+        <div className="relative aspect-[16/11] w-full sm:aspect-[16/7] lg:aspect-[16/6]">
           {slides.map((slide, index) => {
             const isActive = index === activeIndex;
-            const videoUrl = slide.hero_video_url;
+            const videoUrl = slide.hero_video_url || slide.video_url;
+            const objectPosition = slide.object_position || "center center";
 
             return (
               <div
@@ -156,12 +168,14 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
                     loop
                     playsInline
                     className="h-full w-full object-cover"
+                    style={{ objectPosition }}
                   />
                 ) : (
                   <HeroImage
                     src={slide.image_url || "/images/debroder-hero.png"}
-                    alt={slide.headline || "DEBRODER Hero"}
+                    alt={slide.headline || slide.title || "DEBRODER Hero"}
                     priority={index === 0}
+                    objectPosition={objectPosition}
                   />
                 )}
               </div>
@@ -170,21 +184,28 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-black/5 to-transparent" />
 
-          <div className="absolute bottom-4 left-4 right-4 z-10 sm:bottom-8 sm:left-8 sm:right-auto">
-            <div className="max-w-md rounded-2xl bg-white/90 p-4 shadow-sm backdrop-blur-sm sm:p-6">
-              <h1 className="text-2xl font-bold leading-tight text-brand-charcoal sm:text-4xl">
-                {activeSlide.headline ||
-                  "Kaos Polos, Sablon DTF, dan Jersey Custom"}
+          <div className="absolute bottom-4 left-4 z-10 max-w-[calc(100%-32px)] sm:bottom-8 sm:left-8">
+            <div className="space-y-2">
+              <h1 className="w-fit bg-white px-3 py-1.5 text-xl font-bold leading-tight text-brand-charcoal sm:px-4 sm:py-2 sm:text-3xl">
+                {activeSlide.headline || activeSlide.title || "KAOS POLOS IMPORT"}
               </h1>
-              <p className="mt-3 text-sm font-normal leading-6 text-brand-charcoal/70 sm:text-base">
+              <p className="w-fit max-w-xl bg-white px-3 py-1.5 text-sm font-medium leading-5 text-brand-charcoal/75 sm:px-4 sm:py-2 sm:text-base">
                 {activeSlide.subheadline ||
-                  "Solusi apparel modern untuk komunitas, brand, event, dan perusahaan."}
+                  activeSlide.subtitle ||
+                  "Sablon DTF, Jersey, dan Custom Apparel"}
               </p>
               <a
-                href="/koleksi"
-                className="mt-5 inline-flex rounded-full bg-brand-green px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-deep"
+                href={
+                  activeSlide.cta_link ||
+                  activeSlide.cta_primary_link ||
+                  "/koleksi"
+                }
+                className="inline-flex min-h-10 items-center rounded-full bg-brand-charcoal px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-black/80"
               >
-                Beli Sekarang
+                {activeSlide.cta_text ||
+                  activeSlide.cta_primary_text ||
+                  "Beli Sekarang"}{" "}
+                <span aria-hidden="true">-&gt;</span>
               </a>
             </div>
           </div>
@@ -193,7 +214,7 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
             <>
               <button
                 type="button"
-                className="absolute left-4 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-brand-charcoal shadow-sm transition hover:bg-white sm:left-6 sm:h-11 sm:w-11"
+                className="absolute left-4 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-brand-charcoal transition hover:bg-white sm:left-6 sm:flex"
                 aria-label="Banner sebelumnya"
                 onClick={goPrev}
               >
@@ -201,14 +222,14 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
               </button>
               <button
                 type="button"
-                className="absolute right-4 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-brand-charcoal shadow-sm transition hover:bg-white sm:right-6 sm:h-11 sm:w-11"
+                className="absolute right-4 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-brand-charcoal transition hover:bg-white sm:right-6 sm:flex"
                 aria-label="Banner berikutnya"
                 onClick={goNext}
               >
                 {">"}
               </button>
               <div
-                className="absolute right-4 top-4 z-20 flex gap-2 rounded-full bg-white/85 px-3 py-2 backdrop-blur sm:bottom-6 sm:right-6 sm:top-auto"
+                className="absolute bottom-4 right-4 z-20 flex gap-2 rounded-full bg-white/90 px-3 py-2 backdrop-blur sm:bottom-6 sm:right-6"
                 aria-label="Slider indicator"
               >
                 {slides.map((slide, index) => (
@@ -217,8 +238,8 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
                     type="button"
                     className={`h-2 rounded-full transition ${
                       index === activeIndex
-                        ? "w-6 bg-brand-green"
-                        : "w-2 bg-brand-softGray hover:bg-brand-green/40"
+                        ? "w-6 bg-brand-charcoal"
+                        : "w-2 bg-brand-softGray hover:bg-brand-charcoal/50"
                     }`}
                     aria-label={`Tampilkan banner ${index + 1}`}
                     aria-current={index === activeIndex}
