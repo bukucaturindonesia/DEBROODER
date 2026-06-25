@@ -16,13 +16,12 @@ import { contactLinks, storeContacts } from "@/lib/contact";
 import { whatsappLinkWithMessage } from "@/lib/url";
 
 export const fallbackImages = {
-  hero: "/images/debroder/hero/hero-1.jpg",
-  heroSecondary: "/images/debroder/hero/hero-2.jpg",
-  pageHero: "/images/debroder/fallback/fallback-page-hero.jpg",
+  hero: "/images/debroder/hero/hero-home.jpg",
+  pageHero: "/images/debroder/hero/page-hero.jpg",
   product: "/images/debroder/fallback/fallback-product.jpg",
-  banner: "/images/debroder/fallback/fallback-banner.jpg",
+  banner: "/images/debroder/banners/instagram-banner.jpg",
   store: "/images/debroder/fallback/fallback-store.jpg",
-  benefit: "/images/debroder/fallback/fallback-product.jpg"
+  benefit: "/images/debroder/fallback/fallback-benefit.jpg"
 } as const;
 
 export const storeImageFallbacks: Record<string, string> = {
@@ -32,54 +31,11 @@ export const storeImageFallbacks: Record<string, string> = {
   "STORE PAREPARE": "/images/debroder/stores/store-parepare.jpg"
 };
 
-export const productImageFallbacks: Record<string, string> = {
-  "Kaos Polos Import": "/images/debroder/products/produk-kaos-polos.jpg",
-  "Kaos Polos Cotton Combed":
-    "/images/debroder/products/produk-kaos-polos.jpg",
-  "Kaos Cotton Combed": "/images/debroder/products/produk-kaos-polos.jpg",
-  "Distributor Kaos NSA":
-    "/images/debroder/products/produk-kaos-polos.jpg",
-  "Sablon DTF Custom": "/images/debroder/products/produk-sablon-dtf.jpg",
-  "Custom Jersey": "/images/debroder/products/produk-jersey.jpg",
-  "Maklon DTF": "/images/debroder/products/produk-maklon-dtf.jpg",
-  "Cetak Sublim": "/images/debroder/products/produk-cetak-sublim.jpg"
-};
-
-export const pageHeroImageFallbacks: Record<string, string> = {
-  koleksi: "/images/debroder/page-heroes/hero-koleksi.jpg",
-  "kaos-polos": "/images/debroder/page-heroes/hero-kaos-polos.jpg",
-  "sablon-dtf": "/images/debroder/page-heroes/hero-sablon-dtf.jpg",
-  jersey: "/images/debroder/page-heroes/hero-jersey.jpg",
-  store: "/images/debroder/page-heroes/hero-store.jpg",
-  "cara-order": "/images/debroder/page-heroes/hero-cara-order.jpg"
-};
-
 export function getStoreImage(store: Pick<Store, "nama_store" | "image_url">) {
   return (
     store.image_url ||
     storeImageFallbacks[store.nama_store] ||
     fallbackImages.store
-  );
-}
-
-export function getProductImage(
-  product: Pick<Product, "nama" | "image_url" | "gambar_url">
-) {
-  return (
-    product.image_url ||
-    product.gambar_url ||
-    productImageFallbacks[product.nama] ||
-    fallbackImages.product
-  );
-}
-
-export function getPageHeroImage(
-  pageHero: Pick<PageHeroContent, "page_key" | "image_url"> | null | undefined
-) {
-  return (
-    pageHero?.image_url ||
-    (pageHero?.page_key ? pageHeroImageFallbacks[pageHero.page_key] : "") ||
-    fallbackImages.pageHero
   );
 }
 
@@ -100,57 +56,30 @@ export const fallbackHeroes: HeroBanner[] = [
     object_position: "center center",
     urutan: 1,
     status_aktif: true
-  },
-  {
-    badge: "SABLON DTF",
-    headline: "SABLON DTF",
-    subheadline: "Custom Jersey, Maklon DTF, dan Cetak Sublim",
-    title: "SABLON DTF",
-    subtitle: "Custom Jersey, Maklon DTF, dan Cetak Sublim",
-    cta_primary_text: "Konsultasi",
-    cta_primary_link: "/sablon-dtf",
-    cta_secondary_text: "",
-    cta_secondary_link: "",
-    cta_text: "Konsultasi",
-    cta_link: "/sablon-dtf",
-    image_url: fallbackImages.heroSecondary,
-    object_position: "center center",
-    urutan: 2,
-    status_aktif: true
   }
 ];
 
 export const fallbackHero: HeroBanner = fallbackHeroes[0];
 
 export const fallbackAbout: AboutContent = {
-  label: "TENTANG KAMI",
-  title: "Tentang Kami",
-  body: "De Broder adalah perusahaan percetakan yang berdiri sejak tahun 2016. Kami fokus mengerjakan:\n\nSablon Kaos\nCustom Jersey\nMaklon DTF\nCetak Sublim\nDistributor Kaos NSA\nKaos Cotton Combed\n\nKami telah dipercaya oleh berbagai perusahaan, instansi, dan event besar di Indonesia Timur, khususnya di kota Makassar.",
+  label: "TENTANG DEBRODER",
+  title: "Tentang DEBRODER",
+  body: "DEBRODER adalah brand yang bergerak dalam ekosistem apparel dan layanan bisnis pendukung. Melalui DEBRODER Apparel dan DEBRODER Express, DEBRODER hadir untuk memberikan solusi kaos polos, sablon DTF, custom jersey, produksi apparel, dan layanan pengiriman yang lebih mudah dijangkau pelanggan.\n\nDEBRODER melayani kebutuhan individu, komunitas, brand, event, sekolah, instansi, hingga perusahaan melalui beberapa store yang tersebar di Pettarani, Tello, Landak, dan Parepare.",
   highlights: [
-    "Sablon Kaos",
-    "Custom Jersey",
-    "Maklon DTF",
-    "Cetak Sublim",
-    "Distributor Kaos NSA",
-    "Kaos Cotton Combed"
+    "4 Store Aktif",
+    "Apparel & Custom",
+    "Sablon DTF",
+    "Jersey Custom",
+    "DEBRODER Express"
   ],
   status_aktif: true
 };
-
-export const aboutServiceList = [
-  "Sablon Kaos",
-  "Custom Jersey",
-  "Maklon DTF",
-  "Cetak Sublim",
-  "Distributor Kaos NSA",
-  "Kaos Cotton Combed"
-];
 
 export const fallbackCategories: ServiceCategory[] = [
   {
     nama_kategori: "Kaos Polos",
     deskripsi: "Kaos polos import dan cotton combed",
-    gambar_url: "/images/debroder/products/produk-kaos-polos.jpg",
+    gambar_url: "/images/debroder/products/kaos-polos.jpg",
     link_slug: "kaos-polos",
     urutan: 1,
     status_aktif: true
@@ -158,7 +87,7 @@ export const fallbackCategories: ServiceCategory[] = [
   {
     nama_kategori: "Sablon DTF",
     deskripsi: "Sablon kaos, logo, komunitas, dan brand",
-    gambar_url: "/images/debroder/products/produk-sablon-dtf.jpg",
+    gambar_url: "/images/debroder/products/sablon-dtf.jpg",
     link_slug: "sablon-dtf",
     urutan: 2,
     status_aktif: true
@@ -166,7 +95,7 @@ export const fallbackCategories: ServiceCategory[] = [
   {
     nama_kategori: "Custom Jersey",
     deskripsi: "Jersey tim, komunitas, sekolah, dan instansi",
-    gambar_url: "/images/debroder/products/produk-jersey.jpg",
+    gambar_url: "/images/debroder/products/custom-jersey.jpg",
     link_slug: "jersey",
     urutan: 3,
     status_aktif: true
@@ -174,7 +103,7 @@ export const fallbackCategories: ServiceCategory[] = [
   {
     nama_kategori: "Maklon DTF",
     deskripsi: "Layanan produksi DTF untuk kebutuhan bisnis",
-    gambar_url: "/images/debroder/products/produk-maklon-dtf.jpg",
+    gambar_url: "/images/debroder/products/maklon-dtf.jpg",
     link_slug: "maklon-dtf",
     urutan: 4,
     status_aktif: true
@@ -182,56 +111,34 @@ export const fallbackCategories: ServiceCategory[] = [
   {
     nama_kategori: "Cetak Sublim",
     deskripsi: "Cetak sublim untuk apparel dan jersey",
-    gambar_url: "/images/debroder/products/produk-cetak-sublim.jpg",
+    gambar_url: "/images/debroder/products/cetak-sublim.jpg",
     link_slug: "cetak-sublim",
     urutan: 5,
     status_aktif: true
   },
   {
-    nama_kategori: "Distributor Kaos NSA",
-    deskripsi: "Pilihan kaos NSA untuk kebutuhan store dan produksi",
-    gambar_url: "/images/debroder/products/produk-kaos-polos.jpg",
-    link_slug: "kaos-polos",
+    nama_kategori: "DEBRODER Express",
+    deskripsi: "Pengiriman dan distribusi pesanan",
+    gambar_url: "/images/debroder/products/debroder-express.jpg",
+    link_slug: "express",
     urutan: 6,
-    status_aktif: true
-  },
-  {
-    nama_kategori: "Kaos Cotton Combed",
-    deskripsi: "Kaos cotton combed untuk custom dan kebutuhan brand",
-    gambar_url: "/images/debroder/products/produk-kaos-polos.jpg",
-    link_slug: "kaos-polos",
-    urutan: 7,
     status_aktif: true
   }
 ];
 
 export const fallbackProducts: Product[] = [
   {
-    nama: "Kaos Polos Import",
+    nama: "Kaos Polos Cotton Combed",
     kategori: "Kaos Polos",
     badge: "",
-    deskripsi: "Kaos polos import untuk brand, event, dan kebutuhan harian",
-    short_detail: "Kaos polos import untuk brand, event, dan kebutuhan harian",
-    gambar_url: "/images/debroder/products/produk-kaos-polos.jpg",
-    image_url: "/images/debroder/products/produk-kaos-polos.jpg",
+    deskripsi: "Kaos polos import dan cotton combed",
+    short_detail: "Kaos polos import dan cotton combed",
+    gambar_url: "/images/debroder/products/kaos-polos.jpg",
+    image_url: "/images/debroder/products/kaos-polos.jpg",
     whatsapp_link: contactLinks.whatsapp,
     link_url: "/kaos-polos",
     price: 45000,
     urutan: 1,
-    status_aktif: true
-  },
-  {
-    nama: "Kaos Cotton Combed",
-    kategori: "Kaos Polos",
-    badge: "",
-    deskripsi: "Kaos cotton combed untuk custom dan kebutuhan brand",
-    short_detail: "Kaos cotton combed untuk custom dan kebutuhan brand",
-    gambar_url: "/images/debroder/products/produk-kaos-polos.jpg",
-    image_url: "/images/debroder/products/produk-kaos-polos.jpg",
-    whatsapp_link: contactLinks.whatsapp,
-    link_url: "/kaos-polos",
-    price: 45000,
-    urutan: 2,
     status_aktif: true
   },
   {
@@ -240,12 +147,12 @@ export const fallbackProducts: Product[] = [
     badge: "",
     deskripsi: "Sablon DTF untuk logo, brand, dan komunitas",
     short_detail: "Sablon DTF untuk logo, brand, dan komunitas",
-    gambar_url: "/images/debroder/products/produk-sablon-dtf.jpg",
-    image_url: "/images/debroder/products/produk-sablon-dtf.jpg",
+    gambar_url: "/images/debroder/products/sablon-dtf.jpg",
+    image_url: "/images/debroder/products/sablon-dtf.jpg",
     whatsapp_link: contactLinks.whatsapp,
     link_url: "/sablon-dtf",
     price: 15000,
-    urutan: 3,
+    urutan: 2,
     status_aktif: true
   },
   {
@@ -254,12 +161,12 @@ export const fallbackProducts: Product[] = [
     badge: "",
     deskripsi: "Jersey custom untuk tim dan komunitas",
     short_detail: "Jersey custom untuk tim dan komunitas",
-    gambar_url: "/images/debroder/products/produk-jersey.jpg",
-    image_url: "/images/debroder/products/produk-jersey.jpg",
+    gambar_url: "/images/debroder/products/custom-jersey.jpg",
+    image_url: "/images/debroder/products/custom-jersey.jpg",
     whatsapp_link: contactLinks.whatsapp,
     link_url: "/jersey",
     price: 85000,
-    urutan: 4,
+    urutan: 3,
     status_aktif: true
   },
   {
@@ -268,12 +175,12 @@ export const fallbackProducts: Product[] = [
     badge: "",
     deskripsi: "Produksi DTF untuk reseller dan brand apparel",
     short_detail: "Produksi DTF untuk reseller dan brand apparel",
-    gambar_url: "/images/debroder/products/produk-maklon-dtf.jpg",
-    image_url: "/images/debroder/products/produk-maklon-dtf.jpg",
+    gambar_url: "/images/debroder/products/maklon-dtf.jpg",
+    image_url: "/images/debroder/products/maklon-dtf.jpg",
     whatsapp_link: contactLinks.whatsapp,
     link_url: "/maklon-dtf",
     price: 12000,
-    urutan: 5,
+    urutan: 4,
     status_aktif: true
   },
   {
@@ -282,25 +189,25 @@ export const fallbackProducts: Product[] = [
     badge: "",
     deskripsi: "Cetak sublim untuk jersey dan apparel custom",
     short_detail: "Cetak sublim untuk jersey dan apparel custom",
-    gambar_url: "/images/debroder/products/produk-cetak-sublim.jpg",
-    image_url: "/images/debroder/products/produk-cetak-sublim.jpg",
+    gambar_url: "/images/debroder/products/cetak-sublim.jpg",
+    image_url: "/images/debroder/products/cetak-sublim.jpg",
     whatsapp_link: contactLinks.whatsapp,
     link_url: "/cetak-sublim",
     price: 35000,
-    urutan: 6,
+    urutan: 5,
     status_aktif: true
   },
   {
-    nama: "Distributor Kaos NSA",
-    kategori: "Kaos Polos",
+    nama: "DEBRODER Express",
+    kategori: "Express",
     badge: "",
-    deskripsi: "Pilihan kaos NSA untuk kebutuhan store dan produksi",
-    short_detail: "Pilihan kaos NSA untuk kebutuhan store dan produksi",
-    gambar_url: "/images/debroder/products/produk-kaos-polos.jpg",
-    image_url: "/images/debroder/products/produk-kaos-polos.jpg",
+    deskripsi: "Pengiriman dan distribusi pesanan",
+    short_detail: "Pengiriman dan distribusi pesanan",
+    gambar_url: "/images/debroder/products/debroder-express.jpg",
+    image_url: "/images/debroder/products/debroder-express.jpg",
     whatsapp_link: contactLinks.whatsapp,
-    link_url: "/kaos-polos",
-    urutan: 7,
+    link_url: "/express",
+    urutan: 6,
     status_aktif: true
   }
 ];
@@ -312,7 +219,7 @@ export const fallbackStores: Store[] = storeContacts.map((store, index) => ({
   whatsapp: store.whatsapp,
   whatsapp_link: whatsappLinkWithMessage(
     store.whatsappLink,
-    `Halo DE BRODER, saya ingin bertanya tentang layanan di Store ${store.name}.`
+    `Halo DEBRODER, saya ingin bertanya tentang layanan di Store ${store.name}.`
   ),
   maps_link: store.mapsLink,
   image_url: storeImageFallbacks[store.name],
@@ -321,7 +228,7 @@ export const fallbackStores: Store[] = storeContacts.map((store, index) => ({
 }));
 
 export const fallbackInstagramBanner: InstagramBanner = {
-  title: "Instagram DE BRODER",
+  title: "Instagram DEBRODER",
   image_url: fallbackImages.banner,
   link_url: contactLinks.instagram,
   status_aktif: true
@@ -331,12 +238,11 @@ export const fallbackPageHeroes: PageHeroContent[] = [
   {
     page_key: "koleksi",
     label: "KOLEKSI",
-    title: "Layanan & Produk DE BRODER",
+    title: "Layanan & Produk DEBRODER",
     subtitle:
       "Temukan kebutuhan apparel, sablon, jersey, dan layanan custom dalam satu tempat.",
-    image_url: pageHeroImageFallbacks.koleksi,
+    image_url: fallbackImages.pageHero,
     object_position: "center center",
-    mobile_object_position: "center center",
     status_aktif: true
   },
   {
@@ -345,9 +251,8 @@ export const fallbackPageHeroes: PageHeroContent[] = [
     title: "Kaos Polos Import & Cotton Combed",
     subtitle:
       "Pilihan kaos polos untuk brand, komunitas, event, dan kebutuhan harian.",
-    image_url: pageHeroImageFallbacks["kaos-polos"],
+    image_url: fallbackImages.pageHero,
     object_position: "center center",
-    mobile_object_position: "center center",
     status_aktif: true
   },
   {
@@ -356,9 +261,8 @@ export const fallbackPageHeroes: PageHeroContent[] = [
     title: "Sablon DTF untuk Apparel Custom",
     subtitle:
       "Hasil sablon rapi untuk logo, desain brand, komunitas, dan produksi apparel.",
-    image_url: pageHeroImageFallbacks["sablon-dtf"],
+    image_url: fallbackImages.pageHero,
     object_position: "center center",
-    mobile_object_position: "center center",
     status_aktif: true
   },
   {
@@ -367,29 +271,27 @@ export const fallbackPageHeroes: PageHeroContent[] = [
     title: "Jersey Custom untuk Tim dan Komunitas",
     subtitle:
       "Produksi jersey untuk tim olahraga, sekolah, instansi, dan event.",
-    image_url: pageHeroImageFallbacks.jersey,
+    image_url: fallbackImages.pageHero,
     object_position: "center center",
-    mobile_object_position: "center center",
+    status_aktif: true
+  },
+  {
+    page_key: "express",
+    label: "DEBRODER EXPRESS",
+    title: "Layanan Pengiriman dan Distribusi",
+    subtitle:
+      "Mendukung kebutuhan pengiriman pesanan dan distribusi bisnis DEBRODER.",
+    image_url: fallbackImages.pageHero,
+    object_position: "center center",
     status_aktif: true
   },
   {
     page_key: "store",
-    label: "STORE",
-    title: "Temukan Store DE BRODER Terdekat",
+    label: "STORE DEBRODER",
+    title: "Temukan Store DEBRODER Terdekat",
     subtitle: "Pettarani, Tello, Landak, dan Parepare.",
-    image_url: pageHeroImageFallbacks.store,
+    image_url: fallbackImages.pageHero,
     object_position: "center center",
-    mobile_object_position: "center center",
-    status_aktif: true
-  },
-  {
-    page_key: "cara-order",
-    label: "CARA ORDER",
-    title: "Cara Order di DE BRODER",
-    subtitle: "Alur singkat untuk konsultasi dan memesan kebutuhan apparel.",
-    image_url: pageHeroImageFallbacks["cara-order"],
-    object_position: "center center",
-    mobile_object_position: "center center",
     status_aktif: true
   }
 ];
@@ -397,7 +299,7 @@ export const fallbackPageHeroes: PageHeroContent[] = [
 export const fallbackOrderSteps: OrderStep[] = [
   {
     title: "Pilih layanan",
-    description: "Tentukan kebutuhan apparel, sablon, jersey, atau custom.",
+    description: "Tentukan kebutuhan apparel, sablon, jersey, atau express.",
     urutan: 1,
     status_aktif: true
   },
@@ -420,8 +322,8 @@ export const fallbackOrderSteps: OrderStep[] = [
     status_aktif: true
   },
   {
-    title: "Ambil di store",
-    description: "Ambil pesanan di store DE BRODER pilihan Anda.",
+    title: "Ambil di store atau kirim",
+    description: "Ambil di store DEBRODER atau kirim sesuai kebutuhan.",
     urutan: 5,
     status_aktif: true
   }
@@ -429,11 +331,11 @@ export const fallbackOrderSteps: OrderStep[] = [
 
 export const fallbackTrustAbout: TrustAboutContent = {
   trust_items: [
-    "Berdiri sejak 2016",
-    "Store Makassar & Parepare",
+    "4 Store Aktif",
+    "Apparel & Custom",
     "Sablon DTF",
-    "Custom Jersey",
-    "Maklon DTF"
+    "Jersey Custom",
+    "DEBRODER Express"
   ],
   about_body: fallbackAbout.body,
   status_aktif: true
@@ -458,7 +360,7 @@ export const fallbackContact: ContactSettings = {
   whatsapp_express: "0853-5533-3364",
   facebook: contactLinks.facebook,
   instagram: contactLinks.instagram,
-  copyright_text: "\u00a9 2026 DE BRODER. All rights reserved.",
+  copyright_text: "\u00a9 2026 DEBRODER. All rights reserved.",
   status_aktif: true
 };
 
