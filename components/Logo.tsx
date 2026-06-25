@@ -34,13 +34,13 @@ export function Logo({
   size = "md",
   className = "",
   showText = false,
-  textTone = "black"
+  textTone = "green"
 }: {
   variant: LogoVariant;
   size?: LogoSize;
   className?: string;
   showText?: boolean;
-  textTone?: "white" | "black";
+  textTone?: "green" | "white" | "black";
 }) {
   const isSymbol = variant.startsWith("symbol");
   const dimensions = isSymbol
@@ -59,7 +59,7 @@ export function Logo({
     <span className={`inline-flex items-center gap-3 ${className}`}>
       <Image
         src={logoSrc[variant]}
-        alt="Logo DE BRODER"
+        alt="Logo DEBRODER"
         width={dimensions.width}
         height={dimensions.height}
         className={imageClass}
@@ -71,10 +71,12 @@ export function Logo({
             className={`block text-sm font-bold tracking-[0.18em] sm:text-[15px] ${
               textTone === "white"
                 ? "text-white"
-                : "text-black"
+                : textTone === "black"
+                  ? "text-brand-charcoal"
+                  : "text-brand-green"
             }`}
           >
-            DE BRODER
+            DEBRODER
           </span>
           <span
             className={`mt-1 hidden text-[11px] font-medium sm:block ${

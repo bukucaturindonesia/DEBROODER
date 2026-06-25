@@ -9,15 +9,15 @@ function HeroImage({
   src,
   alt,
   priority,
-  objectPosition,
-  className = "h-full w-full object-cover"
+  objectPosition
 }: {
   src: string;
   alt: string;
   priority?: boolean;
   objectPosition?: string;
-  className?: string;
 }) {
+  const className = "h-full w-full object-cover";
+
   if (src.startsWith("/")) {
     return (
       <Image
@@ -135,111 +135,80 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
     setTouchStart(null);
   }
 
-  function renderSlideCopy(slide: HeroBanner, mobile = false) {
-    const headline = slide.headline || slide.title || "KAOS POLOS IMPORT";
-    const subtitle =
-      slide.subheadline ||
-      slide.subtitle ||
-      "Sablon DTF, Jersey, dan Custom Apparel";
-    const ctaHref = slide.cta_link || slide.cta_primary_link || "/koleksi";
-    const ctaText = slide.cta_text || slide.cta_primary_text || "Beli Sekarang";
-
-    return (
-      <div className={mobile ? "space-y-3" : "space-y-2"}>
-        <h1
-          className={
-            mobile
-              ? "text-2xl font-semibold leading-tight tracking-tight text-brand-charcoal"
-              : "w-fit bg-white px-4 py-2 text-3xl font-bold leading-tight text-brand-charcoal"
-          }
-        >
-          {headline}
-        </h1>
-        <p
-          className={
-            mobile
-              ? "max-w-xl text-sm font-medium leading-6 text-brand-charcoal/70"
-              : "w-fit max-w-xl bg-white px-4 py-2 text-base font-medium leading-6 text-brand-charcoal/75"
-          }
-        >
-          {subtitle}
-        </p>
-        <a
-          href={ctaHref}
-          className="inline-flex min-h-11 items-center rounded-full bg-brand-charcoal px-5 py-3 text-sm font-semibold text-white transition hover:bg-black/80"
-        >
-          {ctaText} <span aria-hidden="true">-&gt;</span>
-        </a>
-      </div>
-    );
-  }
-
   return (
     <section id="beranda" className="w-full bg-white">
       <div
-        className="relative mx-auto w-full bg-brand-offWhite"
+        className="relative mx-auto w-full overflow-hidden bg-brand-offWhite"
         onMouseEnter={() => setIsHoverPaused(true)}
         onMouseLeave={() => setIsHoverPaused(false)}
         onTouchStart={(event) => setTouchStart(event.touches[0].clientX)}
         onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
       >
-        <div className="overflow-hidden">
-          <div
-            className={`flex ${
-              prefersReducedMotion
-                ? ""
-                : "transition-transform duration-[750ms] ease-in-out"
-            }`}
-            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-          >
-            {slides.map((slide, index) => {
+        <div className="relative aspect-[16/11] w-full sm:aspect-[16/7] lg:aspect-[16/6]">
+          {slides.map((slide, index) => {
+            const isActive = index === activeIndex;
             const videoUrl = slide.hero_video_url || slide.video_url;
-            const objectPosition =
-              slide.mobile_object_position ||
-              slide.object_position ||
-              "center center";
+            const objectPosition = slide.object_position || "center center";
 
             return (
-              <article
+              <div
                 key={`${slide.headline}-${index}`}
-                className="min-w-full bg-brand-offWhite"
-                aria-hidden={index !== activeIndex}
+                className={`absolute inset-0 transition-opacity duration-700 ease-out ${
+                  isActive
+                    ? "pointer-events-auto opacity-100"
+                    : "pointer-events-none opacity-0"
+                }`}
+                aria-hidden={!isActive}
               >
-                <div className="relative aspect-[4/3] w-full sm:aspect-[16/7] lg:aspect-[16/6]">
-                  {videoUrl ? (
-                    <video
-                      src={videoUrl}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="h-full w-full object-cover"
-                      style={{ objectPosition }}
-                    />
-                  ) : (
-                    <HeroImage
-                      src={
-                        slide.image_url ||
-                        "/images/debroder/fallback/fallback-hero.jpg"
-                      }
-                      alt={slide.headline || slide.title || "Hero DE BRODER"}
-                      priority={index === 0}
-                      objectPosition={objectPosition}
-                    />
-                  )}
-                  <div className="absolute inset-0 hidden bg-gradient-to-t from-black/25 via-black/5 to-transparent sm:block" />
-                  <div className="absolute bottom-8 left-8 z-10 hidden max-w-[calc(100%-64px)] sm:block">
-                    {renderSlideCopy(slide)}
-                  </div>
-                </div>
-                <div className="px-4 py-5 sm:hidden">
-                  {renderSlideCopy(slide, true)}
-                </div>
-              </article>
+                {videoUrl ? (
+                  <video
+                    src={videoUrl}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="h-full w-full object-cover"
+                    style={{ objectPosition }}
+                  />
+                ) : (
+                  <HeroImage
+                    src={slide.image_url || "/images/debroder-hero.png"}
+                    alt={slide.headline || slide.title || "DEBRODER Hero"}
+                    priority={index === 0}
+                    objectPosition={objectPosition}
+                  />
+                )}
+              </div>
             );
-            })}
+          })}
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-black/5 to-transparent" />
+
+          <div className="absolute bottom-4 left-4 z-10 max-w-[calc(100%-32px)] sm:bottom-8 sm:left-8">
+            <div className="space-y-2">
+              <h1 className="w-fit bg-white px-3 py-1.5 text-xl font-bold leading-tight text-brand-charcoal sm:px-4 sm:py-2 sm:text-3xl">
+                {activeSlide.headline || activeSlide.title || "KAOS POLOS IMPORT"}
+              </h1>
+              <p className="w-fit max-w-xl bg-white px-3 py-1.5 text-sm font-medium leading-5 text-brand-charcoal/75 sm:px-4 sm:py-2 sm:text-base">
+                {activeSlide.subheadline ||
+                  activeSlide.subtitle ||
+                  "Sablon DTF, Jersey, dan Custom Apparel"}
+              </p>
+              <a
+                href={
+                  activeSlide.cta_link ||
+                  activeSlide.cta_primary_link ||
+                  "/koleksi"
+                }
+                className="inline-flex min-h-10 items-center rounded-full bg-brand-charcoal px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-black/80"
+              >
+                {activeSlide.cta_text ||
+                  activeSlide.cta_primary_text ||
+                  "Beli Sekarang"}{" "}
+                <span aria-hidden="true">-&gt;</span>
+              </a>
+            </div>
           </div>
-        </div>
 
           {total > 1 ? (
             <>
@@ -260,7 +229,7 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
                 {">"}
               </button>
               <div
-                className="mx-auto my-4 flex w-fit gap-2 rounded-full bg-white px-3 py-2 sm:absolute sm:bottom-6 sm:right-6 sm:z-20 sm:my-0 sm:bg-white/90 sm:backdrop-blur"
+                className="absolute bottom-4 right-4 z-20 flex gap-2 rounded-full bg-white/90 px-3 py-2 backdrop-blur sm:bottom-6 sm:right-6"
                 aria-label="Slider indicator"
               >
                 {slides.map((slide, index) => (
@@ -281,6 +250,7 @@ export function HeroSlider({ heroes }: { heroes: HeroBanner[] }) {
             </>
           ) : null}
         </div>
+      </div>
     </section>
   );
 }

@@ -2,12 +2,12 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "DE BRODER",
-    short_name: "DE BRODER",
+    name: "DEBRODER",
+    short_name: "DEBRODER",
     description: "Kaos Polos Import & Sablon",
     start_url: "/",
     display: "standalone",
-    background_color: "#F7F7F2",
+    background_color: "#F5F5F0",
     theme_color: "#111111",
     icons: [
       {

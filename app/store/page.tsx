@@ -3,14 +3,14 @@ import { PageHero, PublicShell, StoreGrid } from "@/components/PublicPage";
 import { getPublicContent } from "@/lib/public-data";
 
 export const metadata: Metadata = {
-  title: "Store DE BRODER",
+  title: "Store DEBRODER Apparel",
   description:
-    "Temukan store DE BRODER di Pettarani, Tello, Landak, dan Parepare.",
+    "Temukan store DEBRODER Apparel di Pettarani, Tello, Landak, dan Parepare.",
   alternates: { canonical: "/store" },
   openGraph: {
-    title: "Store DE BRODER",
+    title: "Store DEBRODER Apparel",
     description:
-      "Store DE BRODER untuk sablon kaos, cetak DTF, jersey, dan kaos polos."
+      "Store DEBRODER Apparel untuk sablon kaos, cetak DTF, jersey, dan kaos polos."
   }
 };
 
@@ -21,13 +21,11 @@ export default async function StorePage() {
   return (
     <PublicShell content={content}>
       <PageHero
-        label={pageHero?.label || "STORE"}
-        title={pageHero?.title || "Temukan Store DE BRODER Terdekat"}
+        label={pageHero?.label || "STORE DEBRODER"}
+        title={pageHero?.title || "Temukan Store DEBRODER Terdekat"}
         description={pageHero?.subtitle || "Pettarani, Tello, Landak, dan Parepare."}
         imageUrl={pageHero?.image_url}
-        mobileImageUrl={pageHero?.mobile_image_url}
         objectPosition={pageHero?.object_position}
-        mobileObjectPosition={pageHero?.mobile_object_position}
         breadcrumbs={[
           { label: "Beranda", href: "/" },
           { label: "Store" }

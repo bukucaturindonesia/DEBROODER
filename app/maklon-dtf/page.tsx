@@ -4,12 +4,12 @@ import { getPublicContent } from "@/lib/public-data";
 import { whatsappHref } from "@/lib/url";
 
 export const metadata: Metadata = {
-  title: "Maklon DTF | DE BRODER",
+  title: "Maklon DTF | DEBRODER",
   description:
     "Layanan maklon DTF untuk kebutuhan produksi, reseller, brand apparel, dan pelaku usaha.",
   alternates: { canonical: "/maklon-dtf" },
   openGraph: {
-    title: "Maklon DTF | DE BRODER",
+    title: "Maklon DTF | DEBRODER",
     description:
       "Layanan maklon DTF untuk kebutuhan produksi, reseller, brand apparel, dan pelaku usaha yang ingin memproduksi desain secara praktis."
   }

@@ -4,12 +4,12 @@ import { getPublicContent } from "@/lib/public-data";
 import { whatsappHref } from "@/lib/url";
 
 export const metadata: Metadata = {
-  title: "Kaos Polos & Cotton Combed | DE BRODER",
+  title: "Kaos Polos & Cotton Combed | DEBRODER",
   description:
-    "DE BRODER menyediakan kaos polos, kaos NSA, dan cotton combed untuk sablon, brand clothing, komunitas, event, dan pembelian partai.",
+    "DEBRODER menyediakan kaos polos, kaos NSA, dan cotton combed untuk sablon, brand clothing, komunitas, event, dan pembelian partai.",
   alternates: { canonical: "/kaos-polos" },
   openGraph: {
-    title: "Kaos Polos & Cotton Combed | DE BRODER",
+    title: "Kaos Polos & Cotton Combed | DEBRODER",
     description:
       "Kaos polos, kaos NSA, dan cotton combed untuk sablon, brand clothing, komunitas, event, dan pembelian partai."
   }

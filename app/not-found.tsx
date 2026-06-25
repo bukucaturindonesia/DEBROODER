@@ -8,7 +8,7 @@ export default function NotFound() {
         <section className="w-full rounded-xl border border-brand-softGray bg-white p-8 text-center shadow-soft sm:p-12">
           <Logo variant="symbol-black" size="lg" className="justify-center" />
           <p className="mt-8 text-sm font-semibold uppercase tracking-[0.24em] text-brand-charcoal/50">
-            DE BRODER
+            DEBRODER
           </p>
           <h1 className="mt-4 text-4xl font-semibold tracking-tight">
             Halaman tidak ditemukan

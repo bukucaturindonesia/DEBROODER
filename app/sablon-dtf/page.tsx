@@ -4,12 +4,12 @@ import { getPublicContent } from "@/lib/public-data";
 import { whatsappHref } from "@/lib/url";
 
 export const metadata: Metadata = {
-  title: "Sablon DTF | DE BRODER",
+  title: "Sablon DTF | DEBRODER",
   description:
     "Layanan sablon DTF untuk kaos custom, brand clothing, event, komunitas, dan kebutuhan produksi.",
   alternates: { canonical: "/sablon-dtf" },
   openGraph: {
-    title: "Sablon DTF | DE BRODER",
+    title: "Sablon DTF | DEBRODER",
     description:
       "Layanan sablon DTF untuk kaos custom, produksi pakaian, brand clothing, event, komunitas, dan kebutuhan partai."
   }

@@ -8,9 +8,7 @@ import { PublicFooter } from "@/components/PublicFooter";
 import { ScrollButtons } from "@/components/ScrollButtons";
 import { SiteHeader } from "@/components/SiteHeader";
 import {
-  aboutServiceList,
   fallbackImages,
-  getProductImage,
   getStoreImage
 } from "@/lib/fallback-data";
 import { getPublicContent } from "@/lib/public-data";
@@ -25,7 +23,7 @@ const benefitCards = [
   },
   {
     title: "Layanan apparel lengkap",
-    description: "Kaos polos, sablon DTF, jersey, maklon, dan sublim.",
+    description: "Kaos polos, sablon DTF, jersey, maklon, sublim, dan express.",
     image: fallbackImages.product
   },
   {
@@ -102,6 +100,10 @@ function DynamicImage({
   );
 }
 
+function productImage(product: Product) {
+  return product.image_url || product.gambar_url || fallbackImages.product;
+}
+
 function productDetail(product: Product) {
   return product.short_detail || product.description || product.deskripsi;
 }
@@ -116,14 +118,14 @@ function ProductCard({ product }: { product: Product }) {
   const price = productPrice(product);
   const whatsappHref = whatsappLinkWithMessage(
     product.whatsapp_link || "",
-    `Halo DE BRODER, saya ingin bertanya tentang ${product.nama}.`
+    `Halo DEBRODER, saya ingin bertanya tentang ${product.nama}.`
   );
 
   return (
     <article className="group bg-transparent">
       <Link href={product.link_url || "/koleksi"} className="block">
         <DynamicImage
-          src={getProductImage(product)}
+          src={productImage(product)}
           alt={product.nama}
           className="aspect-[4/5] w-full object-cover"
         />
@@ -154,14 +156,14 @@ function ProductCard({ product }: { product: Product }) {
 function StoreCard({ store }: { store: Store }) {
   const whatsappHref = whatsappLinkWithMessage(
     store.whatsapp_link || store.whatsapp || "",
-    `Halo DE BRODER, saya ingin bertanya tentang layanan di Store ${store.nama_store}.`
+    `Halo DEBRODER, saya ingin bertanya tentang layanan di Store ${store.nama_store}.`
   );
 
   return (
     <article className="min-w-[78vw] snap-start bg-white p-3 sm:min-w-[360px] md:min-w-0">
       <DynamicImage
         src={getStoreImage(store)}
-        alt={`Foto ${store.nama_store} DE BRODER`}
+        alt={`Foto ${store.nama_store} DEBRODER`}
         className="aspect-[4/3] w-full object-cover"
       />
       <p className="mt-4 text-sm font-medium text-brand-charcoal/70">
@@ -173,7 +175,7 @@ function StoreCard({ store }: { store: Store }) {
       <p className="mt-2 min-h-[72px] text-sm leading-6 text-brand-charcoal/60">
         {store.alamat}
       </p>
-      <div className="mt-5 grid gap-3">
+      <div className="mt-5 grid gap-2">
         <a
           href={whatsappHref}
           className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-charcoal px-5 text-sm font-semibold text-white transition hover:bg-black/80"
@@ -212,9 +214,13 @@ export default async function Home() {
   const trustItems = content.trustAbout.trust_items?.length
     ? content.trustAbout.trust_items
     : content.about.highlights;
+  const aboutParagraphs = (content.trustAbout.about_body || content.about.body)
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
   const generalWhatsapp = whatsappLinkWithMessage(
     content.contact.whatsapp_link || content.contact.whatsapp_utama,
-    "Halo DE BRODER, saya ingin bertanya tentang layanan DE BRODER."
+    "Halo DEBRODER, saya ingin bertanya tentang layanan DEBRODER."
   );
 
   return (
@@ -248,7 +254,7 @@ export default async function Home() {
       <section data-reveal id="koleksi" className="bg-brand-offWhite py-14 sm:py-20">
         <div className="section-shell">
           <SectionHeading
-            title="Layanan & Produk DE BRODER"
+            title="Layanan & Produk DEBRODER"
             action={
               <div className="flex items-center gap-3">
                 <Link
@@ -285,12 +291,12 @@ export default async function Home() {
             target="_blank"
             rel="noopener noreferrer"
             className="group relative block w-full overflow-hidden bg-brand-offWhite"
-            aria-label="Buka Instagram DE BRODER"
+            aria-label="Buka Instagram DEBRODER"
           >
             <div className="relative aspect-[16/8] w-full sm:aspect-[16/6] lg:aspect-[16/5]">
               <DynamicImage
                 src={content.instagramBanner.image_url || fallbackImages.banner}
-                alt={content.instagramBanner.title || "Banner Instagram DE BRODER"}
+                alt={content.instagramBanner.title || "Banner Instagram DEBRODER"}
                 className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.01]"
                 sizes="100vw"
               />
@@ -300,7 +306,7 @@ export default async function Home() {
                   Instagram
                 </p>
                 <h2 className="mt-2 text-2xl font-semibold sm:text-4xl">
-                  Ikuti update DE BRODER
+                  Ikuti update DEBRODER
                 </h2>
               </div>
             </div>
@@ -311,8 +317,8 @@ export default async function Home() {
       <section data-reveal id="store" className="bg-brand-offWhite py-14 sm:py-20">
         <div className="section-shell">
           <SectionHeading
-            title="Store DE BRODER"
-            description="Temukan store De Broder terdekat untuk kebutuhan kaos polos, sablon DTF, jersey, dan layanan apparel lainnya."
+            title="Store DEBRODER"
+            description="Temukan store DEBRODER terdekat untuk kebutuhan kaos polos, sablon DTF, jersey, dan layanan apparel lainnya."
             action={
               <Link
                 href="/store"
@@ -370,7 +376,7 @@ export default async function Home() {
               Dipercaya untuk kebutuhan apparel dan custom
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 text-white/70">
-              De Broder melayani kebutuhan personal, komunitas, brand, event,
+              DEBRODER melayani kebutuhan personal, komunitas, brand, event,
               sekolah, instansi, hingga perusahaan melalui beberapa store.
             </p>
           </div>
@@ -388,25 +394,23 @@ export default async function Home() {
       </section>
 
       <section data-reveal id="tentang" className="bg-white py-14 sm:py-16">
-        <div className="section-shell max-w-3xl">
-          <h2 className="text-3xl font-semibold tracking-tight text-brand-charcoal sm:text-4xl">
-            Tentang Kami
-          </h2>
-          <div className="mt-5 grid gap-4 text-base leading-7 text-brand-charcoal/70">
-            <p>
-              De Broder adalah perusahaan percetakan yang berdiri sejak tahun
-              2016. Kami fokus mengerjakan:
-            </p>
-            <ul className="list-disc space-y-2 pl-5">
-              {aboutServiceList.map((service) => (
-                <li key={service}>{service}</li>
+        <div className="section-shell grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+          <div className="max-w-3xl">
+            <h2 className="text-3xl font-semibold tracking-tight text-brand-charcoal sm:text-4xl">
+              Tentang DEBRODER
+            </h2>
+            <div className="mt-5 grid gap-4 text-base leading-7 text-brand-charcoal/70">
+              {aboutParagraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
               ))}
-            </ul>
-            <p>
-              Kami telah dipercaya oleh berbagai perusahaan, instansi, dan
-              event besar di Indonesia Timur, khususnya di kota Makassar.
-            </p>
+            </div>
           </div>
+          <DynamicImage
+            src={fallbackImages.hero}
+            alt="Produk apparel DEBRODER"
+            className="aspect-[4/3] w-full object-cover"
+            sizes="(min-width: 1024px) 40vw, 100vw"
+          />
         </div>
       </section>
 
