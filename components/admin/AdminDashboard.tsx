@@ -42,6 +42,7 @@ type OverviewStats = {
   stores: number;
   heroes: number;
   banners: number;
+  pageHeroes: number;
 };
 
 const objectPositionOptions = [
@@ -59,7 +60,7 @@ const tableConfigs: TableConfig[] = [
     navLabel: "Dashboard",
     href: "/admin/dashboard",
     table: "",
-    description: "Ringkasan konten toko online DEBRODER.",
+    description: "Ringkasan konten toko online DE BRODER.",
     fields: []
   },
   {
@@ -234,7 +235,7 @@ const tableConfigs: TableConfig[] = [
         name: "title",
         label: "Judul internal",
         type: "text",
-        placeholder: "Instagram DEBRODER",
+        placeholder: "Instagram DE BRODER",
         required: true
       },
       {
@@ -259,14 +260,21 @@ const tableConfigs: TableConfig[] = [
     navLabel: "Page Hero",
     href: "/admin/page-hero",
     table: "page_heroes",
-    description: "Hero pendek untuk halaman koleksi, produk, express, dan store.",
+    description: "Hero pendek untuk halaman Koleksi, Kaos Polos, Sablon DTF, Jersey, Store, dan Cara Order.",
     orderField: "page_key",
     fields: [
       {
         name: "page_key",
         label: "Halaman",
         type: "select",
-        options: ["koleksi", "kaos-polos", "sablon-dtf", "jersey", "express", "store"],
+        options: [
+          "koleksi",
+          "kaos-polos",
+          "sablon-dtf",
+          "jersey",
+          "store",
+          "cara-order"
+        ],
         required: true
       },
       {
@@ -280,7 +288,7 @@ const tableConfigs: TableConfig[] = [
         name: "title",
         label: "Judul",
         type: "text",
-        placeholder: "Layanan & Produk DEBRODER",
+        placeholder: "Layanan & Produk DE BRODER",
         required: true
       },
       {
@@ -293,12 +301,25 @@ const tableConfigs: TableConfig[] = [
         name: "image_url",
         label: "Gambar page hero",
         type: "image",
-        placeholder: "/images/debroder/hero/page-hero.jpg",
+        placeholder: "/images/debroder/page-heroes/hero-koleksi.jpg",
         helper: "Rekomendasi 1600x500."
+      },
+      {
+        name: "mobile_image_url",
+        label: "Gambar mobile opsional",
+        type: "image",
+        placeholder: "/images/debroder/page-heroes/hero-koleksi.jpg",
+        helper: "Kosongkan jika ingin memakai gambar desktop."
       },
       {
         name: "object_position",
         label: "Posisi gambar",
+        type: "select",
+        options: objectPositionOptions
+      },
+      {
+        name: "mobile_object_position",
+        label: "Posisi gambar mobile",
         type: "select",
         options: objectPositionOptions
       },
@@ -382,7 +403,7 @@ const tableConfigs: TableConfig[] = [
         name: "description",
         label: "Detail singkat",
         type: "textarea",
-        placeholder: "Tentukan kebutuhan apparel, sablon, jersey, atau express."
+        placeholder: "Tentukan kebutuhan apparel, sablon, jersey, atau custom."
       },
       { name: "urutan", label: "Urutan tampil", type: "number" },
       { name: "status_aktif", label: "Aktif", type: "boolean" }
@@ -394,7 +415,7 @@ const tableConfigs: TableConfig[] = [
     navLabel: "Trust & Tentang",
     href: "/admin/trust-about",
     table: "trust_about_content",
-    description: "Atur trust item dan paragraf Tentang DEBRODER.",
+    description: "Atur trust item dan paragraf Tentang Kami.",
     fields: [
       {
         name: "trust_items",
@@ -405,9 +426,9 @@ const tableConfigs: TableConfig[] = [
       },
       {
         name: "about_body",
-        label: "Paragraf Tentang DEBRODER",
+        label: "Paragraf Tentang Kami",
         type: "textarea",
-        placeholder: "DEBRODER adalah brand yang bergerak...",
+        placeholder: "De Broder adalah perusahaan percetakan...",
         helper: "Gunakan teks singkat agar landing page tetap ringan."
       },
       { name: "status_aktif", label: "Aktif", type: "boolean" }
@@ -448,7 +469,7 @@ const tableConfigs: TableConfig[] = [
       },
       {
         name: "whatsapp_express",
-        label: "WhatsApp Express",
+        label: "WhatsApp cadangan",
         type: "text",
         placeholder: "0853-5533-3364"
       },
@@ -468,7 +489,7 @@ const tableConfigs: TableConfig[] = [
         name: "copyright_text",
         label: "Copyright",
         type: "text",
-        placeholder: "© 2026 DEBRODER. All rights reserved."
+        placeholder: "© 2026 DE BRODER. All rights reserved."
       },
       { name: "status_aktif", label: "Aktif", type: "boolean" }
     ]
@@ -549,8 +570,10 @@ export function AdminDashboard() {
     products: 0,
     stores: 0,
     heroes: 0,
-    banners: 0
+    banners: 0,
+    pageHeroes: 0
   });
+  const [storageReady, setStorageReady] = useState(false);
   const configured = isSupabaseConfigured();
 
   const activeConfig = useMemo(
@@ -614,15 +637,30 @@ export function AdminDashboard() {
     return count || 0;
   }
 
-  async function loadOverview() {
-    const [products, stores, heroes, banners] = await Promise.all([
-      countActive("products"),
-      countActive("stores"),
-      countActive("hero_banners"),
-      countActive("instagram_banners")
-    ]);
+  async function checkStorageReady() {
+    const supabase = createSupabaseClient();
+    if (!supabase) return false;
 
-    setStats({ products, stores, heroes, banners });
+    const { error } = await supabase.storage
+      .from("public-assets")
+      .list("", { limit: 1 });
+
+    return !error;
+  }
+
+  async function loadOverview() {
+    const [products, stores, heroes, banners, pageHeroes, uploadReady] =
+      await Promise.all([
+        countActive("products"),
+        countActive("stores"),
+        countActive("hero_banners"),
+        countActive("instagram_banners"),
+        countActive("page_heroes"),
+        checkStorageReady()
+      ]);
+
+    setStats({ products, stores, heroes, banners, pageHeroes });
+    setStorageReady(uploadReady);
   }
 
   async function loadRows(config = activeConfig) {
@@ -970,6 +1008,10 @@ export function AdminDashboard() {
               Hapus
             </button>
           </div>
+          <p className="text-xs font-medium leading-5 text-brand-charcoal/60">
+            Jika upload langsung belum tersedia, masukkan gambar melalui folder
+            public/images di GitHub atau gunakan URL gambar manual.
+          </p>
           {url ? (
             field.type === "video" ? (
               <video
@@ -1098,6 +1140,60 @@ export function AdminDashboard() {
 
           {activeKey === "overview" ? (
             <div className="mt-6 grid gap-6">
+              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                {[
+                  [
+                    "Supabase",
+                    configured ? "Supabase Connected" : "Supabase Not Connected",
+                    configured
+                  ],
+                  ["Auth", isAllowed ? "Auth Active" : "Auth Not Ready", isAllowed],
+                  [
+                    "Hero",
+                    stats.heroes > 0 ? "Hero Data Found" : "Hero Data Empty",
+                    stats.heroes > 0
+                  ],
+                  [
+                    "Product",
+                    stats.products > 0
+                      ? "Product Data Found"
+                      : "Product Data Empty",
+                    stats.products > 0
+                  ],
+                  [
+                    "Store",
+                    stats.stores > 0 ? "Store Data Found" : "Store Data Empty",
+                    stats.stores > 0
+                  ],
+                  [
+                    "Page Hero",
+                    stats.pageHeroes > 0
+                      ? "Page Hero Data Found"
+                      : "Page Hero Data Empty",
+                    stats.pageHeroes > 0
+                  ],
+                  [
+                    "Storage",
+                    storageReady
+                      ? "Storage Upload Ready"
+                      : "Storage Upload Not Ready",
+                    storageReady
+                  ]
+                ].map(([label, value, ready]) => (
+                  <article key={label.toString()} className="bg-white p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-charcoal/45">
+                      {label}
+                    </p>
+                    <p
+                      className={`mt-2 text-sm font-semibold ${
+                        ready ? "text-brand-charcoal" : "text-brand-charcoal/55"
+                      }`}
+                    >
+                      {value}
+                    </p>
+                  </article>
+                ))}
+              </div>
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 {[
                   ["Total produk aktif", stats.products],

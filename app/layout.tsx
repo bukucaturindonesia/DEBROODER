@@ -4,15 +4,15 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://debroder.com"),
-  title: "DEBRODER \u2014 Kaos Polos Import & Sablon",
+  title: "DE BRODER \u2014 Kaos Polos Import & Sablon DTF",
   manifest: "/manifest.webmanifest",
   alternates: {
     canonical: "/"
   },
   description:
-    "DEBRODER menyediakan kaos polos import, sablon DTF, custom jersey, maklon DTF, cetak sublim, dan layanan DEBRODER Express melalui beberapa store di Makassar dan Parepare.",
+    "DE BRODER menyediakan kaos polos import, sablon DTF, custom jersey, maklon DTF, cetak sublim, Distributor Kaos NSA, dan Kaos Cotton Combed melalui store di Makassar dan Parepare.",
   keywords: [
-    "DEBRODER",
+    "DE BRODER",
     "De Broder",
     "kaos polos",
     "sablon DTF",
@@ -25,20 +25,19 @@ export const metadata: Metadata = {
     "Makassar",
     "Parepare",
     "apparel",
-    "jersey",
-    "ekspedisi"
+    "jersey"
   ],
   openGraph: {
-    title: "DEBRODER \u2014 Kaos Polos Import & Sablon",
+    title: "DE BRODER \u2014 Kaos Polos Import & Sablon DTF",
     description:
-      "Kaos polos, sablon DTF, custom jersey, apparel, dan layanan pengiriman dalam satu ekosistem DEBRODER.",
-    siteName: "DEBRODER",
+      "DE BRODER menyediakan kaos polos import, sablon DTF, custom jersey, maklon DTF, cetak sublim, Distributor Kaos NSA, dan Kaos Cotton Combed melalui store di Makassar dan Parepare.",
+    siteName: "DE BRODER",
     images: [
       {
         url: "/images/debroder/hero/hero-home.jpg",
         width: 1536,
         height: 1024,
-        alt: "Kaos polos import dan layanan sablon DEBRODER"
+        alt: "Kaos polos import dan sablon DTF DE BRODER"
       }
     ],
     locale: "id_ID",
@@ -46,9 +45,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "DEBRODER \u2014 Kaos Polos Import & Sablon",
+    title: "DE BRODER \u2014 Kaos Polos Import & Sablon DTF",
     description:
-      "Kaos polos import, sablon DTF, custom jersey, apparel, dan layanan pengiriman dalam satu ekosistem DEBRODER.",
+      "DE BRODER menyediakan kaos polos import, sablon DTF, custom jersey, maklon DTF, cetak sublim, Distributor Kaos NSA, dan Kaos Cotton Combed melalui store di Makassar dan Parepare.",
     images: ["/images/debroder/hero/hero-home.jpg"]
   },
   icons: {

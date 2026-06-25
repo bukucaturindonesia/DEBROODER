@@ -7,6 +7,8 @@ import { PublicFooter } from "@/components/PublicFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import {
   fallbackImages,
+  getPageHeroImage,
+  getProductImage,
   getStoreImage
 } from "@/lib/fallback-data";
 import type {
@@ -65,10 +67,6 @@ function getProductDetail(product: Product) {
   return product.short_detail || product.description || product.deskripsi;
 }
 
-function getProductImage(product: Product) {
-  return product.image_url || product.gambar_url || fallbackImages.product;
-}
-
 function getProductPrice(product: Product) {
   return formatRupiah(
     product.price ?? product.harga ?? product.base_price ?? product.price_label
@@ -88,7 +86,7 @@ function actionHref(href?: string, message?: string) {
   if (href.includes("wa.me") || href.includes("whatsapp")) {
     return whatsappLinkWithMessage(
       href,
-      message || "Halo DEBRODER, saya ingin bertanya tentang layanan DEBRODER."
+      message || "Halo DE BRODER, saya ingin bertanya tentang layanan DE BRODER."
     );
   }
   return href;
@@ -99,7 +97,9 @@ export function PageHero({
   title,
   description,
   imageUrl,
+  mobileImageUrl,
   objectPosition,
+  mobileObjectPosition,
   ctaText,
   ctaHref,
   secondaryCtaText,
@@ -110,7 +110,9 @@ export function PageHero({
   title: string;
   description: string;
   imageUrl?: string;
+  mobileImageUrl?: string;
   objectPosition?: string;
+  mobileObjectPosition?: string;
   ctaText?: string;
   ctaHref?: string;
   secondaryCtaText?: string;
@@ -118,29 +120,45 @@ export function PageHero({
   breadcrumbs?: { label: string; href?: string }[];
 }) {
   const primaryHref = actionHref(ctaHref);
+  const desktopImage = imageUrl || fallbackImages.pageHero;
+  const mobileImage = mobileImageUrl || desktopImage;
 
   return (
     <section data-reveal className="bg-white">
-      <div className="relative aspect-[16/7] min-h-[260px] w-full overflow-hidden sm:aspect-[16/5] lg:aspect-[16/4.5]">
-        <PublicImage
-          src={imageUrl || fallbackImages.pageHero}
-          alt={title}
-          className="h-full w-full object-cover"
-          sizes="100vw"
-          priority
-          objectPosition={objectPosition}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-        <div className="absolute bottom-5 left-4 right-4 text-white sm:bottom-8 sm:left-8">
+      <div className="relative w-full overflow-hidden bg-brand-offWhite sm:aspect-[16/5] sm:min-h-[260px] lg:aspect-[16/4.5]">
+        <div className="relative aspect-[16/10] w-full sm:absolute sm:inset-0 sm:aspect-auto">
+          <div className="block h-full sm:hidden">
+            <PublicImage
+              src={mobileImage}
+              alt={title}
+              className="h-full w-full object-cover"
+              sizes="100vw"
+              priority
+              objectPosition={mobileObjectPosition || objectPosition}
+            />
+          </div>
+          <div className="hidden h-full sm:block">
+            <PublicImage
+              src={desktopImage}
+              alt={title}
+              className="h-full w-full object-cover"
+              sizes="100vw"
+              priority
+              objectPosition={objectPosition}
+            />
+          </div>
+          <div className="absolute inset-0 hidden bg-gradient-to-t from-black/55 via-black/10 to-transparent sm:block" />
+        </div>
+        <div className="relative px-4 py-6 text-brand-charcoal sm:absolute sm:bottom-8 sm:left-8 sm:right-8 sm:max-w-3xl sm:p-0 sm:text-white">
           {breadcrumbs?.length ? (
             <nav
               aria-label="Breadcrumb"
-              className="mb-4 flex flex-wrap gap-2 text-xs font-medium text-white/70"
+              className="mb-4 flex flex-wrap gap-2 text-xs font-medium text-brand-charcoal/50 sm:text-white/70"
             >
               {breadcrumbs.map((item, index) => (
                 <span key={`${item.label}-${index}`} className="flex gap-2">
                   {item.href ? (
-                    <Link href={item.href} className="hover:text-white">
+                    <Link href={item.href} className="hover:text-brand-charcoal sm:hover:text-white">
                       {item.label}
                     </Link>
                   ) : (
@@ -151,20 +169,20 @@ export function PageHero({
               ))}
             </nav>
           ) : null}
-          <p className="w-fit bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand-charcoal">
+          <p className="w-fit bg-brand-charcoal px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white sm:bg-white sm:text-brand-charcoal">
             {label}
           </p>
           <h1 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
             {title}
           </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/80 sm:text-base">
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-brand-charcoal/70 sm:text-base sm:text-white/80">
             {description}
           </p>
           {primaryHref ? (
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <a
                 href={primaryHref}
-                className="inline-flex min-h-11 items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-charcoal transition hover:bg-brand-offWhite"
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-charcoal px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/80 sm:bg-white sm:text-brand-charcoal sm:hover:bg-brand-offWhite"
                 target={primaryHref.startsWith("http") ? "_blank" : undefined}
                 rel={
                   primaryHref.startsWith("http")
@@ -177,7 +195,7 @@ export function PageHero({
               {secondaryCtaText && secondaryCtaHref ? (
                 <Link
                   href={secondaryCtaHref}
-                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-brand-charcoal"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-brand-softGray px-6 py-3 text-sm font-semibold text-brand-charcoal transition hover:border-brand-charcoal sm:border-white/40 sm:text-white sm:hover:bg-white sm:hover:text-brand-charcoal"
                 >
                   {secondaryCtaText}
                 </Link>
@@ -222,7 +240,7 @@ export function ProductGrid({ products }: { products: Product[] }) {
         const price = getProductPrice(product);
         const whatsappHref = whatsappLinkWithMessage(
           product.whatsapp_link || "",
-          `Halo DEBRODER, saya ingin bertanya tentang ${product.nama}.`
+          `Halo DE BRODER, saya ingin bertanya tentang ${product.nama}.`
         );
 
         return (
@@ -264,7 +282,7 @@ export function StoreGrid({ stores }: { stores: Store[] }) {
       {stores.map((store) => {
         const whatsappHref = whatsappLinkWithMessage(
           store.whatsapp_link || store.whatsapp || "",
-          `Halo DEBRODER, saya ingin bertanya tentang layanan di Store ${store.nama_store}.`
+          `Halo DE BRODER, saya ingin bertanya tentang layanan di Store ${store.nama_store}.`
         );
 
         return (
@@ -274,7 +292,7 @@ export function StoreGrid({ stores }: { stores: Store[] }) {
           >
             <PublicImage
               src={getStoreImage(store)}
-              alt={`Foto ${store.nama_store} DEBRODER`}
+              alt={`Foto ${store.nama_store} DE BRODER`}
               className="aspect-[4/3] w-full object-cover"
             />
             <p className="mt-4 text-sm font-medium text-brand-charcoal/70">
@@ -283,10 +301,10 @@ export function StoreGrid({ stores }: { stores: Store[] }) {
             <h2 className="mt-2 text-xl font-semibold text-brand-charcoal">
               {store.nama_store}
             </h2>
-            <p className="mt-2 flex-1 text-sm leading-6 text-brand-charcoal/60">
+            <p className="mt-2 text-sm leading-6 text-brand-charcoal/60">
               {store.alamat}
             </p>
-            <div className="mt-5 grid gap-2">
+            <div className="mt-5 grid gap-3">
               <a
                 href={whatsappHref}
                 className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-charcoal px-5 py-3 text-sm font-semibold text-white transition hover:bg-black/80"
@@ -357,7 +375,7 @@ export function RecommendationGrid({
             Rekomendasi
           </p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-            Layanan DEBRODER lainnya
+            Layanan DE BRODER lainnya
           </h2>
         </div>
         <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -402,8 +420,10 @@ export function CategoryDetailPage({
         label={pageHero?.label || label}
         title={pageHero?.title || title}
         description={pageHero?.subtitle || description}
-        imageUrl={pageHero?.image_url}
+        imageUrl={getPageHeroImage(pageHero)}
+        mobileImageUrl={pageHero?.mobile_image_url}
         objectPosition={pageHero?.object_position}
+        mobileObjectPosition={pageHero?.mobile_object_position}
         ctaText={ctaText}
         ctaHref={ctaHref}
         secondaryCtaText="Temukan Store"
@@ -430,7 +450,7 @@ export function CategoryDetailPage({
             </div>
           </div>
           <PublicImage
-            src={pageHero?.image_url || fallbackImages.pageHero}
+            src={getPageHeroImage(pageHero)}
             alt={visualLabel}
             className="aspect-[4/3] w-full object-cover"
             sizes="(min-width: 1024px) 50vw, 100vw"

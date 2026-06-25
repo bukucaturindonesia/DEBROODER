@@ -12,7 +12,6 @@ const navItems = [
   { label: "Kaos Polos", href: "/kaos-polos" },
   { label: "Sablon DTF", href: "/sablon-dtf" },
   { label: "Jersey", href: "/jersey" },
-  { label: "DEBRODER Express", href: "/express" },
   { label: "Store", href: "/store" },
   { label: "Cara Order", href: "/cara-order" }
 ];
@@ -69,12 +68,6 @@ const searchItems = [
     keywords: ["sublim", "cetak sublim"]
   },
   {
-    title: "DEBRODER Express",
-    href: "/express",
-    description: "Pengiriman, ekspedisi, dan distribusi.",
-    keywords: ["express", "pengiriman", "ekspedisi", "distribusi"]
-  },
-  {
     title: "Store Pettarani",
     href: "/store",
     description: "Sablon kaos dan jersey.",
@@ -101,14 +94,14 @@ const searchItems = [
   {
     title: "Cara Order",
     href: "/cara-order",
-    description: "Alur pemesanan DEBRODER.",
+    description: "Alur pemesanan DE BRODER.",
     keywords: ["cara order", "order", "pesan"]
   }
 ];
 
 const whatsappUrl = whatsappLinkWithMessage(
   contactLinks.whatsapp,
-  "Halo DEBRODER, saya ingin bertanya tentang layanan DEBRODER."
+  "Halo DE BRODER, saya ingin bertanya tentang layanan DE BRODER."
 );
 
 function SearchIcon() {
@@ -228,7 +221,7 @@ function SearchModal({
       className="fixed inset-0 z-[80] bg-brand-charcoal/50 px-4 py-5 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
-      aria-label="Pencarian DEBRODER"
+      aria-label="Pencarian DE BRODER"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -454,7 +447,7 @@ export function SiteHeader() {
           <a
             href={whatsappUrl}
             className="grid h-10 w-10 place-items-center rounded-full border border-brand-softGray bg-white text-brand-charcoal transition hover:border-brand-charcoal hover:bg-brand-charcoal hover:text-white"
-            aria-label="Hubungi WhatsApp DEBRODER"
+            aria-label="Hubungi WhatsApp DE BRODER"
             target="_blank"
             rel="noopener noreferrer"
           >

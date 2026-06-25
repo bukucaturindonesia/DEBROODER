@@ -4,12 +4,12 @@ import { getPublicContent } from "@/lib/public-data";
 import { whatsappHref } from "@/lib/url";
 
 export const metadata: Metadata = {
-  title: "Custom Jersey | DEBRODER",
+  title: "Custom Jersey | DE BRODER",
   description:
     "Pembuatan jersey custom untuk tim olahraga, sekolah, kantor, komunitas, instansi, dan event.",
   alternates: { canonical: "/jersey" },
   openGraph: {
-    title: "Custom Jersey | DEBRODER",
+    title: "Custom Jersey | DE BRODER",
     description:
       "Pembuatan jersey custom untuk tim olahraga, sekolah, kantor, komunitas, instansi, perusahaan, dan event."
   }

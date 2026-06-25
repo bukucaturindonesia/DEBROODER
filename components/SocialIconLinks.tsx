@@ -81,12 +81,12 @@ export function SocialIconLinks({
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      <a href={emailLink} aria-label="Email DEBRODER" className={baseClass}>
+      <a href={emailLink} aria-label="Email DE BRODER" className={baseClass}>
         <EmailIcon />
       </a>
       <a
         href={facebookLink}
-        aria-label="Facebook DEBRODER"
+        aria-label="Facebook DE BRODER"
         className={baseClass}
         target="_blank"
         rel="noopener noreferrer"
@@ -95,7 +95,7 @@ export function SocialIconLinks({
       </a>
       <a
         href={instagramLink}
-        aria-label="Instagram DEBRODER"
+        aria-label="Instagram DE BRODER"
         className={baseClass}
         target="_blank"
         rel="noopener noreferrer"

@@ -101,7 +101,7 @@ export function AdminLogin() {
 
           <h1 className="mt-8 text-3xl font-black">Login Super Admin</h1>
           <p className="mt-3 text-sm leading-6 text-brand-charcoal/70">
-            Login ini hanya untuk pengelola konten website DEBRODER.
+            Login ini hanya untuk pengelola konten website DE BRODER.
           </p>
 
           {!configured ? (

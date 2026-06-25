@@ -4,12 +4,12 @@ import { getPublicContent } from "@/lib/public-data";
 import { whatsappHref } from "@/lib/url";
 
 export const metadata: Metadata = {
-  title: "Cetak Sublim | DEBRODER",
+  title: "Cetak Sublim | DE BRODER",
   description:
     "Layanan cetak sublim untuk jersey, apparel custom, dan kebutuhan produksi kreatif.",
   alternates: { canonical: "/cetak-sublim" },
   openGraph: {
-    title: "Cetak Sublim | DEBRODER",
+    title: "Cetak Sublim | DE BRODER",
     description:
       "Layanan cetak sublim untuk jersey, apparel custom, dan kebutuhan produksi kreatif dengan hasil warna yang tajam dan fleksibel."
   }

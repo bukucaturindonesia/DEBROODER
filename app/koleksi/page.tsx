@@ -8,14 +8,14 @@ import {
 import { getPublicContent } from "@/lib/public-data";
 
 export const metadata: Metadata = {
-  title: "Koleksi & Layanan DEBRODER",
+  title: "Koleksi & Layanan DE BRODER",
   description:
-    "Temukan layanan apparel, percetakan, custom jersey, sablon DTF, kaos polos, maklon DTF, cetak sublim, dan pengiriman dari DEBRODER.",
+    "Temukan layanan apparel, percetakan, custom jersey, sablon DTF, kaos polos, maklon DTF, dan cetak sublim dari DE BRODER.",
   alternates: { canonical: "/koleksi" },
   openGraph: {
-    title: "Koleksi & Layanan DEBRODER",
+    title: "Koleksi & Layanan DE BRODER",
     description:
-      "Layanan apparel, percetakan, custom jersey, sablon DTF, kaos polos, maklon DTF, cetak sublim, dan pengiriman dari DEBRODER."
+      "Layanan apparel, percetakan, custom jersey, sablon DTF, kaos polos, maklon DTF, dan cetak sublim dari DE BRODER."
   }
 };
 
@@ -30,13 +30,15 @@ export default async function KoleksiPage() {
     <PublicShell content={content}>
       <PageHero
         label={pageHero?.label || "KOLEKSI"}
-        title={pageHero?.title || "Layanan & Produk DEBRODER"}
+        title={pageHero?.title || "Layanan & Produk DE BRODER"}
         description={
           pageHero?.subtitle ||
           "Temukan kebutuhan apparel, sablon, jersey, dan layanan custom dalam satu tempat."
         }
         imageUrl={pageHero?.image_url}
+        mobileImageUrl={pageHero?.mobile_image_url}
         objectPosition={pageHero?.object_position}
+        mobileObjectPosition={pageHero?.mobile_object_position}
         breadcrumbs={[
           { label: "Beranda", href: "/" },
           { label: "Koleksi" }

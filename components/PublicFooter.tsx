@@ -23,8 +23,7 @@ const serviceLinks = [
   { label: "Sablon DTF", href: "/sablon-dtf" },
   { label: "Custom Jersey", href: "/jersey" },
   { label: "Maklon DTF", href: "/maklon-dtf" },
-  { label: "Cetak Sublim", href: "/cetak-sublim" },
-  { label: "DEBRODER Express", href: "/express" }
+  { label: "Cetak Sublim", href: "/cetak-sublim" }
 ];
 
 function FooterColumn({
@@ -52,7 +51,7 @@ export function PublicFooter({ content }: { content: PublicContent }) {
   const instagramLink = instagramHref(content.contact.instagram);
   const whatsappLink = whatsappLinkWithMessage(
     content.contact.whatsapp_link || content.contact.whatsapp_utama,
-    "Halo DEBRODER, saya ingin bertanya tentang layanan DEBRODER."
+    "Halo DE BRODER, saya ingin bertanya tentang layanan DE BRODER."
   );
 
   return (
@@ -125,7 +124,7 @@ export function PublicFooter({ content }: { content: PublicContent }) {
       <div className="section-shell mt-8 border-t border-white/10 pt-5">
         <p className="text-sm font-medium text-white/60">
           {content.contact.copyright_text ||
-            "\u00a9 2026 DEBRODER. All rights reserved."}
+            "\u00a9 2026 DE BRODER. All rights reserved."}
         </p>
       </div>
     </footer>
