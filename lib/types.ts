@@ -61,9 +61,11 @@ export type HeroBanner = {
   cta_text?: string;
   cta_link?: string;
   image_url: string;
+  mobile_image_url?: string;
   hero_video_url?: string;
   video_url?: string;
   object_position?: string;
+  mobile_object_position?: string;
   urutan?: number;
   status_aktif: boolean;
   created_at?: string;
@@ -122,7 +124,9 @@ export type PageHeroContent = {
   title: string;
   subtitle: string;
   image_url: string;
+  mobile_image_url?: string;
   object_position: string;
+  mobile_object_position?: string;
   status_aktif: boolean;
   created_at?: string;
   updated_at?: string;

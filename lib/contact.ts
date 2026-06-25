@@ -3,8 +3,7 @@ export const contactLinks = {
   whatsapp: "https://wa.me/6285355333364",
   facebook: "https://www.facebook.com/debroderapparel/",
   instagram: "https://instagram.com/de_broder",
-  apparelWhatsapp: "https://wa.me/6285355333364",
-  expressWhatsapp: "https://wa.me/6285355333364"
+  apparelWhatsapp: "https://wa.me/6285355333364"
 } as const;
 
 export const storeContacts = [

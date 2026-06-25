@@ -10,10 +10,9 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          green: "#003B0A",
-          deep: "#002B08",
+          black: "#000000",
           white: "#FFFFFF",
-          offWhite: "#F5F5F0",
+          offWhite: "#F7F7F2",
           charcoal: "#111111",
           softGray: "#E5E5E5",
           muted: "#737373"

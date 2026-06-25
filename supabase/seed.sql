@@ -1,23 +1,25 @@
 insert into public.products
   (nama, kategori, deskripsi, short_detail, badge, gambar_url, image_url, whatsapp_link, link_url, price, urutan, status_aktif)
 values
-  ('Kaos Polos Cotton Combed', 'Kaos Polos', 'Kaos polos import dan cotton combed', 'Kaos polos import dan cotton combed', '', '/images/debroder/products/kaos-polos.jpg', '/images/debroder/products/kaos-polos.jpg', 'https://wa.me/6285355333364', '/kaos-polos', 45000, 1, true),
-  ('Sablon DTF Custom', 'Sablon DTF', 'Sablon DTF untuk logo, brand, dan komunitas', 'Sablon DTF untuk logo, brand, dan komunitas', '', '/images/debroder/products/sablon-dtf.jpg', '/images/debroder/products/sablon-dtf.jpg', 'https://wa.me/6285355333364', '/sablon-dtf', 15000, 2, true),
-  ('Custom Jersey', 'Jersey', 'Jersey custom untuk tim dan komunitas', 'Jersey custom untuk tim dan komunitas', '', '/images/debroder/products/custom-jersey.jpg', '/images/debroder/products/custom-jersey.jpg', 'https://wa.me/6285355333364', '/jersey', 85000, 3, true),
-  ('Maklon DTF', 'Maklon DTF', 'Produksi DTF untuk reseller dan brand apparel', 'Produksi DTF untuk reseller dan brand apparel', '', '/images/debroder/products/maklon-dtf.jpg', '/images/debroder/products/maklon-dtf.jpg', 'https://wa.me/6285355333364', '/maklon-dtf', 12000, 4, true),
-  ('Cetak Sublim', 'Cetak Sublim', 'Cetak sublim untuk jersey dan apparel custom', 'Cetak sublim untuk jersey dan apparel custom', '', '/images/debroder/products/cetak-sublim.jpg', '/images/debroder/products/cetak-sublim.jpg', 'https://wa.me/6285355333364', '/cetak-sublim', 35000, 5, true),
-  ('DEBRODER Express', 'Express', 'Pengiriman dan distribusi pesanan', 'Pengiriman dan distribusi pesanan', '', '/images/debroder/products/debroder-express.jpg', '/images/debroder/products/debroder-express.jpg', 'https://wa.me/6285355333364', '/express', null, 6, true)
+  ('Kaos Polos Import', 'Kaos Polos', 'Kaos polos import untuk brand, event, dan kebutuhan harian', 'Kaos polos import untuk brand, event, dan kebutuhan harian', '', '/images/debroder/products/produk-kaos-polos.jpg', '/images/debroder/products/produk-kaos-polos.jpg', 'https://wa.me/6285355333364', '/kaos-polos', 45000, 1, true),
+  ('Kaos Cotton Combed', 'Kaos Polos', 'Kaos cotton combed untuk custom dan kebutuhan brand', 'Kaos cotton combed untuk custom dan kebutuhan brand', '', '/images/debroder/products/produk-kaos-polos.jpg', '/images/debroder/products/produk-kaos-polos.jpg', 'https://wa.me/6285355333364', '/kaos-polos', 45000, 2, true),
+  ('Sablon DTF Custom', 'Sablon DTF', 'Sablon DTF untuk logo, brand, dan komunitas', 'Sablon DTF untuk logo, brand, dan komunitas', '', '/images/debroder/products/produk-sablon-dtf.jpg', '/images/debroder/products/produk-sablon-dtf.jpg', 'https://wa.me/6285355333364', '/sablon-dtf', 15000, 3, true),
+  ('Custom Jersey', 'Jersey', 'Jersey custom untuk tim dan komunitas', 'Jersey custom untuk tim dan komunitas', '', '/images/debroder/products/produk-jersey.jpg', '/images/debroder/products/produk-jersey.jpg', 'https://wa.me/6285355333364', '/jersey', 85000, 4, true),
+  ('Maklon DTF', 'Maklon DTF', 'Produksi DTF untuk reseller dan brand apparel', 'Produksi DTF untuk reseller dan brand apparel', '', '/images/debroder/products/produk-maklon-dtf.jpg', '/images/debroder/products/produk-maklon-dtf.jpg', 'https://wa.me/6285355333364', '/maklon-dtf', 12000, 5, true),
+  ('Cetak Sublim', 'Cetak Sublim', 'Cetak sublim untuk jersey dan apparel custom', 'Cetak sublim untuk jersey dan apparel custom', '', '/images/debroder/products/produk-cetak-sublim.jpg', '/images/debroder/products/produk-cetak-sublim.jpg', 'https://wa.me/6285355333364', '/cetak-sublim', 35000, 6, true),
+  ('Distributor Kaos NSA', 'Kaos Polos', 'Pilihan kaos NSA untuk kebutuhan store dan produksi', 'Pilihan kaos NSA untuk kebutuhan store dan produksi', '', '/images/debroder/products/produk-kaos-polos.jpg', '/images/debroder/products/produk-kaos-polos.jpg', 'https://wa.me/6285355333364', '/kaos-polos', null, 7, true)
 on conflict do nothing;
 
 insert into public.service_categories
   (nama_kategori, deskripsi, gambar_url, link_slug, urutan, status_aktif)
 values
-  ('Kaos Polos', 'Kaos polos import dan cotton combed', '/images/debroder/products/kaos-polos.jpg', 'kaos-polos', 1, true),
-  ('Sablon DTF', 'Sablon kaos, logo, komunitas, dan brand', '/images/debroder/products/sablon-dtf.jpg', 'sablon-dtf', 2, true),
-  ('Custom Jersey', 'Jersey tim, komunitas, sekolah, dan instansi', '/images/debroder/products/custom-jersey.jpg', 'jersey', 3, true),
-  ('Maklon DTF', 'Layanan produksi DTF untuk kebutuhan bisnis', '/images/debroder/products/maklon-dtf.jpg', 'maklon-dtf', 4, true),
-  ('Cetak Sublim', 'Cetak sublim untuk apparel dan jersey', '/images/debroder/products/cetak-sublim.jpg', 'cetak-sublim', 5, true),
-  ('DEBRODER Express', 'Pengiriman dan distribusi pesanan', '/images/debroder/products/debroder-express.jpg', 'express', 6, true)
+  ('Kaos Polos', 'Kaos polos import dan cotton combed', '/images/debroder/products/produk-kaos-polos.jpg', 'kaos-polos', 1, true),
+  ('Sablon DTF', 'Sablon kaos, logo, komunitas, dan brand', '/images/debroder/products/produk-sablon-dtf.jpg', 'sablon-dtf', 2, true),
+  ('Custom Jersey', 'Jersey tim, komunitas, sekolah, dan instansi', '/images/debroder/products/produk-jersey.jpg', 'jersey', 3, true),
+  ('Maklon DTF', 'Layanan produksi DTF untuk kebutuhan bisnis', '/images/debroder/products/produk-maklon-dtf.jpg', 'maklon-dtf', 4, true),
+  ('Cetak Sublim', 'Cetak sublim untuk apparel dan jersey', '/images/debroder/products/produk-cetak-sublim.jpg', 'cetak-sublim', 5, true),
+  ('Distributor Kaos NSA', 'Pilihan kaos NSA untuk kebutuhan store dan produksi', '/images/debroder/products/produk-kaos-polos.jpg', 'kaos-polos', 6, true),
+  ('Kaos Cotton Combed', 'Kaos cotton combed untuk custom dan kebutuhan brand', '/images/debroder/products/produk-kaos-polos.jpg', 'kaos-polos', 7, true)
 on conflict do nothing;
 
 insert into public.stores
@@ -32,46 +34,54 @@ on conflict do nothing;
 insert into public.hero_banners
   (badge, headline, subheadline, title, subtitle, cta_primary_text, cta_primary_link, cta_secondary_text, cta_secondary_link, cta_text, cta_link, image_url, object_position, urutan, status_aktif)
 values
-  ('KAOS POLOS IMPORT', 'KAOS POLOS IMPORT', 'Sablon DTF, Jersey, dan Custom Apparel', 'KAOS POLOS IMPORT', 'Sablon DTF, Jersey, dan Custom Apparel', 'Beli Sekarang', '/koleksi', '', '', 'Beli Sekarang', '/koleksi', '/images/debroder/hero/hero-home.jpg', 'center center', 1, true)
+  ('KAOS POLOS IMPORT', 'KAOS POLOS IMPORT', 'Sablon DTF, Jersey, dan Custom Apparel', 'KAOS POLOS IMPORT', 'Sablon DTF, Jersey, dan Custom Apparel', 'Beli Sekarang', '/koleksi', '', '', 'Beli Sekarang', '/koleksi', '/images/debroder/hero/hero-1.jpg', 'center center', 1, true),
+  ('SABLON DTF', 'SABLON DTF', 'Custom Jersey, Maklon DTF, dan Cetak Sublim', 'SABLON DTF', 'Custom Jersey, Maklon DTF, dan Cetak Sublim', 'Konsultasi', '/sablon-dtf', '', '', 'Konsultasi', '/sablon-dtf', '/images/debroder/hero/hero-2.jpg', 'center center', 2, true)
 on conflict do nothing;
 
 insert into public.instagram_banners
   (title, image_url, link_url, status_aktif)
 values
-  ('Instagram DEBRODER', '/images/debroder/banners/instagram-banner.jpg', 'https://instagram.com/de_broder', true)
+  ('Instagram DE BRODER', '/images/debroder/banners/banner-instagram.jpg', 'https://instagram.com/de_broder', true)
 on conflict do nothing;
 
 insert into public.page_heroes
-  (page_key, label, title, subtitle, image_url, object_position, status_aktif)
+  (page_key, label, title, subtitle, image_url, mobile_image_url, object_position, mobile_object_position, status_aktif)
 values
-  ('koleksi', 'KOLEKSI', 'Layanan & Produk DEBRODER', 'Temukan kebutuhan apparel, sablon, jersey, dan layanan custom dalam satu tempat.', '/images/debroder/hero/page-hero.jpg', 'center center', true),
-  ('kaos-polos', 'KAOS POLOS', 'Kaos Polos Import & Cotton Combed', 'Pilihan kaos polos untuk brand, komunitas, event, dan kebutuhan harian.', '/images/debroder/hero/page-hero.jpg', 'center center', true),
-  ('sablon-dtf', 'SABLON DTF', 'Sablon DTF untuk Apparel Custom', 'Hasil sablon rapi untuk logo, desain brand, komunitas, dan produksi apparel.', '/images/debroder/hero/page-hero.jpg', 'center center', true),
-  ('jersey', 'CUSTOM JERSEY', 'Jersey Custom untuk Tim dan Komunitas', 'Produksi jersey untuk tim olahraga, sekolah, instansi, dan event.', '/images/debroder/hero/page-hero.jpg', 'center center', true),
-  ('express', 'DEBRODER EXPRESS', 'Layanan Pengiriman dan Distribusi', 'Mendukung kebutuhan pengiriman pesanan dan distribusi bisnis DEBRODER.', '/images/debroder/hero/page-hero.jpg', 'center center', true),
-  ('store', 'STORE DEBRODER', 'Temukan Store DEBRODER Terdekat', 'Pettarani, Tello, Landak, dan Parepare.', '/images/debroder/hero/page-hero.jpg', 'center center', true)
+  ('koleksi', 'KOLEKSI', 'Layanan & Produk DE BRODER', 'Temukan kebutuhan apparel, sablon, jersey, dan layanan custom dalam satu tempat.', '/images/debroder/page-heroes/hero-koleksi.jpg', null, 'center center', 'center center', true),
+  ('kaos-polos', 'KAOS POLOS', 'Kaos Polos Import & Cotton Combed', 'Pilihan kaos polos untuk brand, komunitas, event, dan kebutuhan harian.', '/images/debroder/page-heroes/hero-kaos-polos.jpg', null, 'center center', 'center center', true),
+  ('sablon-dtf', 'SABLON DTF', 'Sablon DTF untuk Apparel Custom', 'Hasil sablon rapi untuk logo, desain brand, komunitas, dan produksi apparel.', '/images/debroder/page-heroes/hero-sablon-dtf.jpg', null, 'center center', 'center center', true),
+  ('jersey', 'CUSTOM JERSEY', 'Jersey Custom untuk Tim dan Komunitas', 'Produksi jersey untuk tim olahraga, sekolah, instansi, dan event.', '/images/debroder/page-heroes/hero-jersey.jpg', null, 'center center', 'center center', true),
+  ('store', 'STORE', 'Temukan Store DE BRODER Terdekat', 'Pettarani, Tello, Landak, dan Parepare.', '/images/debroder/page-heroes/hero-store.jpg', null, 'center center', 'center center', true),
+  ('cara-order', 'CARA ORDER', 'Cara Order di DE BRODER', 'Alur singkat untuk konsultasi dan memesan kebutuhan apparel.', '/images/debroder/page-heroes/hero-cara-order.jpg', null, 'center center', 'center center', true)
 on conflict (page_key) do nothing;
 
 insert into public.order_steps
   (title, description, urutan, status_aktif)
 values
-  ('Pilih layanan', 'Tentukan kebutuhan apparel, sablon, jersey, atau express.', 1, true),
+  ('Pilih layanan', 'Tentukan kebutuhan apparel, sablon, jersey, atau custom.', 1, true),
   ('Konsultasi kebutuhan', 'Diskusikan bahan, desain, jumlah, ukuran, dan estimasi.', 2, true),
   ('Kirim desain/detail', 'Kirim file, logo, referensi, atau detail pesanan.', 3, true),
   ('Proses produksi', 'Pesanan diproses sesuai detail yang disepakati.', 4, true),
-  ('Ambil di store atau kirim', 'Ambil di store DEBRODER atau kirim sesuai kebutuhan.', 5, true)
+  ('Ambil di store', 'Ambil pesanan di store DE BRODER pilihan Anda.', 5, true)
 on conflict do nothing;
 
 insert into public.trust_about_content
   (trust_items, about_body, status_aktif)
 values
-  (array['4 Store Aktif', 'Apparel & Custom', 'Sablon DTF', 'Jersey Custom', 'DEBRODER Express'], 'DEBRODER adalah brand yang bergerak dalam ekosistem apparel dan layanan bisnis pendukung. Melalui DEBRODER Apparel dan DEBRODER Express, DEBRODER hadir untuk memberikan solusi kaos polos, sablon DTF, custom jersey, produksi apparel, dan layanan pengiriman yang lebih mudah dijangkau pelanggan.
+  (array['Berdiri sejak 2016', 'Store Makassar & Parepare', 'Sablon DTF', 'Custom Jersey', 'Maklon DTF'], 'De Broder adalah perusahaan percetakan yang berdiri sejak tahun 2016. Kami fokus mengerjakan:
 
-DEBRODER melayani kebutuhan individu, komunitas, brand, event, sekolah, instansi, hingga perusahaan melalui beberapa store yang tersebar di Pettarani, Tello, Landak, dan Parepare.', true)
+Sablon Kaos
+Custom Jersey
+Maklon DTF
+Cetak Sublim
+Distributor Kaos NSA
+Kaos Cotton Combed
+
+Kami telah dipercaya oleh berbagai perusahaan, instansi, dan event besar di Indonesia Timur, khususnya di kota Makassar.', true)
 on conflict do nothing;
 
 insert into public.contact_settings
   (email, whatsapp_utama, whatsapp_link, whatsapp_apparel, whatsapp_express, facebook, instagram, copyright_text, status_aktif)
 values
-  ('debroderapparel@gmail.com', '0853-5533-3364', 'https://wa.me/6285355333364', '0853-5533-3364', '0853-5533-3364', 'https://www.facebook.com/debroderapparel/', 'https://instagram.com/de_broder', '© 2026 DEBRODER. All rights reserved.', true)
+  ('debroderapparel@gmail.com', '0853-5533-3364', 'https://wa.me/6285355333364', '0853-5533-3364', '0853-5533-3364', 'https://www.facebook.com/debroderapparel/', 'https://instagram.com/de_broder', '© 2026 DE BRODER. All rights reserved.', true)
 on conflict do nothing;

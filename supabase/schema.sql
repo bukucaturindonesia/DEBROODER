@@ -153,7 +153,9 @@ create table if not exists public.page_heroes (
   title text not null,
   subtitle text not null,
   image_url text not null default '/images/debroder/hero/page-hero.jpg',
+  mobile_image_url text,
   object_position text not null default 'center center',
+  mobile_object_position text not null default 'center center',
   status_aktif boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -200,6 +202,10 @@ alter table if exists public.products
 
 alter table if exists public.stores
   add column if not exists image_url text;
+
+alter table if exists public.page_heroes
+  add column if not exists mobile_image_url text,
+  add column if not exists mobile_object_position text not null default 'center center';
 
 alter table if exists public.contact_settings
   add column if not exists whatsapp_link text not null default 'https://wa.me/6285355333364',
